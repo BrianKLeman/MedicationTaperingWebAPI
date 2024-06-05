@@ -27,10 +27,10 @@ namespace WebAppApi48.Controllers
         [HttpPost()]
         public IEnumerable<Notes> Post([FromBody] NotesSearchRequest request)
         {
-            if (request.Password != ConnectionTester.GetPassword(request.PersonID))
+            if (request.Password != DataAccess.GetPassword(request.PersonID))
                 return new Notes[0];
 
-            return ConnectionTester.GetNotes(request.PersonID, request.FromDate, request.ToDate);
+            return DataAccess.GetNotes(request.PersonID, request.FromDate, request.ToDate);
         }
     }
 }

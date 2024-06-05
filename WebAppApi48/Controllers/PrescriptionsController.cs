@@ -17,7 +17,7 @@ namespace WebAppApi48.Controllers
 
         public IEnumerable<Prescription> Get()
         {
-            return ConnectionTester.GetPrescriptions();
+            return DataAccess.GetPrescriptions();
         }
         
     }

@@ -44,8 +44,8 @@ namespace WebAppApi48.Controllers
         [HttpGet]
         public IEnumerable<Report> History()
         {
-            var meds = ConnectionTester.GetMedication();
-            var prescriptions = ConnectionTester.GetPrescriptions();
+            var meds = DataAccess.GetMedication();
+            var prescriptions = DataAccess.GetPrescriptions();
 
             return from m in meds
                    join p in prescriptions on m.PrescriptionId equals p.PrescriptionID
@@ -68,7 +68,7 @@ namespace WebAppApi48.Controllers
                 return BadRequest(ModelState);
 
             if (dose.Password == GetPassword(1))
-                ConnectionTester.InsertOlanzapine(dose.consumedDateTime, dose.doseMg);
+                DataAccess.InsertOlanzapine(dose.consumedDateTime, dose.doseMg);
             return base.Ok();
         }        
        
@@ -79,26 +79,30 @@ namespace WebAppApi48.Controllers
                 return BadRequest(ModelState);
 
             if (dose.Password == GetPassword(1))
-                ConnectionTester.InsertSertraline(dose.consumedDateTime, dose.doseMg);
+                DataAccess.InsertSertraline(dose.consumedDateTime, dose.doseMg);
             return base.Ok();
         }
         
-        [Route("Delete/{medicationId:int}/{password}")]
+        [Route("Delete/{medicationId:int}")]
         [HttpPost]
         [HttpDelete]
-        public IHttpActionResult Delete([FromUri] [Required]int medicationId, [FromUri] [Required]string password)
+        public IHttpActionResult Delete([FromUri] [Required]int medicationId)
         {
             if (ModelState.IsValid == false)
                 return BadRequest(ModelState);
 
+            // Get person ID for user and password.
+
             if(password == GetPassword(1))
-                ConnectionTester.Delete(medicationId);
+                DataAccess.Delete(medicationId);
             return base.Ok();
         }       
 
         private string GetPassword(int personID)
         {
-            return ConnectionTester.GetPassword(personID);
+            return DataAccess.GetPassword(personID);
         }
+
+        
     }
 }
