@@ -2,15 +2,22 @@ using DataAccessLayer;
 using DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Web.Http;
 
 namespace WebAppApi48.Controllers
 {
     public class MedDose
     {
+        [Required]
         public DateTime consumedDateTime { get; set; }
+
+        [Required]
         public decimal doseMg { get; set; }
+
+        [Required]
         public string Password { get; set; }
     }
 
@@ -55,16 +62,22 @@ namespace WebAppApi48.Controllers
         }
 
         [Route("Olanzapine")]
-        public IHttpActionResult Olanzapine([FromBody] MedDose dose)
+        public IHttpActionResult Olanzapine([FromBody] [Required]MedDose dose)
         {
+            if (ModelState.IsValid == false)
+                return BadRequest(ModelState);
+
             if (dose.Password == GetPassword(1))
                 ConnectionTester.InsertOlanzapine(dose.consumedDateTime, dose.doseMg);
             return base.Ok();
-        }
-        
-        [Route("Sertraline")]
-        public IHttpActionResult Sertraline([FromBody]MedDose dose)
+        }        
+       
+        [Route("Sertraline")]        
+        public IHttpActionResult Sertraline([FromBody] [Required]MedDose dose)
         {
+            if (ModelState.IsValid == false)
+                return BadRequest(ModelState);
+
             if (dose.Password == GetPassword(1))
                 ConnectionTester.InsertSertraline(dose.consumedDateTime, dose.doseMg);
             return base.Ok();
@@ -73,14 +86,17 @@ namespace WebAppApi48.Controllers
         [Route("Delete/{medicationId:int}/{password}")]
         [HttpPost]
         [HttpDelete]
-        public IHttpActionResult Delete([FromUri]int medicationId, [FromUri]string password)
+        public IHttpActionResult Delete([FromUri] [Required]int medicationId, [FromUri] [Required]string password)
         {
+            if (ModelState.IsValid == false)
+                return BadRequest(ModelState);
+
             if(password == GetPassword(1))
                 ConnectionTester.Delete(medicationId);
             return base.Ok();
         }       
 
-        public string GetPassword(int personID)
+        private string GetPassword(int personID)
         {
             return ConnectionTester.GetPassword(personID);
         }

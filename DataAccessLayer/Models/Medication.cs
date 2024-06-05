@@ -87,8 +87,34 @@ namespace DataAccessLayer.Models
 
 
         [Column(Name = "PASSWORD")]
-        public string Password { get; set; }
+        public string Password { get; set; }       
+    }
 
-       
+    [Table(Name = "NOTES", Database = "medication_taper_database")]
+    public class Notes
+    {
+        [Column(Name = "NOTE_ID", IsPrimaryKey = true)]
+        public long NoteID { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "TEXT", CanBeNull = true)]
+        public string Text { get; set; }
+
+        [Column(Name = "CREATED_DATE")]
+        public DateTime CreatedDate { get; set; }
+
+        [Column(Name = "CREATED_USER")]
+        public string CreatedUser { get; set; }
+
+        [Column(Name = "UPDATED_USER", CanBeNull = true)]
+        public string UpdatedUser { get; set; }
+
+        [Column(Name = "UPDATED_DATE")]
+        public DateTime UpdatedDate { get; set; }
+
+        [Column(Name = "RECORDED_DATE")]
+        public DateTime RecordedDate { get; set; }
     }
 }

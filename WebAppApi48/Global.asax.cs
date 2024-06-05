@@ -31,14 +31,22 @@ namespace WebAppApi48
 
         private void WebApiApplication_EndRequest(object sender, EventArgs e)
         {
-            string absoluteURI = Request?.UrlReferrer?.AbsoluteUri;
-            if(!string.IsNullOrWhiteSpace(absoluteURI))
-                this.Response?.AddHeader("Access-Control-Allow-Origin", absoluteURI.Remove(absoluteURI.Length-1) ?? "*");
-            if (this.Request.HttpMethod == "OPTIONS")
-                this.Response.StatusCode = 200;
-            if (this.Response.Headers["Allow"] != null)
-                this.Response.Headers.Add("Access-Control-Allow-Methods", this.Response.Headers["Allow"]);
-            this.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+            try
+            {
+
+                string absoluteURI = Request?.UrlReferrer?.AbsoluteUri;
+                if(!string.IsNullOrWhiteSpace(absoluteURI))
+                    this.Response?.AddHeader("Access-Control-Allow-Origin", absoluteURI.Remove(absoluteURI.Length-1) ?? "*");
+                if (this.Request.HttpMethod == "OPTIONS")
+                    this.Response.StatusCode = 200;
+                if (this.Response.Headers["Allow"] != null)
+                    this.Response.Headers.Add("Access-Control-Allow-Methods", this.Response.Headers["Allow"]);
+                this.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+            }
+            catch ( Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
 
         }
     }
