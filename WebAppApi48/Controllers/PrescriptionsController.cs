@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using WebAppApi48.Attributes;
 using WebAppApi48.Services;
+using Resolver = System.Web.Mvc.DependencyResolver;
 
 namespace WebAppApi48.Controllers
 {
@@ -13,7 +14,7 @@ namespace WebAppApi48.Controllers
     {
         public PrescriptionsController()
         {
-            this.authService = new AuthService();
+            this.authService = Resolver.Current.GetService(typeof(IAuthService)) as IAuthService;
         }
 
         private IAuthService authService;

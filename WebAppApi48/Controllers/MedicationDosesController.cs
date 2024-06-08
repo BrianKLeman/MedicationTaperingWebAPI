@@ -1,13 +1,11 @@
 using DataAccessLayer;
-using DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 using System.Web.Http;
 using WebAppApi48.Services;
-
+using Resolver = System.Web.Mvc.DependencyResolver;
 namespace WebAppApi48.Controllers
 {
     public class MedDose
@@ -17,9 +15,6 @@ namespace WebAppApi48.Controllers
 
         [Required]
         public decimal doseMg { get; set; }
-
-        [Required]
-        public string Password { get; set; }
     }
 
     public class Report
@@ -40,7 +35,7 @@ namespace WebAppApi48.Controllers
 
         public MedicationDosesController()
         {
-            this.authService = new AuthService();
+            this.authService = Resolver.Current.GetService(typeof(IAuthService)) as IAuthService;
         }
 
         private IAuthService authService;
@@ -104,9 +99,8 @@ namespace WebAppApi48.Controllers
                 return BadRequest(ModelState);
 
             // Get person ID for user and password.
-
-
             var personID = this.authService.VerifyCredentials(Request);
+
             DataAccess.Delete(personID,medicationId);
             return base.Ok();
         }              

@@ -15,7 +15,7 @@ namespace WebAppApi48
     {
         protected void Application_Start()
         {
-            //UnityConfig.RegisterComponents();
+            UnityConfig.RegisterComponents();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

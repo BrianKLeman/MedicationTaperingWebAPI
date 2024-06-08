@@ -171,5 +171,30 @@ namespace DataAccessLayer
                 return a.FirstOrDefault()?.PersonID ?? -1;
             }
         }
+
+        public static long InsertNote(long personID, DateTime date, string note)
+        {
+            if(personID > 0)
+            {
+                using (var c = NewDataConnection())
+                {
+                    return c.Insert<Notes>(new Notes() { PersonID = personID, RecordedDate = date, Text = note, UpdatedUser = "BKL" });
+                }
+            }
+            return -1;            
+        }
+
+        public static long DeleteNote(long personID, long noteID)
+        {
+            if(personID > 0)
+            {
+                using (var c = NewDataConnection())
+                {
+                    return c.Delete<Notes>(new Notes { NoteID = noteID, PersonID = personID });
+                }
+            }
+
+            return -1;
+        }
     }
 }

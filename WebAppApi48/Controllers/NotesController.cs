@@ -1,13 +1,10 @@
 ﻿using DataAccessLayer;
-using DataAccessLayer.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Http;
 using WebAppApi48.Services;
 
+using Resolver = System.Web.Mvc.DependencyResolver;
 namespace WebAppApi48.Controllers
 {
     public class NotesSearchRequest
@@ -16,23 +13,56 @@ namespace WebAppApi48.Controllers
         public DateTime ToDate { get; set; }
     }
 
-    public class NotesController : ApiController
+    public class Note
     {
+        [Required]
+        public DateTime dateTime { get; set; }
 
-        
+        [Required]
+        public string NoteText { get; set; }
+    }
+
+    [RoutePrefix("Api/Notes")]
+    public class NotesController : ApiController
+    {        
         public NotesController()
         {
-            this.authService = new AuthService();
+            this.authService = Resolver.Current.GetService(typeof(IAuthService)) as IAuthService;
         }
 
         private IAuthService authService;
 
         [HttpPost()]
-        public IEnumerable<Notes> Post([FromBody] NotesSearchRequest request)
+        public IHttpActionResult Post([FromBody] NotesSearchRequest request)
         {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
             var personID = this.authService.VerifyCredentials(Request);
             
-            return DataAccess.GetNotes(personID, request.FromDate, request.ToDate);
+            return base.Ok(DataAccess.GetNotes(personID, request.FromDate, request.ToDate));
         }
+
+        [HttpPost]
+        [Route("Add")]
+        public IHttpActionResult Add([FromBody] Note body)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.VerifyCredentials(Request);
+
+            return base.Ok(DataAccess.InsertNote(personID, body.dateTime, body.NoteText));
+        }
+
+        [HttpPost]
+        [HttpDelete]
+        [Route("Delete/{noteID:long}")]
+        public IHttpActionResult Delete([FromUri] long noteID)
+        {
+            var personID = this.authService.VerifyCredentials(Request);
+            return base.Ok(DataAccess.DeleteNote(personID, noteID));
+        }
+
     }
 }
