@@ -13,5 +13,6 @@ namespace WebAppApi48.Services
     public interface IAuthService
     {
         long VerifyCredentials(HttpRequestMessage request);
+        long VerifyReadOnlyCredentials(HttpRequestMessage request);
     }
 }

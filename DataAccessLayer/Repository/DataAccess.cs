@@ -160,5 +160,16 @@ namespace DataAccessLayer
                 return a.FirstOrDefault()?.PersonID ?? -1;
             }
         }
+
+        public static long GetPersonIDForReadOnlyAccess(string username)
+        {
+            using (var c = NewDataConnection())
+            {
+                var a = from p in c.GetTable<People>()
+                        where p.ReadOnlyAnon != null && p.ReadOnlyAnon.Trim() != "" && p.ReadOnlyAnon == username
+                        select p;
+                return a.FirstOrDefault()?.PersonID ?? -1;
+            }
+        }
     }
 }

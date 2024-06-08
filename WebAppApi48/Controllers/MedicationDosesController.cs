@@ -49,6 +49,9 @@ namespace WebAppApi48.Controllers
         public IEnumerable<Report> History()
         {
             var personID = this.authService.VerifyCredentials(Request);
+            if (personID < 0)
+                personID = this.authService.VerifyReadOnlyCredentials(Request);
+
             var meds = DataAccess.GetMedication(personID);
             var prescriptions = DataAccess.GetPrescriptions(personID);
 
@@ -73,7 +76,9 @@ namespace WebAppApi48.Controllers
                 return BadRequest(ModelState);
 
             var personID = this.authService.VerifyCredentials(Request);
-                DataAccess.InsertOlanzapine(1,dose.consumedDateTime, dose.doseMg);
+
+            
+            DataAccess.InsertOlanzapine(personID,dose.consumedDateTime, dose.doseMg);
             return base.Ok();
         }        
        

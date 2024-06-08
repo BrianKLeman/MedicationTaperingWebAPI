@@ -27,12 +27,29 @@ namespace WebAppApi48.Services
                 userID = httpRequest.Headers.GetValues(HeadersConstants.UserID).FirstOrDefault();
             }
 
+            
 
             httpRequest.Headers.TryGetValues(HeadersConstants.Password, out IEnumerable<string> passwordHeaders  );
             var password = passwordHeaders?.FirstOrDefault();
 
             if(!string.IsNullOrEmpty(userID) && !string.IsNullOrEmpty(password))
                 return DataAccessLayer.DataAccess.GetPersonID(userID, password);
+            
+            return -1;
+        }
+
+        public long VerifyReadOnlyCredentials(HttpRequestMessage request)
+        {
+            var userID = string.Empty;
+            if (request.Headers.Contains(HeadersConstants.UserID))
+            {
+                userID = request.Headers.GetValues(HeadersConstants.UserID).FirstOrDefault();
+            }
+
+           
+
+            if (!string.IsNullOrEmpty(userID))
+                return DataAccessLayer.DataAccess.GetPersonIDForReadOnlyAccess(userID);
 
             return -1;
         }

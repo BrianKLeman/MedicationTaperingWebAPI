@@ -87,7 +87,10 @@ namespace DataAccessLayer.Models
 
 
         [Column(Name = "PASSWORD")]
-        public string Password { get; set; }       
+        public string Password { get; set; } 
+        
+        [Column(Name = "READONLY_ANON")]
+        public string ReadOnlyAnon { get; set; }
     }
 
     [Table(Name = "NOTES", Database = "medication_taper_database")]
