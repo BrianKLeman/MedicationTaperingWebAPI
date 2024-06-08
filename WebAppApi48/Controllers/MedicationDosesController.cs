@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Web.Http;
+using WebAppApi48.Services;
 
 namespace WebAppApi48.Controllers
 {
@@ -36,16 +37,20 @@ namespace WebAppApi48.Controllers
     [Route("{action=History}")]
     public class MedicationDosesController : ApiController
     {
+
         public MedicationDosesController()
         {
-
+            this.authService = new AuthService();
         }
+
+        private IAuthService authService;
 
         [HttpGet]
         public IEnumerable<Report> History()
         {
-            var meds = DataAccess.GetMedication();
-            var prescriptions = DataAccess.GetPrescriptions();
+            var personID = this.authService.VerifyCredentials(Request);
+            var meds = DataAccess.GetMedication(personID);
+            var prescriptions = DataAccess.GetPrescriptions(personID);
 
             return from m in meds
                    join p in prescriptions on m.PrescriptionId equals p.PrescriptionID
@@ -67,8 +72,8 @@ namespace WebAppApi48.Controllers
             if (ModelState.IsValid == false)
                 return BadRequest(ModelState);
 
-            if (dose.Password == GetPassword(1))
-                DataAccess.InsertOlanzapine(dose.consumedDateTime, dose.doseMg);
+            var personID = this.authService.VerifyCredentials(Request);
+                DataAccess.InsertOlanzapine(1,dose.consumedDateTime, dose.doseMg);
             return base.Ok();
         }        
        
@@ -78,8 +83,10 @@ namespace WebAppApi48.Controllers
             if (ModelState.IsValid == false)
                 return BadRequest(ModelState);
 
-            if (dose.Password == GetPassword(1))
-                DataAccess.InsertSertraline(dose.consumedDateTime, dose.doseMg);
+
+            var personID = this.authService.VerifyCredentials(Request);
+
+            DataAccess.InsertSertraline(personID,dose.consumedDateTime, dose.doseMg);
             return base.Ok();
         }
         
@@ -93,16 +100,10 @@ namespace WebAppApi48.Controllers
 
             // Get person ID for user and password.
 
-            if(password == GetPassword(1))
-                DataAccess.Delete(medicationId);
+
+            var personID = this.authService.VerifyCredentials(Request);
+            DataAccess.Delete(personID,medicationId);
             return base.Ok();
-        }       
-
-        private string GetPassword(int personID)
-        {
-            return DataAccess.GetPassword(personID);
-        }
-
-        
+        }              
     }
 }

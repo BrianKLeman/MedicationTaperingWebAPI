@@ -214,6 +214,9 @@ UpgradeLog*.htm
 *.mdf
 *.ldf
 
+# UserFiles
+Web.config
+
 # Business Intelligence projects
 *.rdl.data
 *.bim.layout

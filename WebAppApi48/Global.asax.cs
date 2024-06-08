@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using WebAppApi48.Attributes;
+using WebAppApi48.Services;
 
 namespace WebAppApi48
 {
@@ -14,6 +15,7 @@ namespace WebAppApi48
     {
         protected void Application_Start()
         {
+            //UnityConfig.RegisterComponents();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -41,7 +43,10 @@ namespace WebAppApi48
                     this.Response.StatusCode = 200;
                 if (this.Response.Headers["Allow"] != null)
                     this.Response.Headers.Add("Access-Control-Allow-Methods", this.Response.Headers["Allow"]);
-                this.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+                if (this.Response.Headers["Allow"] != null)
+                {
+                    this.Response.Headers.Add("Access-Control-Allow-Headers", string.Concat( HeadersConstants.UserID , "," , HeadersConstants.Password, ",", HeadersConstants.ContentType ));
+                }
             }
             catch ( Exception ex)
             {

@@ -11,11 +11,9 @@ namespace DataAccessLayer
 {
     public static class DataAccess
     {     
-        public static IEnumerable<Medication> GetMedication(string username, string password)
+        public static IEnumerable<Medication> GetMedication(long personID)
         {
-            var pID = GetPersonID(username, password);
-
-            if (pID > -1)
+            if (personID > -1)
             {
 
                 using (var c = NewDataConnection())
@@ -30,30 +28,26 @@ namespace DataAccessLayer
             return new Medication[0];
         }
 
-        public static int InsertOlanzapine(string userName, string password, DateTime consumedDate, decimal amountMg)
+        public static int InsertOlanzapine(long personID, DateTime consumedDate, decimal amountMg)
         {
-            var pID = GetPersonID(userName, password);
-
-            if (pID > -1)
+            if (personID > -1)
             {
                 using (var db = NewDataConnection())
                 {
-                    return db.Insert<Medication>(new Medication() { CreatedDate = DateTime.Now, CreatedUser = "BKL", DateTimeConsumed = consumedDate, PrescriptionId = 3, DoseTakenMG = amountMg, PersonID = pID });
+                    return db.Insert<Medication>(new Medication() { CreatedDate = DateTime.Now, CreatedUser = "BKL", DateTimeConsumed = consumedDate, PrescriptionId = 3, DoseTakenMG = amountMg, PersonID = personID });
                 }
             }
 
             return -1;
         }
 
-        public static int InsertSertraline(string userName, string password, DateTime consumedDate, decimal amountMg)
+        public static int InsertSertraline(long personID, DateTime consumedDate, decimal amountMg)
         {
-            var pID = GetPersonID(userName, password);
-
-            if (pID > -1)
+            if (personID > -1)
             {
                 using (var db = NewDataConnection())
                 {
-                    return db.Insert<Medication>(new Medication() { CreatedDate = DateTime.Now, CreatedUser = "BKL", DateTimeConsumed = consumedDate, PrescriptionId = 4, DoseTakenMG = amountMg, pID = 1 });
+                    return db.Insert<Medication>(new Medication() { CreatedDate = DateTime.Now, CreatedUser = "BKL", DateTimeConsumed = consumedDate, PrescriptionId = 4, DoseTakenMG = amountMg, PersonID = personID });
                 }
             }
 
@@ -61,15 +55,13 @@ namespace DataAccessLayer
                 
         }
 
-        public static int Delete(string userName, string password, int medicationId)
+        public static int Delete(long personID, int medicationId)
         {
-            var pID = GetPersonID(userName, password);
-
-            if (pID > -1)
+            if (personID > -1)
             {
 
                 using (var db = NewDataConnection())
-                    return db.Delete<Medication>(new Medication { MedicationID = medicationId, PersonID = pID });
+                    return db.Delete<Medication>(new Medication { MedicationID = medicationId, PersonID = personID });
             }
             else
             {
@@ -92,16 +84,15 @@ namespace DataAccessLayer
         }
 
 
-        public static IEnumerable<Prescription> GetPrescriptions(string username, string password)
+        public static IEnumerable<Prescription> GetPrescriptions(long personID)
         {
             using (var c = NewDataConnection())
             {
-                var pID = GetPersonID(username, password);
-
-                if (pID > -1)
+                
+                if (personID > -1)
                 {
                     var prescriptions = from p in c.GetTable<Prescription>()
-                                        where p.PersonID == pID
+                                        where p.PersonID == personID
                                         select p;
 
                     return prescriptions.ToList();
@@ -140,16 +131,14 @@ namespace DataAccessLayer
             }
         }
 
-        public static IEnumerable<Notes> GetNotes(string username, string password, DateTime fromDate, DateTime toDate)
+        public static IEnumerable<Notes> GetNotes(long personID, DateTime fromDate, DateTime toDate)
         {
             using (var c = NewDataConnection())
             {
-                var pID = GetPersonID(username, password);
-
-                if(pID > -1)
+                if(personID > -1)
                 {
                     var notes = from n in c.GetTable<Notes>()
-                            where n.PersonID == pID && fromDate < n.RecordedDate && toDate > n.RecordedDate
+                            where n.PersonID == personID && fromDate < n.RecordedDate && toDate > n.RecordedDate
                             select n;
                     return notes.ToList();
                 }

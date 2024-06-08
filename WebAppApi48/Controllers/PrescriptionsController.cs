@@ -3,6 +3,7 @@ using DataAccessLayer.Models;
 using System.Collections.Generic;
 using System.Web.Http;
 using WebAppApi48.Attributes;
+using WebAppApi48.Services;
 
 namespace WebAppApi48.Controllers
 {
@@ -12,12 +13,14 @@ namespace WebAppApi48.Controllers
     {
         public PrescriptionsController()
         {
-
+            this.authService = new AuthService();
         }
 
+        private IAuthService authService;
         public IEnumerable<Prescription> Get()
         {
-            return DataAccess.GetPrescriptions();
+            var personID = this.authService.VerifyCredentials(Request);
+            return DataAccess.GetPrescriptions(personID);
         }
         
     }
