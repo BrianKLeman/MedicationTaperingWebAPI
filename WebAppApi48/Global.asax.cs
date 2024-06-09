@@ -21,8 +21,6 @@ namespace WebAppApi48
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            
-            
         }
 
         public override void Init()

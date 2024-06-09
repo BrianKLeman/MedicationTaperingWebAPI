@@ -36,10 +36,11 @@ namespace WebAppApi48.Controllers
         public MedicationDosesController()
         {
             this.authService = Resolver.Current.GetService(typeof(IAuthService)) as IAuthService;
+            this.dataAccess = Resolver.Current.GetService(typeof(IDataAccess)) as IDataAccess;
         }
 
         private IAuthService authService;
-
+        private IDataAccess dataAccess;
         [HttpGet]
         public IEnumerable<Report> History()
         {
@@ -47,8 +48,8 @@ namespace WebAppApi48.Controllers
             if (personID < 0)
                 personID = this.authService.VerifyReadOnlyCredentials(Request);
 
-            var meds = DataAccess.GetMedication(personID);
-            var prescriptions = DataAccess.GetPrescriptions(personID);
+            var meds = dataAccess.GetMedication(personID);
+            var prescriptions = dataAccess.GetPrescriptions(personID);
 
             return from m in meds
                    join p in prescriptions on m.PrescriptionId equals p.PrescriptionID
@@ -72,8 +73,8 @@ namespace WebAppApi48.Controllers
 
             var personID = this.authService.VerifyCredentials(Request);
 
-            
-            DataAccess.InsertOlanzapine(personID,dose.consumedDateTime, dose.doseMg);
+
+            dataAccess.InsertOlanzapine(personID,dose.consumedDateTime, dose.doseMg);
             return base.Ok();
         }        
        
@@ -86,7 +87,7 @@ namespace WebAppApi48.Controllers
 
             var personID = this.authService.VerifyCredentials(Request);
 
-            DataAccess.InsertSertraline(personID,dose.consumedDateTime, dose.doseMg);
+            dataAccess.InsertSertraline(personID,dose.consumedDateTime, dose.doseMg);
             return base.Ok();
         }
         
@@ -101,7 +102,7 @@ namespace WebAppApi48.Controllers
             // Get person ID for user and password.
             var personID = this.authService.VerifyCredentials(Request);
 
-            DataAccess.Delete(personID,medicationId);
+            dataAccess.Delete(personID,medicationId);
             return base.Ok();
         }              
     }

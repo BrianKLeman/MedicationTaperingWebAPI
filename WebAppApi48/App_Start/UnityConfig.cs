@@ -1,3 +1,4 @@
+using DataAccessLayer;
 using System.Web.Mvc;
 using Unity;
 using Unity.Mvc5;
@@ -16,6 +17,7 @@ namespace WebAppApi48
 
             // e.g. container.RegisterType<ITestService, TestService>();
             container.RegisterType<IAuthService, AuthService>();
+            container.RegisterType<IDataAccess, DataAccess>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             
         }

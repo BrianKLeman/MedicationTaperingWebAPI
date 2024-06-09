@@ -28,9 +28,11 @@ namespace WebAppApi48.Controllers
         public NotesController()
         {
             this.authService = Resolver.Current.GetService(typeof(IAuthService)) as IAuthService;
+            this.dataAccess = Resolver.Current.GetService(typeof(IDataAccess)) as IDataAccess;
         }
 
         private IAuthService authService;
+        private IDataAccess dataAccess;
 
         [HttpPost()]
         public IHttpActionResult Post([FromBody] NotesSearchRequest request)
@@ -40,7 +42,7 @@ namespace WebAppApi48.Controllers
 
             var personID = this.authService.VerifyCredentials(Request);
             
-            return base.Ok(DataAccess.GetNotes(personID, request.FromDate, request.ToDate));
+            return base.Ok(dataAccess.GetNotes(personID, request.FromDate, request.ToDate));
         }
 
         [HttpPost]
@@ -52,7 +54,7 @@ namespace WebAppApi48.Controllers
 
             var personID = this.authService.VerifyCredentials(Request);
 
-            return base.Ok(DataAccess.InsertNote(personID, body.dateTime, body.NoteText));
+            return base.Ok(dataAccess.InsertNote(personID, body.dateTime, body.NoteText));
         }
 
         [HttpPost]
@@ -61,7 +63,7 @@ namespace WebAppApi48.Controllers
         public IHttpActionResult Delete([FromUri] long noteID)
         {
             var personID = this.authService.VerifyCredentials(Request);
-            return base.Ok(DataAccess.DeleteNote(personID, noteID));
+            return base.Ok(dataAccess.DeleteNote(personID, noteID));
         }
 
     }

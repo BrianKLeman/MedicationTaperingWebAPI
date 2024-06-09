@@ -9,9 +9,9 @@ using LinqToDB.Data;
 
 namespace DataAccessLayer
 {
-    public static class DataAccess
+    public class DataAccess : IDataAccess
     {     
-        public static IEnumerable<Medication> GetMedication(long personID)
+        public IEnumerable<Medication> GetMedication(long personID)
         {
             if (personID > -1)
             {
@@ -28,7 +28,7 @@ namespace DataAccessLayer
             return new Medication[0];
         }
 
-        public static int InsertOlanzapine(long personID, DateTime consumedDate, decimal amountMg)
+        public int InsertOlanzapine(long personID, DateTime consumedDate, decimal amountMg)
         {
             if (personID > -1)
             {
@@ -41,7 +41,7 @@ namespace DataAccessLayer
             return -1;
         }
 
-        public static int InsertSertraline(long personID, DateTime consumedDate, decimal amountMg)
+        public int InsertSertraline(long personID, DateTime consumedDate, decimal amountMg)
         {
             if (personID > -1)
             {
@@ -55,7 +55,7 @@ namespace DataAccessLayer
                 
         }
 
-        public static int Delete(long personID, int medicationId)
+        public int Delete(long personID, int medicationId)
         {
             if (personID > -1)
             {
@@ -71,7 +71,7 @@ namespace DataAccessLayer
 
        
 
-        private static DataConnection NewDataConnection()
+        private DataConnection NewDataConnection()
         {
             var cBuilder = new MySqlConnectionStringBuilder();
             cBuilder.Server = DatalayerConfig.GetHost(); 
@@ -84,7 +84,7 @@ namespace DataAccessLayer
         }
 
 
-        public static IEnumerable<Prescription> GetPrescriptions(long personID)
+        public IEnumerable<Prescription> GetPrescriptions(long personID)
         {
             using (var c = NewDataConnection())
             {
@@ -102,17 +102,9 @@ namespace DataAccessLayer
                     return new Prescription[0];
                 }
             }                
-        }
+        }       
 
-        public class DayPrescription
-        {
-            DateTime? Day;
-            public decimal doseMg { get; set; } = 0;
-            public int prescriptionID { get; set; } = 0;
-            public string prescriptionName = "None";
-        }
-
-        public static string GetPassword(string username, string password)
+        public string GetPassword(string username, string password)
         {
             using(var c = NewDataConnection())
             {
@@ -131,7 +123,7 @@ namespace DataAccessLayer
             }
         }
 
-        public static IEnumerable<Notes> GetNotes(long personID, DateTime fromDate, DateTime toDate)
+        public IEnumerable<Notes> GetNotes(long personID, DateTime fromDate, DateTime toDate)
         {
             using (var c = NewDataConnection())
             {
@@ -150,7 +142,7 @@ namespace DataAccessLayer
             }                
         }
 
-        public static long GetPersonID(string username, string password)
+        public long GetPersonID(string username, string password)
         {
             using (var c = NewDataConnection())
             {
@@ -161,7 +153,7 @@ namespace DataAccessLayer
             }
         }
 
-        public static long GetPersonIDForReadOnlyAccess(string username)
+        public long GetPersonIDForReadOnlyAccess(string username)
         {
             using (var c = NewDataConnection())
             {
@@ -172,7 +164,7 @@ namespace DataAccessLayer
             }
         }
 
-        public static long InsertNote(long personID, DateTime date, string note)
+        public long InsertNote(long personID, DateTime date, string note)
         {
             if(personID > 0)
             {
@@ -184,7 +176,7 @@ namespace DataAccessLayer
             return -1;            
         }
 
-        public static long DeleteNote(long personID, long noteID)
+        public long DeleteNote(long personID, long noteID)
         {
             if(personID > 0)
             {

@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net4.8</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
