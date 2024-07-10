@@ -7,6 +7,7 @@ namespace WebAppApi48.Services
     {
         public const string UserID = nameof(UserID);
         public const string Password = nameof(Password);
+        public const string AuthToken = nameof(AuthToken);
         public const string ContentType = "Content-Type";
     }
 
@@ -14,5 +15,6 @@ namespace WebAppApi48.Services
     {
         long VerifyCredentials(HttpRequestMessage request);
         long VerifyReadOnlyCredentials(HttpRequestMessage request);
+        string CreateToken(HttpRequestMessage request, out string UserID, out string Token);
     }
 }

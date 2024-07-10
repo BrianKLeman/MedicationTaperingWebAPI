@@ -1,4 +1,6 @@
 ﻿using DataAccessLayer;
+using DataAccessLayer.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -10,10 +12,10 @@ namespace WebAppApi48.Services
     {
         public AuthService()
         {
-            dataAccess = (IDataAccess)Resolver.Current.GetService(typeof(IDataAccess));
+            dataAccess = (IPersonDataAccess)Resolver.Current.GetService(typeof(IPersonDataAccess));
         }
 
-        private IDataAccess dataAccess;
+        private IPersonDataAccess dataAccess;
         /// <summary>
         /// Returns the personCode
         /// </summary>
@@ -50,5 +52,31 @@ namespace WebAppApi48.Services
 
             return -1;
         }
+
+        public string CreateToken(HttpRequestMessage request, out string UserID, out string Token)
+        {
+            var personCode = this.VerifyCredentials(request);
+
+            if (personCode < 0)
+            {
+                UserID = string.Empty;
+                Token = string.Empty;
+                return "";
+            }
+
+            var userID = string.Empty;
+            if (request.Headers.Contains(HeadersConstants.UserID))
+            {
+                userID = request.Headers.GetValues(HeadersConstants.UserID).FirstOrDefault();
+            }
+
+            var guid = Guid.NewGuid();
+            Token = guid.ToString();
+            UserID = userID;
+
+            dataAccess.AddToken(personCode, Token);
+            return "";
+        }
+        
     }
 }

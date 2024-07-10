@@ -28,11 +28,11 @@ namespace WebAppApi48.Controllers
         public NotesController()
         {
             this.authService = Resolver.Current.GetService(typeof(IAuthService)) as IAuthService;
-            this.dataAccess = Resolver.Current.GetService(typeof(IDataAccess)) as IDataAccess;
+            this.dataAccess = Resolver.Current.GetService(typeof(INotesDataAccess)) as INotesDataAccess;
         }
 
         private IAuthService authService;
-        private IDataAccess dataAccess;
+        private INotesDataAccess dataAccess;
 
         [HttpPost()]
         public IHttpActionResult Post([FromBody] NotesSearchRequest request)

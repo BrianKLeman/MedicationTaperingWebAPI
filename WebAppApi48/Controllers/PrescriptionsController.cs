@@ -15,11 +15,11 @@ namespace WebAppApi48.Controllers
         public PrescriptionsController()
         {
             this.authService = Resolver.Current.GetService(typeof(IAuthService)) as IAuthService;
-            this.dataAccess = Resolver.Current.GetService(typeof(IDataAccess)) as IDataAccess;
+            this.dataAccess = Resolver.Current.GetService(typeof(IPrescriptionDataAccess)) as IPrescriptionDataAccess;
         }
 
         private IAuthService authService;
-        private IDataAccess dataAccess;
+        private IPrescriptionDataAccess dataAccess;
         public IEnumerable<Prescription> Get()
         {
             var personID = this.authService.VerifyCredentials(Request);

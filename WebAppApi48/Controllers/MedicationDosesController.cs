@@ -36,11 +36,13 @@ namespace WebAppApi48.Controllers
         public MedicationDosesController()
         {
             this.authService = Resolver.Current.GetService(typeof(IAuthService)) as IAuthService;
-            this.dataAccess = Resolver.Current.GetService(typeof(IDataAccess)) as IDataAccess;
+            this.dataAccess = Resolver.Current.GetService(typeof(IMedicationDataAccess)) as IMedicationDataAccess;
+            this.prescriptions = Resolver.Current.GetService(typeof(IPrescriptionDataAccess)) as IPrescriptionDataAccess;
         }
 
         private IAuthService authService;
-        private IDataAccess dataAccess;
+        private IMedicationDataAccess dataAccess;
+        private IPrescriptionDataAccess prescriptions;
         [HttpGet]
         public IEnumerable<Report> History()
         {
@@ -49,10 +51,10 @@ namespace WebAppApi48.Controllers
                 personID = this.authService.VerifyReadOnlyCredentials(Request);
 
             var meds = dataAccess.GetMedication(personID);
-            var prescriptions = dataAccess.GetPrescriptions(personID);
+            var pres = prescriptions.GetPrescriptions(personID);
 
             return from m in meds
-                   join p in prescriptions on m.PrescriptionId equals p.PrescriptionID
+                   join p in pres on m.PrescriptionId equals p.PrescriptionID
                    orderby m.DateTimeConsumed descending
                    select new Report
                    {

@@ -91,6 +91,12 @@ namespace DataAccessLayer.Models
         
         [Column(Name = "READONLY_ANON")]
         public string ReadOnlyAnon { get; set; }
+
+        [Column(Name = "TOKEN")]
+        public string Token { get; set; }
+
+        [Column(Name = "TOKEN_DATE")]
+        public DateTime TokenDate { get; set; }
     }
 
     [Table(Name = "NOTES", Database = "medication_taper_database")]
