@@ -263,3 +263,4 @@ paket-files/
 __pycache__/
 *.pyc
 /WebAppApi48/Web.config
+/WebAppApi48/Properties/PublishProfiles/CustomProfile.pubxml

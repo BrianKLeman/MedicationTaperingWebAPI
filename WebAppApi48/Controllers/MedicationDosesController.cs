@@ -15,6 +15,10 @@ namespace WebAppApi48.Controllers
 
         [Required]
         public decimal doseMg { get; set; }
+
+        [Required]
+
+        public long PrescriptionID { get; set; }
     }
 
     public class Report
@@ -26,6 +30,7 @@ namespace WebAppApi48.Controllers
         public decimal DoseMG { get; set; }
 
         public decimal HalfLifeHrs { get; set; }
+        public long PrescriptionID { get; set; }
     }
 
     [RoutePrefix("MedicationDoses")]
@@ -43,6 +48,7 @@ namespace WebAppApi48.Controllers
         private IAuthService authService;
         private IMedicationDataAccess dataAccess;
         private IPrescriptionDataAccess prescriptions;
+
         [HttpGet]
         public IEnumerable<Report> History()
         {
@@ -63,35 +69,11 @@ namespace WebAppApi48.Controllers
                        Name = p.Name,
                        DoseTakenMG = m.DoseTakenMG,
                        DoseMG = p.DoseMG,
-                       HalfLifeHrs = p.AverageHalfLifeHours
+                       HalfLifeHrs = p.AverageHalfLifeHours,
+                       PrescriptionID = p.PrescriptionID
                    };
         }
-
-        [Route("Olanzapine")]
-        public IHttpActionResult Olanzapine([FromBody] [Required]MedDose dose)
-        {
-            if (ModelState.IsValid == false)
-                return BadRequest(ModelState);
-
-            var personID = this.authService.VerifyCredentials(Request);
-
-
-            dataAccess.InsertOlanzapine(personID,dose.consumedDateTime, dose.doseMg);
-            return base.Ok();
-        }        
-       
-        [Route("Sertraline")]        
-        public IHttpActionResult Sertraline([FromBody] [Required]MedDose dose)
-        {
-            if (ModelState.IsValid == false)
-                return BadRequest(ModelState);
-
-
-            var personID = this.authService.VerifyCredentials(Request);
-
-            dataAccess.InsertSertraline(personID,dose.consumedDateTime, dose.doseMg);
-            return base.Ok();
-        }
+        
         
         [Route("Delete/{medicationId:int}")]
         [HttpPost]
@@ -106,6 +88,19 @@ namespace WebAppApi48.Controllers
 
             dataAccess.Delete(personID,medicationId);
             return base.Ok();
-        }              
+        }
+
+        [Route("Add")]
+        [HttpPost]
+        public IHttpActionResult Add([FromBody][Required] MedDose dose)
+        {
+            if (ModelState.IsValid == false)
+                return BadRequest(ModelState);
+
+            var personID = this.authService.VerifyCredentials(Request);
+
+            dataAccess.InsertMedication(personID, dose.consumedDateTime, dose.PrescriptionID, dose.doseMg);
+            return base.Ok();
+        }
     }
 }

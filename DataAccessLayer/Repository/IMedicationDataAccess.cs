@@ -8,11 +8,9 @@ namespace DataAccessLayer
     {
         IEnumerable<Medication> GetMedication(long personID);
 
-        int InsertOlanzapine(long personID, DateTime consumedDate, decimal amountMg);
-
-        int InsertSertraline(long personID, DateTime consumedDate, decimal amountMg);
-
         int Delete(long personID, int medicationId);
+
+        int InsertMedication(long personID, DateTime consumedDate, long prescriptionID, decimal amountMg);
         
     }
 }
