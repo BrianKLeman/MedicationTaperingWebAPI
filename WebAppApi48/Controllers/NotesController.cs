@@ -20,6 +20,10 @@ namespace WebAppApi48.Controllers
 
         [Required]
         public string NoteText { get; set; }
+
+        public bool BehaviorChange { get; set; } = false;
+
+        public long NoteID { get; set; }
     }
 
     [RoutePrefix("Api/Notes")]
@@ -34,15 +38,15 @@ namespace WebAppApi48.Controllers
         private IAuthService authService;
         private INotesDataAccess dataAccess;
 
-        [HttpPost()]
-        public IHttpActionResult Post([FromBody] NotesSearchRequest request)
+        [HttpGet()]
+        public IHttpActionResult Notes(DateTime fromDate, DateTime toDate)
         {
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
             var personID = this.authService.VerifyCredentials(Request);
             
-            return base.Ok(dataAccess.GetNotes(personID, request.FromDate, request.ToDate));
+            return base.Ok(dataAccess.GetNotes(personID, fromDate, toDate));
         }
 
         [HttpPost]
@@ -54,7 +58,7 @@ namespace WebAppApi48.Controllers
 
             var personID = this.authService.VerifyCredentials(Request);
 
-            return base.Ok(dataAccess.InsertNote(personID, body.dateTime, body.NoteText));
+            return base.Ok(dataAccess.InsertNote(personID, body.dateTime, body.NoteText, body.BehaviorChange));
         }
 
         [HttpPost]
@@ -64,6 +68,14 @@ namespace WebAppApi48.Controllers
         {
             var personID = this.authService.VerifyCredentials(Request);
             return base.Ok(dataAccess.DeleteNote(personID, noteID));
+        }
+
+        [HttpPut]
+        [Route("Update")]
+        public IHttpActionResult Update([FromBody] Note body)
+        {
+            var personID = this.authService.VerifyCredentials(Request);
+            return base.Ok(dataAccess.UpdateNote(personID, body.dateTime, body.NoteText, body.BehaviorChange, body.NoteID));
         }
 
     }

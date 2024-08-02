@@ -125,5 +125,8 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "RECORDED_DATE")]
         public DateTime RecordedDate { get; set; }
+
+        [Column(Name = "BEHAVIOR_CHANGE_NEEDED")]
+        public int BehaviorChange { get; set; }
     }
 }
