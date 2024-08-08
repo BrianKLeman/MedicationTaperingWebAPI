@@ -70,7 +70,7 @@ namespace WebAppApi48.Controllers
             return base.Ok(dataAccess.DeleteNote(personID, noteID));
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("Update")]
         public IHttpActionResult Update([FromBody] Note body)
         {
