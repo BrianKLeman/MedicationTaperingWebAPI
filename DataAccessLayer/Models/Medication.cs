@@ -129,4 +129,132 @@ namespace DataAccessLayer.Models
         [Column(Name = "BEHAVIOR_CHANGE_NEEDED")]
         public int BehaviorChange { get; set; }
     }
+
+    [Table(Name = "PROJECTS", Database = "medication_taper_database")]
+    public class Projects
+    {
+        [Column(Name = "PROJECT_ID", IsPrimaryKey = true)]
+        public long ProjectID { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "PROJECT_NAME", CanBeNull = true)]
+        public string Name { get; set; }
+
+        [Column(Name = "CREATED_DATE")]
+        public DateTime CreatedDate { get; set; }
+
+        [Column(Name = "CREATED_BY")]
+        public string CreatedBy { get; set; }        
+
+        [Column(Name = "PRIORITY")]
+        public decimal Priority { get; set; }
+
+        [Column(Name = "STATUS")]
+        public decimal Status { get; set; }        
+    }
+
+    [Table(Name = "LEARNING_AIMS", Database = "medication_taper_database")]
+    public class LearningAims
+    {
+        [Column(Name = "LEARNING_AIM_ID", IsPrimaryKey = true)]
+        public long LearningAimID { get; set; }
+
+        [Column(Name = "CREATED_DATE")]
+        public DateTime CreatedDate { get; set; }
+
+        [Column(Name = "NAME", CanBeNull = true)]
+        public string Name { get; set; }
+
+        [Column(Name = "DESCRIPTION", CanBeNull = true)]
+        public string Description { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "ACHIEVED_DATE")]
+        public string CreatedBy { get; set; }       
+    }
+
+    [Table(Name = "TASKS", Database = "medication_taper_database")]
+    public class Tasks
+    {
+        [Column(Name = "TASK_ID", IsPrimaryKey = true)]
+        public long TaskID { get; set; }
+
+        [Column(Name = "TASK_NAME", CanBeNull = true)]
+        public string TaskName { get; set; }
+
+        [Column(Name = "CREATED_DATE")]
+        public DateTime CreatedDate { get; set; }
+
+        [Column(Name = "CREATED_BY")]
+        public string CreatedBy { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "DUE_DATE")]
+        public DateTime DueDate { get; set; }
+
+        [Column(Name = "DESCRIPTION", CanBeNull = true)]
+        public string Description { get; set; }
+
+        [Column(Name = "DATE_COMPLETED")]
+        public string DateCompleted { get; set; }
+
+        [Column(Name = "PRIORITY")]
+        public decimal Priority { get; set; }
+    }
+
+    [Table(Name = "SLEEPS", Database = "medication_taper_database")]
+    public class Sleeps
+    {
+        [Column(Name = "SLEEP_ID", IsPrimaryKey = true)]
+        public long TaskID { get; set; }
+
+        [Column(Name = "HOURS")]
+        public decimal Hours { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "CREATED_DATE")]
+        public DateTime CreatedDate { get; set; }
+
+        [Column(Name = "FROM_DATE")]
+        public DateTime FromDate { get; set; }
+
+        [Column(Name = "TO_DATE")]
+        public string ToDate { get; set; }        
+    }
+
+    [Table(Name = "TABLE_NOTES_LINKS", Database = "medication_taper_database")]
+    public class TableNotesLinks
+    {
+        [Column(Name = "TABLE_NOTES_LINKS_ID", IsPrimaryKey = true)]
+        public long NotesLinksID { get; set; }
+
+        [Column(Name = "TABLE")]
+        public string Table { get; set; }
+
+        [Column(Name = "NOTES_ID")]
+        public long NotesID { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "CREATED_BY")]
+        public string CreatedBy { get; set; }
+
+        [Column(Name = "CREATED_DATE")]
+        public DateTime CreatedDate { get; set; }
+
+        [Column(Name = "FROM_DATE")]
+        public DateTime FromDate { get; set; }
+
+        [Column(Name = "TO_DATE")]
+        public string ToDate { get; set; }
+    }
 }
