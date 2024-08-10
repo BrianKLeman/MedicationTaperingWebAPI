@@ -164,7 +164,7 @@ namespace DataAccessLayer.Models
         [Column(Name = "CREATED_DATE")]
         public DateTime CreatedDate { get; set; }
 
-        [Column(Name = "NAME", CanBeNull = true)]
+        [Column(Name = "NAME")]
         public string Name { get; set; }
 
         [Column(Name = "DESCRIPTION", CanBeNull = true)]
@@ -173,8 +173,8 @@ namespace DataAccessLayer.Models
         [Column(Name = "PERSON_ID")]
         public long PersonID { get; set; }
 
-        [Column(Name = "ACHIEVED_DATE")]
-        public string CreatedBy { get; set; }       
+        [Column(Name = "ACHIEVED_DATE", CanBeNull = true)]
+        public DateTime? AchievedDate { get; set; }       
     }
 
     [Table(Name = "TASKS", Database = "medication_taper_database")]

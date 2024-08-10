@@ -22,6 +22,7 @@ namespace WebAppApi48
             container.RegisterType<IMedicationDataAccess, MedicationDataAccess>();
             container.RegisterType<IPrescriptionDataAccess, PrescriptionDataAccess>();
             container.RegisterType<IPersonDataAccess, PersonDataAccess>();
+            container.RegisterType<ILearningAimsDataAccess, LearningAimsDataAccess>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             
