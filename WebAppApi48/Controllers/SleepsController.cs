@@ -8,22 +8,22 @@ using Resolver = System.Web.Mvc.DependencyResolver;
 
 namespace WebAppApi48.Controllers
 {
-    [RoutePrefix("Api/Prescriptions")]
+    [RoutePrefix("Api/Sleeps")]
     [Route("{action=Get}")]
-    public class PrescriptionsController : ApiController
+    public class SleepsController : ApiController
     {
-        public PrescriptionsController()
+        public SleepsController()
         {
             this.authService = Resolver.Current.GetService(typeof(IAuthService)) as IAuthService;
-            this.dataAccess = Resolver.Current.GetService(typeof(IPrescriptionDataAccess)) as IPrescriptionDataAccess;
+            this.dataAccess = Resolver.Current.GetService(typeof(ISleepsDataAccess)) as ISleepsDataAccess;
         }
 
         private IAuthService authService;
-        private IPrescriptionDataAccess dataAccess;
-        public IEnumerable<Prescription> Get()
+        private ISleepsDataAccess dataAccess;
+        public IEnumerable<Sleeps> Get()
         {
             var personID = this.authService.VerifyCredentials(Request);
-            return dataAccess.GetPrescriptions(personID);
+            return dataAccess.GetSleeps(personID);
         }
         
     }

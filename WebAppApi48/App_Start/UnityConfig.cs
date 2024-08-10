@@ -15,14 +15,15 @@ namespace WebAppApi48
 
             // register all your components with the container here
             // it is NOT necessary to register your controllers
-
-            // e.g. container.RegisterType<ITestService, TestService>();
+            
             container.RegisterType<IAuthService, AuthService>();
             container.RegisterType<INotesDataAccess, NotesDataAccess>();
             container.RegisterType<IMedicationDataAccess, MedicationDataAccess>();
             container.RegisterType<IPrescriptionDataAccess, PrescriptionDataAccess>();
             container.RegisterType<IPersonDataAccess, PersonDataAccess>();
             container.RegisterType<ILearningAimsDataAccess, LearningAimsDataAccess>();
+            container.RegisterType<IProjectsDataAccess, ProjectsDataAccess>();
+            container.RegisterType<ISleepsDataAccess, SleepsDataAccess>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             

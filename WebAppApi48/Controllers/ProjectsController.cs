@@ -8,22 +8,22 @@ using Resolver = System.Web.Mvc.DependencyResolver;
 
 namespace WebAppApi48.Controllers
 {
-    [RoutePrefix("Api/Prescriptions")]
+    [RoutePrefix("Api/Projects")]
     [Route("{action=Get}")]
-    public class PrescriptionsController : ApiController
+    public class ProjectsController : ApiController
     {
-        public PrescriptionsController()
+        public ProjectsController()
         {
             this.authService = Resolver.Current.GetService(typeof(IAuthService)) as IAuthService;
-            this.dataAccess = Resolver.Current.GetService(typeof(IPrescriptionDataAccess)) as IPrescriptionDataAccess;
+            this.dataAccess = Resolver.Current.GetService(typeof(IProjectsDataAccess)) as IProjectsDataAccess;
         }
 
         private IAuthService authService;
-        private IPrescriptionDataAccess dataAccess;
-        public IEnumerable<Prescription> Get()
+        private IProjectsDataAccess dataAccess;
+        public IEnumerable<Projects> Get()
         {
             var personID = this.authService.VerifyCredentials(Request);
-            return dataAccess.GetPrescriptions(personID);
+            return dataAccess.GetProjects(personID);
         }
         
     }

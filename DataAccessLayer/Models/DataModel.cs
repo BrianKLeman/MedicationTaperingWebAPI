@@ -47,18 +47,18 @@ namespace DataAccessLayer.Models
         [Column(Name = "DOSE_MG")]
         public decimal DoseMG { get; set; }
 
-        [Column(Name = "REASON")]
+        [Column(Name = "REASON", CanBeNull = true)]
         public string Reason { get; set; }
 
         [Column(Name = "MIN_HALFLIFE_HOURS", CanBeNull = true)]
-        public long MinHalfLifeHours { get; set; }
+        public long? MinHalfLifeHours { get; set; }
 
-        [Column(Name = "MAX_HALFLIFE_HOURS")]
-        public long MaxHalfLifeHours { get; set; }
+        [Column(Name = "MAX_HALFLIFE_HOURS", CanBeNull = true)]
+        public long? MaxHalfLifeHours { get; set; }
 
 
-        [Column(Name = "AVERAGE_HALFLIFE_HOURS")]
-        public long AverageHalfLifeHours { get; set; }
+        [Column(Name = "AVERAGE_HALFLIFE_HOURS", CanBeNull = true)]
+        public long? AverageHalfLifeHours { get; set; }
 
         [Column(Name = "PERSON_ID")]
         public long PersonID { get; set; }        
@@ -152,7 +152,13 @@ namespace DataAccessLayer.Models
         public decimal Priority { get; set; }
 
         [Column(Name = "STATUS")]
-        public decimal Status { get; set; }        
+        public decimal Status { get; set; }
+
+        [Column(Name = "START_DATE", CanBeNull = true)]
+        public DateTime? StartDate { get; set; }
+
+        [Column(Name = "END_DATE", CanBeNull = true)]
+        public DateTime? EndDate { get; set; }
     }
 
     [Table(Name = "LEARNING_AIMS", Database = "medication_taper_database")]
@@ -212,10 +218,10 @@ namespace DataAccessLayer.Models
     public class Sleeps
     {
         [Column(Name = "SLEEP_ID", IsPrimaryKey = true)]
-        public long TaskID { get; set; }
+        public long SleepID { get; set; }
 
         [Column(Name = "HOURS")]
-        public decimal Hours { get; set; }
+        public decimal? Hours { get; set; }
 
         [Column(Name = "PERSON_ID")]
         public long PersonID { get; set; }
@@ -227,7 +233,7 @@ namespace DataAccessLayer.Models
         public DateTime FromDate { get; set; }
 
         [Column(Name = "TO_DATE")]
-        public string ToDate { get; set; }        
+        public DateTime ToDate { get; set; }        
     }
 
     [Table(Name = "TABLE_NOTES_LINKS", Database = "medication_taper_database")]

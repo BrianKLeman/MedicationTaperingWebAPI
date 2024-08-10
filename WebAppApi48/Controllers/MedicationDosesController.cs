@@ -69,7 +69,7 @@ namespace WebAppApi48.Controllers
                        Name = p.Name,
                        DoseTakenMG = m.DoseTakenMG,
                        DoseMG = p.DoseMG,
-                       HalfLifeHrs = p.AverageHalfLifeHours,
+                       HalfLifeHrs = p.AverageHalfLifeHours ?? 0,
                        PrescriptionID = p.PrescriptionID
                    };
         }
