@@ -8,6 +8,8 @@ namespace DataAccessLayer
     {
         IEnumerable<Notes> GetNotes(long personID, DateTime fromDate, DateTime toDate);
 
+        IEnumerable<Notes> GetNotes(long personID, string tableName, long entityID);
+
         long InsertNote(long personID, DateTime date, string note, bool behaviorChange);
 
         long DeleteNote(long personID, long noteID);

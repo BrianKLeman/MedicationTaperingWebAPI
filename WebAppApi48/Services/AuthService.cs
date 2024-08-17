@@ -24,6 +24,14 @@ namespace WebAppApi48.Services
         /// <returns>a value greater than -1 if user is valid</returns>
         public long VerifyCredentials(HttpRequestMessage httpRequest)
         {
+            if(httpRequest.Headers.Contains(HeadersConstants.AuthToken))
+            {
+                var token = httpRequest.Headers.GetValues(HeadersConstants.AuthToken).FirstOrDefault();
+                var personID = dataAccess.CheckToken(token);
+                if (personID > 0)
+                    return personID;
+            }
+
             var userID = string.Empty;
             if(httpRequest.Headers.Contains(HeadersConstants.UserID))
             {

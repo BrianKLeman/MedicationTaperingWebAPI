@@ -10,4 +10,8 @@
     <PackageReference Include="MySql.Data" Version="8.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+  </ItemGroup>
+
 </Project>

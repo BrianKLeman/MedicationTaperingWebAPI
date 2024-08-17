@@ -13,17 +13,7 @@ namespace DataAccessLayer.Repository
             {
                 using (var c = NewDataConnection())
                 {
-                    var p = from t in c.GetTable<People>()
-                            where t.PersonID == personID
-                            select t;
-
-                    var f = p.FirstOrDefault();
-                    if (f != null)
-                    {
-                        f.TokenDate = DateTime.Now;
-                        f.Token = token;
-                        return c.Update<People>(f);
-                    }
+                     return c.Insert<AuthTokens>(new AuthTokens() { AuthToken = token, PersonID = personID, TokenDate = new DateTime() });
                 }
             }
 
@@ -37,8 +27,8 @@ namespace DataAccessLayer.Repository
 
             using (var c = NewDataConnection())
             {
-                var p = from t in c.GetTable<People>()
-                        where t.Token == token
+                var p = from t in c.GetTable<AuthTokens>()
+                        where t.AuthToken == token
                         select t;
 
                 return p.FirstOrDefault()?.PersonID ?? -1;

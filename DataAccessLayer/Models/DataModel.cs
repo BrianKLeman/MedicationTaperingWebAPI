@@ -1,5 +1,6 @@
 ﻿using LinqToDB.Mapping;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataAccessLayer.Models
 {
@@ -61,7 +62,10 @@ namespace DataAccessLayer.Models
         public long? AverageHalfLifeHours { get; set; }
 
         [Column(Name = "PERSON_ID")]
-        public long PersonID { get; set; }        
+        public long PersonID { get; set; } 
+        
+        [Column(Name = "END_DATE")]
+        public DateTime? EndDate { get; set; }
     }
 
     [Table(Name = "PEOPLE", Database = "medication_taper_database")]
@@ -91,12 +95,6 @@ namespace DataAccessLayer.Models
         
         [Column(Name = "READONLY_ANON")]
         public string ReadOnlyAnon { get; set; }
-
-        [Column(Name = "TOKEN")]
-        public string Token { get; set; }
-
-        [Column(Name = "TOKEN_DATE")]
-        public DateTime TokenDate { get; set; }
     }
 
     [Table(Name = "NOTES", Database = "medication_taper_database")]
@@ -243,10 +241,16 @@ namespace DataAccessLayer.Models
         public long NotesLinksID { get; set; }
 
         [Column(Name = "TABLE")]
+        [Required]
         public string Table { get; set; }
 
         [Column(Name = "NOTES_ID")]
+        [Required]
         public long NotesID { get; set; }
+
+        [Column(Name = "ENTITY_ID")]
+        [Required]
+        public long EntityID { get; set; }
 
         [Column(Name = "PERSON_ID")]
         public long PersonID { get; set; }
@@ -255,12 +259,42 @@ namespace DataAccessLayer.Models
         public string CreatedBy { get; set; }
 
         [Column(Name = "CREATED_DATE")]
+        public DateTime CreatedDate { get; set; }        
+    }
+
+    [Table(Name = "PHENOMENA", Database = "medication_taper_database")]
+    public class Phenomena
+    {
+        [Column(Name = "PHENOMENA_ID", IsPrimaryKey = true)]
+        public long PhenomenaID { get; set; }
+
+        [Column(Name = "PHENOMENA_DETAILS", CanBeNull = true)]
+        public string PhenomenaDetails { get; set; }
+
+        [Column(Name = "LOCKED_TO_PERSON_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "CREATED_USER")]
+        public string CreatedUser { get; set; }
+
+        [Column(Name = "CREATED_DATE")]
         public DateTime CreatedDate { get; set; }
+        
+    }
 
-        [Column(Name = "FROM_DATE")]
-        public DateTime FromDate { get; set; }
+    [Table(Name = "AUTH_TOKENS", Database = "medication_taper_database")]
+    public class AuthTokens
+    {
+        [Column(Name = "TOKEN_ID", IsPrimaryKey = true)]
+        public long TokenID { get; set; }
 
-        [Column(Name = "TO_DATE")]
-        public string ToDate { get; set; }
+        [Column(Name = "PEOPLE_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "AUTH_TOKEN")]
+        public string AuthToken { get; set; }
+
+        [Column(Name = "TOKEN_DATE")]
+        public DateTime TokenDate { get; set; }       
     }
 }

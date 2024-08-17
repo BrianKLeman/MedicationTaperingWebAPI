@@ -39,14 +39,25 @@ namespace WebAppApi48.Controllers
         private INotesDataAccess dataAccess;
 
         [HttpGet()]
-        public IHttpActionResult Notes(DateTime fromDate, DateTime toDate)
+        public IHttpActionResult Notes(DateTime? fromDate, DateTime? toDate)
         {
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
             var personID = this.authService.VerifyCredentials(Request);
             
-            return base.Ok(dataAccess.GetNotes(personID, fromDate, toDate));
+            return base.Ok(dataAccess.GetNotes(personID, fromDate.Value, toDate.Value));
+        }
+
+        [HttpGet()]
+        public IHttpActionResult Notes( string tableName, long entityID)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.VerifyCredentials(Request);
+            
+            return base.Ok(dataAccess.GetNotes(personID, tableName, entityID));
         }
 
         [HttpPost]

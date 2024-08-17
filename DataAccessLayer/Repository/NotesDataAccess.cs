@@ -28,6 +28,27 @@ namespace DataAccessLayer
             }                
         }
 
+        public IEnumerable<Notes> GetNotes(long personID, string tableName, long entityID)
+        {
+            using (var c = NewDataConnection())
+            {
+                if (personID > -1)
+                {
+                    var notes = from n in c.GetTable<Notes>()
+                                where n.PersonID == personID
+                                join link in c.GetTable<TableNotesLinks>() on n.NoteID equals link.NotesID
+                                where link.EntityID == entityID && link.Table == tableName
+                                select n;
+                    return notes.ToList();
+                }
+                else
+                {
+                    return new Notes[0];
+                }
+
+            }
+        }
+
         public long InsertNote(long personID, DateTime date, string note, bool behaviourChangeNeeded)
         {
             if(personID > 0)

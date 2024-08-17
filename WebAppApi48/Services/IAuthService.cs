@@ -7,7 +7,7 @@ namespace WebAppApi48.Services
     {
         public const string UserID = nameof(UserID);
         public const string Password = nameof(Password);
-        public const string AuthToken = nameof(AuthToken);
+        public const string AuthToken = "Auth-Token";
         public const string ContentType = "Content-Type";
     }
 
