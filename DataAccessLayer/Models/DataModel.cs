@@ -297,4 +297,26 @@ namespace DataAccessLayer.Models
         [Column(Name = "TOKEN_DATE")]
         public DateTime TokenDate { get; set; }       
     }
+
+    [Table(Name = "APPOINTMENTS", Database = "medication_taper_database")]
+    public class Appointments
+    {
+        [Column(Name = "APPOINTMENT_ID", IsPrimaryKey = true)]
+        public long AppointmentID { get; set; }
+
+        [Column(Name = "PEOPLE_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "APPOINTMENT_NAME")]
+        public string AppointmentName { get; set; }
+
+        [Column(Name = "APPOINTMENT_DATE")]
+        public DateTime AppointmentDate { get; set; }
+
+        [Column(Name = "CREATED_DATE")]
+        public DateTime CreatedDate { get; set; }
+
+        [Column(Name = "CREATED_BY")]
+        public string CreatedUser { get; set; }
+    }
 }

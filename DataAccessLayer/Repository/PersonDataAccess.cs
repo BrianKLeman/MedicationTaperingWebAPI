@@ -13,7 +13,7 @@ namespace DataAccessLayer.Repository
             {
                 using (var c = NewDataConnection())
                 {
-                     return c.Insert<AuthTokens>(new AuthTokens() { AuthToken = token, PersonID = personID, TokenDate = new DateTime() });
+                     return c.Insert<AuthTokens>(new AuthTokens() { AuthToken = token, PersonID = personID, TokenDate = DateTime.Now });
                 }
             }
 

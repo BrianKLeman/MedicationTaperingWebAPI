@@ -186,6 +186,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Attributes\CrossSiteAllowAccessControlOrigin.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\AppointmentsController.cs" />
     <Compile Include="Controllers\MedicationDosesController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\LearningAimsController.cs" />

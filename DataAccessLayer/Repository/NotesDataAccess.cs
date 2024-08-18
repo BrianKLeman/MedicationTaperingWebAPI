@@ -17,6 +17,7 @@ namespace DataAccessLayer
                 {
                     var notes = from n in c.GetTable<Notes>()
                             where n.PersonID == personID && fromDate < n.RecordedDate && toDate > n.RecordedDate
+                            orderby n.RecordedDate descending
                             select n;
                     return notes.ToList();
                 }
@@ -38,6 +39,7 @@ namespace DataAccessLayer
                                 where n.PersonID == personID
                                 join link in c.GetTable<TableNotesLinks>() on n.NoteID equals link.NotesID
                                 where link.EntityID == entityID && link.Table == tableName
+                                orderby n.RecordedDate descending
                                 select n;
                     return notes.ToList();
                 }
