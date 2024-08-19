@@ -319,4 +319,44 @@ namespace DataAccessLayer.Models
         [Column(Name = "CREATED_BY")]
         public string CreatedUser { get; set; }
     }
+
+    [Table(Name = "JOBS_AT_HOME", Database = "medication_taper_database")]
+    public class JobsAtHome
+    {
+        [Column(Name = "JOBS_AT_HOME_ID", IsPrimaryKey = true)]
+        public long JobsAtHomeID { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "JOB")]
+        public string Job { get; set; }
+
+        [Column(Name = "CREATED_DATE")]
+        public DateTime AppointmentDate { get; set; }
+    }
+
+    [Table(Name = "JOBS_AT_HOME_LOG", Database = "medication_taper_database")]
+    public class JobsAtHomeLog
+    {
+        [Column(Name = "JOBS_AT_HOME_LOG_ID", IsPrimaryKey = true)]
+        public long JobsAtHomeLogID { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "JOBS_AT_HOME_ID")]
+        public string JobID { get; set; }
+
+        [Column(Name = "DATE_COMPLETED")]
+        public DateTime DateCompleted { get; set; }
+
+        [Column(Name = "CREATED_DATE")]
+        public DateTime CreatedDate { get; set; }
+
+        [Column(Name = "CREATED_BY")]
+        public string CreatedUser { get; set; }
+    }
+
+    
 }
