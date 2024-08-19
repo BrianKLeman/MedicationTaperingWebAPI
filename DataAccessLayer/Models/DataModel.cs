@@ -346,7 +346,7 @@ namespace DataAccessLayer.Models
         public long PersonID { get; set; }
 
         [Column(Name = "JOBS_AT_HOME_ID")]
-        public string JobID { get; set; }
+        public long JobID { get; set; }
 
         [Column(Name = "DATE_COMPLETED")]
         public DateTime DateCompleted { get; set; }
@@ -358,5 +358,20 @@ namespace DataAccessLayer.Models
         public string CreatedUser { get; set; }
     }
 
-    
+    [Table(Name = "JOBS_AT_HOME_SUMMARY", Database = "medication_taper_database", IsView = true)]
+    public class JobsAtHomeSummaryView
+    {
+        [Column(Name = "JOB_ID")]
+        public long JobID { get; set; }
+
+        [Column(Name = "JOB")]
+        public string Job { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "DATE_COMPLETED")]
+        public DateTime DateCompleted { get; set; }
+
+    }
 }

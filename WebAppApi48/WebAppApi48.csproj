@@ -191,6 +191,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\LearningAimsController.cs" />
     <Compile Include="Controllers\NotesController.cs" />
+    <Compile Include="Controllers\JobsAtHomeController.cs" />
     <Compile Include="Controllers\TableNotesLinksController.cs" />
     <Compile Include="Controllers\PhenomenaController.cs" />
     <Compile Include="Controllers\SleepsController.cs" />
