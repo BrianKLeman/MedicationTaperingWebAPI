@@ -24,6 +24,8 @@ namespace WebAppApi48.Controllers
         public bool BehaviorChange { get; set; } = false;
 
         public long NoteID { get; set; }
+
+        public bool DisplayAsHTML { get; set; } = false;
     }
 
     [RoutePrefix("Api/Notes")]
@@ -69,7 +71,7 @@ namespace WebAppApi48.Controllers
 
             var personID = this.authService.VerifyCredentials(Request);
 
-            return base.Ok(dataAccess.InsertNote(personID, body.dateTime, body.NoteText, body.BehaviorChange));
+            return base.Ok(dataAccess.InsertNote(personID, body.dateTime, body.NoteText, body.BehaviorChange, body.DisplayAsHTML));
         }
 
         [HttpPost]
@@ -86,7 +88,7 @@ namespace WebAppApi48.Controllers
         public IHttpActionResult Update([FromBody] Note body)
         {
             var personID = this.authService.VerifyCredentials(Request);
-            return base.Ok(dataAccess.UpdateNote(personID, body.dateTime, body.NoteText, body.BehaviorChange, body.NoteID));
+            return base.Ok(dataAccess.UpdateNote(personID, body.dateTime, body.NoteText, body.BehaviorChange, body.NoteID, body.DisplayAsHTML));
         }
 
     }

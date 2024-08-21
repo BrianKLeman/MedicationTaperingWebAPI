@@ -126,6 +126,9 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "BEHAVIOR_CHANGE_NEEDED")]
         public int BehaviorChange { get; set; }
+
+        [Column(Name = "DISPLAY_AS_HTML")]
+        public bool DisplayAsHTML { get; set; }
     }
 
     [Table(Name = "PROJECTS", Database = "medication_taper_database")]

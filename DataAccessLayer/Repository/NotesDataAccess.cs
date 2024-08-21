@@ -51,13 +51,13 @@ namespace DataAccessLayer
             }
         }
 
-        public long InsertNote(long personID, DateTime date, string note, bool behaviourChangeNeeded)
+        public long InsertNote(long personID, DateTime date, string note, bool behaviourChangeNeeded, bool displayAsHTML)
         {
             if(personID > 0)
             {
                 using (var c = NewDataConnection())
                 {
-                    return c.Insert<Notes>(new Notes() { PersonID = personID, RecordedDate = date, Text = note, UpdatedUser = "BKL",  BehaviorChange = behaviourChangeNeeded ? 1 : 0});
+                    return c.Insert<Notes>(new Notes() { PersonID = personID, RecordedDate = date, Text = note, UpdatedUser = "BKL",  BehaviorChange = behaviourChangeNeeded ? 1 : 0, DisplayAsHTML = displayAsHTML});
                 }
             }
             return -1;            
@@ -76,7 +76,7 @@ namespace DataAccessLayer
             return -1;
         }
 
-        public long UpdateNote(long personID, DateTime date, string note, bool behaviourChangeNeeded, long noteID)
+        public long UpdateNote(long personID, DateTime date, string note, bool behaviourChangeNeeded, long noteID, bool displayAsHTML)
         {
             if (personID > 0)
             {
@@ -94,6 +94,7 @@ namespace DataAccessLayer
                         n0.RecordedDate = date;
                         n0.Text = note;
                         n0.BehaviorChange = behaviourChangeNeeded ? 1 : 0;
+                        n0.DisplayAsHTML = displayAsHTML;
                         return c.Update<Notes>(n0);
 
                     }
