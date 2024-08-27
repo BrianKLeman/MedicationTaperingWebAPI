@@ -220,9 +220,15 @@ namespace DataAccessLayer.Models
     {
         [Column(Name = "SLEEP_ID", IsPrimaryKey = true)]
         public long SleepID { get; set; }
-
-        [Column(Name = "HOURS")]
-        public decimal? Hours { get; set; }
+        
+        public decimal? Hours
+        {
+            get
+            {
+                var ts = (ToDate - FromDate);
+                return ts.Hours + (decimal)ts.Minutes / (decimal)60;
+            }
+        }
 
         [Column(Name = "PERSON_ID")]
         public long PersonID { get; set; }
