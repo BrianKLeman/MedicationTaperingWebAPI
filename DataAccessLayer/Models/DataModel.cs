@@ -221,7 +221,7 @@ namespace DataAccessLayer.Models
         [Column(Name = "SLEEP_ID", IsPrimaryKey = true)]
         public long SleepID { get; set; }
         
-        public decimal? Hours
+        public decimal Hours
         {
             get
             {
