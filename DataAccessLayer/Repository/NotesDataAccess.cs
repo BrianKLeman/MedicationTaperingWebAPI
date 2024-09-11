@@ -51,13 +51,45 @@ namespace DataAccessLayer
             }
         }
 
-        public long InsertNote(long personID, DateTime date, string note, bool behaviourChangeNeeded, bool displayAsHTML)
+        public long InsertNote(long personID, DateTime date, string note, bool behaviourChangeNeeded, bool displayAsHTML, long entityID, string tableName)
         {
             if(personID > 0)
             {
                 using (var c = NewDataConnection())
                 {
-                    return c.Insert<Notes>(new Notes() { PersonID = personID, RecordedDate = date, Text = note, UpdatedUser = "BKL",  BehaviorChange = behaviourChangeNeeded ? 1 : 0, DisplayAsHTML = displayAsHTML});
+                    var n = new Notes()
+                    {
+                        PersonID = personID,
+                        RecordedDate = date,
+                        Text = note,
+                        UpdatedUser = "BKL",
+                        BehaviorChange = behaviourChangeNeeded ? 1 : 0,
+                        DisplayAsHTML = displayAsHTML
+                    };
+                    var result = c.Insert<Notes>( n);
+
+                    var newNote = from nn in c.GetTable<Notes>()
+                                  where nn.Text == n.Text && nn.RecordedDate == n.RecordedDate && nn.PersonID == n.PersonID
+                                  select nn.NoteID;
+
+                    var noteID = newNote.FirstOrDefault();
+
+                    if(noteID > 0 && !string.IsNullOrWhiteSpace(tableName))
+                    {
+                        result = c.Insert<TableNotesLinks>(
+                        new TableNotesLinks()
+                        {
+                            PersonID = personID,
+                            CreatedDate = DateTime.Now,
+                            NotesID = noteID,
+                            CreatedBy = "BKL",
+                            EntityID = entityID,
+                            Table = tableName
+                        });
+
+                    }
+                    
+
                 }
             }
             return -1;            

@@ -10,7 +10,7 @@ namespace DataAccessLayer
 
         IEnumerable<Notes> GetNotes(long personID, string tableName, long entityID);
 
-        long InsertNote(long personID, DateTime date, string note, bool behaviorChange, bool displayAsHTML);
+        long InsertNote(long personID, DateTime date, string note, bool behaviourChangeNeeded, bool displayAsHTML, long entityID, string tableName);
 
         long DeleteNote(long personID, long noteID);
 

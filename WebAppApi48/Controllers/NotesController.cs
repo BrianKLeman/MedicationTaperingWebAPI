@@ -26,6 +26,10 @@ namespace WebAppApi48.Controllers
         public long NoteID { get; set; }
 
         public bool DisplayAsHTML { get; set; } = false;
+
+        public string TableName { get; set; } = string.Empty;
+
+        public long EntityID { get; set; } = -1;
     }
 
     [RoutePrefix("Api/Notes")]
@@ -71,7 +75,7 @@ namespace WebAppApi48.Controllers
 
             var personID = this.authService.VerifyCredentials(Request);
 
-            return base.Ok(dataAccess.InsertNote(personID, body.dateTime, body.NoteText, body.BehaviorChange, body.DisplayAsHTML));
+            return base.Ok(dataAccess.InsertNote(personID, body.dateTime, body.NoteText, body.BehaviorChange, body.DisplayAsHTML, body.EntityID, body.TableName));
         }
 
         [HttpPost]
