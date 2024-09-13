@@ -213,6 +213,31 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "PRIORITY")]
         public decimal Priority { get; set; }
+
+        [Column(Name = "STATUS")]
+        public string Status { get; set; }
+    }
+
+    [Table(Name = "TABLE_TASK_LINKS", Database = "medication_taper_database")]
+    public class TableTaskLinks
+    {
+        [Column(Name = "TABLE_TASK_LINKS_ID", IsPrimaryKey = true)]
+        public long ID { get; set; }
+
+        [Column(Name = "TABLE_NAME")]
+        [Required]
+        public string TableName { get; set; }
+
+        [Column(Name = "ENTITY_ID")]
+        [Required]
+        public long EntityID { get; set; }
+
+        [Column(Name = "TASK_ID")]
+        [Required]
+        public long TaskID { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        public long PersonID { get; set; }        
     }
 
     [Table(Name = "SLEEPS", Database = "medication_taper_database")]
@@ -342,7 +367,7 @@ namespace DataAccessLayer.Models
         public string Job { get; set; }
 
         [Column(Name = "CREATED_DATE")]
-        public DateTime AppointmentDate { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 
     [Table(Name = "JOBS_AT_HOME_LOG", Database = "medication_taper_database")]
@@ -381,6 +406,5 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "DATE_COMPLETED")]
         public DateTime DateCompleted { get; set; }
-
     }
 }

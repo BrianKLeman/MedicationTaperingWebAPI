@@ -17,7 +17,7 @@ namespace DataAccessLayer
                 {
                     var apps = from n in c.GetTable<JobsAtHome>()
                                where n.PersonID == personID
-                               orderby n.AppointmentDate descending
+                               orderby n.CreatedDate descending
                                select n;
                     return apps.ToList();
                 }
