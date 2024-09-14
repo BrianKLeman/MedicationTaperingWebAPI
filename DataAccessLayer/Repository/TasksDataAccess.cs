@@ -50,5 +50,23 @@ namespace DataAccessLayer
 
             }
         }
+
+        public long UpdateTask(long personID, Tasks t)
+        {
+            using (var c = NewDataConnection())
+            {
+                if (personID > -1 && t.PersonID == personID)
+                {
+                    t.PersonID = personID;
+                    var result = c.Update(t);
+                    
+                    return result;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        }
     }
 }

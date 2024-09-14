@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using DataAccessLayer.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Http;
@@ -40,7 +41,20 @@ namespace WebAppApi48.Controllers
             var personID = this.authService.VerifyCredentials(Request);
             
             return base.Ok(dataAccess.GetTasks(personID, tableName, entityID));
-        }      
+        }
+
+
+        [HttpPost]
+        [Route("Update")]
+        public IHttpActionResult Update([FromBody] Tasks body)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.VerifyCredentials(Request);
+
+            return base.Ok(dataAccess.UpdateTask(personID, body));
+        }
 
     }
 }
