@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
-using System.Web.Http.Filters;
+﻿using System.Web.Http;
+using DataAccessLayer.Models;
+using Microsoft.AspNet.OData.Builder;
+using Microsoft.AspNet.OData.Extensions;
 
 namespace WebAppApi48
 {
-    
+
     public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
@@ -22,7 +21,14 @@ namespace WebAppApi48
                 defaults: new { id = RouteParameter.Optional }
             );
 
-
+            // OData
+            ODataModelBuilder builder = new ODataConventionModelBuilder();
+            builder.EntitySet<ShoppingItems>("ShoppingItems");
+            var edmModel = builder.GetEdmModel();
+            config.MapODataServiceRoute(
+                routeName: "ODataRoute",
+                routePrefix: "odata",                
+                model: edmModel);
         }
     }
 }

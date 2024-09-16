@@ -5,8 +5,13 @@ using System.ComponentModel.DataAnnotations;
 namespace DataAccessLayer.Models
 {
     
+    public interface IPersonID
+    {
+        long PersonID { get; set; }
+    }
+
     [Table(Name = "MEDICATION", Database = "medication_taper_database")]
-    public class Medication
+    public class Medication : IPersonID
     {
         [Column(Name = "MEDICATION_ID", IsPrimaryKey = true)]
         public long MedicationID { get; set; }
@@ -30,14 +35,14 @@ namespace DataAccessLayer.Models
         public decimal DoseTakenMG { get; set; }
 
         [Column(Name = "PERSON_ID")]
-        public long PersonID;
+        public long PersonID { get; set; }
 
         [Column(Name = "DATETIME_CONSUMED")]
         public DateTime DateTimeConsumed { get; set; }
     }
 
     [Table(Name = "PRESCRIPTIONS", Database = "medication_taper_database")]
-    public class Prescription
+    public class Prescription : IPersonID
     {
         [Column(Name = "PRESCRIPTION_ID", IsPrimaryKey = true)]
         public long PrescriptionID { get; set; }
@@ -69,7 +74,7 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "PEOPLE", Database = "medication_taper_database")]
-    public class People
+    public class People : IPersonID
     {
         [Column(Name = "PEOPLE_ID", IsPrimaryKey = true)]
         public long PersonID { get; set; }
@@ -98,7 +103,7 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "NOTES", Database = "medication_taper_database")]
-    public class Notes
+    public class Notes : IPersonID
     {
         [Column(Name = "NOTE_ID", IsPrimaryKey = true)]
         public long NoteID { get; set; }
@@ -132,7 +137,7 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "PROJECTS", Database = "medication_taper_database")]
-    public class Projects
+    public class Projects : IPersonID
     {
         [Column(Name = "PROJECT_ID", IsPrimaryKey = true)]
         public long ProjectID { get; set; }
@@ -163,7 +168,7 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "LEARNING_AIMS", Database = "medication_taper_database")]
-    public class LearningAims
+    public class LearningAims : IPersonID
     {
         [Column(Name = "LEARNING_AIM_ID", IsPrimaryKey = true)]
         public long LearningAimID { get; set; }
@@ -184,8 +189,35 @@ namespace DataAccessLayer.Models
         public DateTime? AchievedDate { get; set; }       
     }
 
+    [System.Serializable]
+    [Table(Name = "SHOPPING_ITEMS", Database = "medication_taper_database")]
+    public class ShoppingItems : IPersonID
+    {
+        [Column(Name = "ITEM_ID", IsPrimaryKey = true)]
+        [PrimaryKey]
+        public long Id { get; set; }        
+
+        [Column(Name = "ITEM_NAME")]
+        public string Name { get; set; }
+
+        [Column(Name = "STATUS", CanBeNull = true)]
+        public string Status { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "DATE_CHECKED", CanBeNull = true)]
+        public DateTime? DateChecked { get; set; }
+
+        [Column(Name = "CREATED_DATE")]
+        public DateTime CreatedDate { get; set; }
+
+        [Column(Name = "CREATED_BY")]
+        public string CreatedBy { get; set; }
+    }
+
     [Table(Name = "TASKS", Database = "medication_taper_database")]
-    public class Tasks
+    public class Tasks : IPersonID
     {
         [Column(Name = "TASK_ID", IsPrimaryKey = true)]
         public long TaskID { get; set; }
@@ -219,7 +251,7 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "TABLE_TASK_LINKS", Database = "medication_taper_database")]
-    public class TableTaskLinks
+    public class TableTaskLinks : IPersonID
     {
         [Column(Name = "TABLE_TASK_LINKS_ID", IsPrimaryKey = true)]
         public long ID { get; set; }
@@ -241,7 +273,7 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "SLEEPS", Database = "medication_taper_database")]
-    public class Sleeps
+    public class Sleeps : IPersonID
     {
         [Column(Name = "SLEEP_ID", IsPrimaryKey = true)]
         public long SleepID { get; set; }
@@ -269,7 +301,7 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "TABLE_NOTES_LINKS", Database = "medication_taper_database")]
-    public class TableNotesLinks
+    public class TableNotesLinks : IPersonID
     {
         [Column(Name = "TABLE_NOTES_LINKS_ID", IsPrimaryKey = true)]
         public long NotesLinksID { get; set; }
@@ -297,7 +329,7 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "PHENOMENA", Database = "medication_taper_database")]
-    public class Phenomena
+    public class Phenomena : IPersonID
     {
         [Column(Name = "PHENOMENA_ID", IsPrimaryKey = true)]
         public long PhenomenaID { get; set; }
@@ -317,7 +349,7 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "AUTH_TOKENS", Database = "medication_taper_database")]
-    public class AuthTokens
+    public class AuthTokens : IPersonID
     {
         [Column(Name = "TOKEN_ID", IsPrimaryKey = true)]
         public long TokenID { get; set; }
@@ -333,7 +365,7 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "APPOINTMENTS", Database = "medication_taper_database")]
-    public class Appointments
+    public class Appointments : IPersonID
     {
         [Column(Name = "APPOINTMENT_ID", IsPrimaryKey = true)]
         public long AppointmentID { get; set; }
@@ -355,7 +387,7 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "JOBS_AT_HOME", Database = "medication_taper_database")]
-    public class JobsAtHome
+    public class JobsAtHome : IPersonID
     {
         [Column(Name = "JOBS_AT_HOME_ID", IsPrimaryKey = true)]
         public long JobsAtHomeID { get; set; }
@@ -371,7 +403,7 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "JOBS_AT_HOME_LOG", Database = "medication_taper_database")]
-    public class JobsAtHomeLog
+    public class JobsAtHomeLog : IPersonID
     {
         [Column(Name = "JOBS_AT_HOME_LOG_ID", IsPrimaryKey = true)]
         public long JobsAtHomeLogID { get; set; }
@@ -393,7 +425,7 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "JOBS_AT_HOME_SUMMARY", Database = "medication_taper_database", IsView = true)]
-    public class JobsAtHomeSummaryView
+    public class JobsAtHomeSummaryView : IPersonID
     {
         [Column(Name = "JOB_ID")]
         public long JobID { get; set; }
