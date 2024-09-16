@@ -22,6 +22,8 @@ namespace WebAppApi48
             );
 
             // OData
+
+            config.Select().Expand().Filter().OrderBy().Count().MaxTop(null);
             ODataModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<ShoppingItems>("ShoppingItems");
             var edmModel = builder.GetEdmModel();
