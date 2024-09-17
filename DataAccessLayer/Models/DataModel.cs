@@ -10,11 +10,16 @@ namespace DataAccessLayer.Models
         long PersonID { get; set; }
     }
 
+    public interface IId
+    {
+        long Id { get; set; }
+    }
+
     [Table(Name = "MEDICATION", Database = "medication_taper_database")]
-    public class Medication : IPersonID
+    public class Medication : IPersonID, IId
     {
         [Column(Name = "MEDICATION_ID", IsPrimaryKey = true)]
-        public long MedicationID { get; set; }
+        public long Id { get; set; }
 
         [Column(Name = "CREATED_DATE", CanBeNull = true)]
         public DateTime? CreatedDate { get; set; }
@@ -42,10 +47,10 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "PRESCRIPTIONS", Database = "medication_taper_database")]
-    public class Prescription : IPersonID
+    public class Prescription : IPersonID, IId
     {
         [Column(Name = "PRESCRIPTION_ID", IsPrimaryKey = true)]
-        public long PrescriptionID { get; set; }
+        public long Id { get; set; }
 
         [Column(Name = "NAME", CanBeNull = true)]
         public string Name { get; set; }        
@@ -74,8 +79,11 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "PEOPLE", Database = "medication_taper_database")]
-    public class People : IPersonID
+    public class People : IPersonID, IId
     {
+        [Column(Name = "PEOPLE_ID", IsPrimaryKey = true)]
+        public long Id { get; set; }
+
         [Column(Name = "PEOPLE_ID", IsPrimaryKey = true)]
         public long PersonID { get; set; }
 
@@ -103,10 +111,10 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "NOTES", Database = "medication_taper_database")]
-    public class Notes : IPersonID
+    public class Notes : IPersonID, IId
     {
         [Column(Name = "NOTE_ID", IsPrimaryKey = true)]
-        public long NoteID { get; set; }
+        public long Id { get; set; }
 
         [Column(Name = "PERSON_ID")]
         public long PersonID { get; set; }
@@ -137,10 +145,10 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "PROJECTS", Database = "medication_taper_database")]
-    public class Projects : IPersonID
+    public class Projects : IPersonID, IId
     {
         [Column(Name = "PROJECT_ID", IsPrimaryKey = true)]
-        public long ProjectID { get; set; }
+        public long Id { get; set; }
 
         [Column(Name = "PERSON_ID")]
         public long PersonID { get; set; }
@@ -168,10 +176,10 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "LEARNING_AIMS", Database = "medication_taper_database")]
-    public class LearningAims : IPersonID
+    public class LearningAims : IPersonID, IId
     {
         [Column(Name = "LEARNING_AIM_ID", IsPrimaryKey = true)]
-        public long LearningAimID { get; set; }
+        public long Id { get; set; }
 
         [Column(Name = "CREATED_DATE")]
         public DateTime CreatedDate { get; set; }
@@ -191,7 +199,7 @@ namespace DataAccessLayer.Models
 
     [System.Serializable]
     [Table(Name = "SHOPPING_ITEMS", Database = "medication_taper_database")]
-    public class ShoppingItems : IPersonID
+    public class ShoppingItems : IPersonID, IId
     {
         [Column(Name = "ITEM_ID", IsPrimaryKey = true)]
         [PrimaryKey]
@@ -217,10 +225,10 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "TASKS", Database = "medication_taper_database")]
-    public class Tasks : IPersonID
+    public class Tasks : IPersonID, IId
     {
         [Column(Name = "TASK_ID", IsPrimaryKey = true)]
-        public long TaskID { get; set; }
+        public long Id { get; set; }
 
         [Column(Name = "TASK_NAME", CanBeNull = true)]
         public string TaskName { get; set; }
@@ -251,10 +259,10 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "TABLE_TASK_LINKS", Database = "medication_taper_database")]
-    public class TableTaskLinks : IPersonID
+    public class TableTaskLinks : IPersonID, IId
     {
         [Column(Name = "TABLE_TASK_LINKS_ID", IsPrimaryKey = true)]
-        public long ID { get; set; }
+        public long Id { get; set; }
 
         [Column(Name = "TABLE_NAME")]
         [Required]
@@ -273,10 +281,10 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "SLEEPS", Database = "medication_taper_database")]
-    public class Sleeps : IPersonID
+    public class Sleeps : IPersonID, IId
     {
         [Column(Name = "SLEEP_ID", IsPrimaryKey = true)]
-        public long SleepID { get; set; }
+        public long Id { get; set; }
         
         public decimal Hours
         {
@@ -301,10 +309,10 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "TABLE_NOTES_LINKS", Database = "medication_taper_database")]
-    public class TableNotesLinks : IPersonID
+    public class TableNotesLinks : IPersonID, IId
     {
         [Column(Name = "TABLE_NOTES_LINKS_ID", IsPrimaryKey = true)]
-        public long NotesLinksID { get; set; }
+        public long Id { get; set; }
 
         [Column(Name = "TABLE")]
         [Required]
@@ -329,10 +337,10 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "PHENOMENA", Database = "medication_taper_database")]
-    public class Phenomena : IPersonID
+    public class Phenomena : IPersonID, IId
     {
         [Column(Name = "PHENOMENA_ID", IsPrimaryKey = true)]
-        public long PhenomenaID { get; set; }
+        public long Id { get; set; }
 
         [Column(Name = "PHENOMENA_DETAILS", CanBeNull = true)]
         public string PhenomenaDetails { get; set; }
@@ -349,10 +357,10 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "AUTH_TOKENS", Database = "medication_taper_database")]
-    public class AuthTokens : IPersonID
+    public class AuthTokens : IPersonID, IId
     {
         [Column(Name = "TOKEN_ID", IsPrimaryKey = true)]
-        public long TokenID { get; set; }
+        public long Id { get; set; }
 
         [Column(Name = "PEOPLE_ID")]
         public long PersonID { get; set; }
@@ -365,10 +373,10 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "APPOINTMENTS", Database = "medication_taper_database")]
-    public class Appointments : IPersonID
+    public class Appointments : IPersonID, IId
     {
         [Column(Name = "APPOINTMENT_ID", IsPrimaryKey = true)]
-        public long AppointmentID { get; set; }
+        public long Id { get; set; }
 
         [Column(Name = "PEOPLE_ID")]
         public long PersonID { get; set; }
@@ -387,10 +395,10 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "JOBS_AT_HOME", Database = "medication_taper_database")]
-    public class JobsAtHome : IPersonID
+    public class JobsAtHome : IPersonID, IId
     {
         [Column(Name = "JOBS_AT_HOME_ID", IsPrimaryKey = true)]
-        public long JobsAtHomeID { get; set; }
+        public long Id { get; set; }
 
         [Column(Name = "PERSON_ID")]
         public long PersonID { get; set; }
@@ -403,10 +411,10 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "JOBS_AT_HOME_LOG", Database = "medication_taper_database")]
-    public class JobsAtHomeLog : IPersonID
+    public class JobsAtHomeLog : IPersonID, IId
     {
         [Column(Name = "JOBS_AT_HOME_LOG_ID", IsPrimaryKey = true)]
-        public long JobsAtHomeLogID { get; set; }
+        public long Id { get; set; }
 
         [Column(Name = "PERSON_ID")]
         public long PersonID { get; set; }
@@ -425,10 +433,10 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "JOBS_AT_HOME_SUMMARY", Database = "medication_taper_database", IsView = true)]
-    public class JobsAtHomeSummaryView : IPersonID
+    public class JobsAtHomeSummaryView : IPersonID, IId
     {
         [Column(Name = "JOB_ID")]
-        public long JobID { get; set; }
+        public long Id { get; set; }
 
         [Column(Name = "JOB")]
         public string Job { get; set; }

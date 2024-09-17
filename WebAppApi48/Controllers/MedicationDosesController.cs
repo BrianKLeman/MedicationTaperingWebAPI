@@ -60,17 +60,17 @@ namespace WebAppApi48.Controllers
             var pres = prescriptions.GetPrescriptions(personID);
 
             return from m in meds
-                   join p in pres on m.PrescriptionId equals p.PrescriptionID
+                   join p in pres on m.PrescriptionId equals p.Id
                    orderby m.DateTimeConsumed descending
                    select new Report
                    {
-                       MedicationID = m.MedicationID,
+                       MedicationID = m.Id,
                        DateTimeConsumed = m.DateTimeConsumed,
                        Name = p.Name,
                        DoseTakenMG = m.DoseTakenMG,
                        DoseMG = p.DoseMG,
                        HalfLifeHrs = p.AverageHalfLifeHours ?? 0,
-                       PrescriptionID = p.PrescriptionID
+                       PrescriptionID = p.Id
                    };
         }
         

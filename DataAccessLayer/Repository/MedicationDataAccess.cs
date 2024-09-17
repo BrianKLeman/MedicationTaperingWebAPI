@@ -35,7 +35,7 @@ namespace DataAccessLayer
             {
 
                 using (var db = NewDataConnection())
-                    return db.Delete<Medication>(new Medication { MedicationID = medicationId, PersonID = personID });
+                    return db.Delete<Medication>(new Medication { Id = medicationId, PersonID = personID });
             }
             else
             {

@@ -37,7 +37,7 @@ namespace DataAccessLayer
                 {
                     var notes = from n in c.GetTable<Notes>()
                                 where n.PersonID == personID
-                                join link in c.GetTable<TableNotesLinks>() on n.NoteID equals link.NotesID
+                                join link in c.GetTable<TableNotesLinks>() on n.Id equals link.NotesID
                                 where link.EntityID == entityID && link.Table == tableName
                                 orderby n.RecordedDate descending
                                 select n;
@@ -70,7 +70,7 @@ namespace DataAccessLayer
 
                     var newNote = from nn in c.GetTable<Notes>()
                                   where nn.Text == n.Text && nn.RecordedDate == n.RecordedDate && nn.PersonID == n.PersonID
-                                  select nn.NoteID;
+                                  select nn.Id;
 
                     var noteID = newNote.FirstOrDefault();
 
@@ -101,7 +101,7 @@ namespace DataAccessLayer
             {
                 using (var c = NewDataConnection())
                 {
-                    return c.Delete<Notes>(new Notes { NoteID = noteID, PersonID = personID });
+                    return c.Delete<Notes>(new Notes { Id = noteID, PersonID = personID });
                 }
             }
 
@@ -116,7 +116,7 @@ namespace DataAccessLayer
                 {
                     // check note belongs to person first.
                     var n = from a in c.GetTable<Notes>()
-                            where a.NoteID == noteID && a.PersonID == personID
+                            where a.Id == noteID && a.PersonID == personID
                             select a;
 
                     // Update and Save Note

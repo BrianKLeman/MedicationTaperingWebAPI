@@ -6,6 +6,7 @@ using WebAppApi48.Services;
 
 using Resolver = System.Web.Mvc.DependencyResolver;
 using System.Web.Http;
+using System.Threading.Tasks;
 
 namespace WebAppApi48.OData.Controllers
 {
@@ -33,13 +34,33 @@ namespace WebAppApi48.OData.Controllers
             return repo.Get(personID);
         }
         
-        [EnableQuery]
-        
+        [EnableQuery]        
         public SingleResult<ShoppingItems> Get([FromODataUri] int key)
         {
             var personID = this.authService.VerifyCredentials(Request);
             IQueryable<ShoppingItems> result = repo.Get(personID).Where(p => p.Id == key);
             return SingleResult.Create(result);
+        }
+
+        public async Task<IHttpActionResult> Put([FromODataUri] int key, ShoppingItems update)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (key != update.Id)
+            {
+                return BadRequest();
+            }
+
+            var personID = this.authService.VerifyCredentials(Request);
+
+            if (personID < 0)
+                return this.Unauthorized();            
+
+            await this.repo.Update(personID, update);
+            
+            return Updated(update);
         }
     }
 }
