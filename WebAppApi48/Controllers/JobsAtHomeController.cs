@@ -37,6 +37,10 @@ namespace WebAppApi48.Controllers
                 return base.BadRequest(ModelState);
 
             var personID = this.authService.VerifyCredentials(Request);
+
+            if (personID <= 0)
+                personID = this.authService.VerifyReadOnlyCredentials(Request);
+
             return Ok(dataAccess.GetsJobsAtHomeSummary(personID));
         }
 

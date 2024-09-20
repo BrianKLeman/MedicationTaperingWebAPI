@@ -23,7 +23,7 @@ namespace WebAppApi48.OData.Controllers
 
         private bool ShoppingItemExists(int key)
         {
-            var personID = this.authService.VerifyCredentials(Request);            
+            var personID = this.authService.VerifyCredentials(Request);  
             return repo.Get(personID).Any(p => p.Id == key);
         }
 
@@ -31,6 +31,8 @@ namespace WebAppApi48.OData.Controllers
         public IQueryable<ShoppingItems> Get()
         {
             var personID = this.authService.VerifyCredentials(Request);
+            if (personID < 0)
+                personID = this.authService.VerifyReadOnlyCredentials(Request);
             return repo.Get(personID);
         }
         

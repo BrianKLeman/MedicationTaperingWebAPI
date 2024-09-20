@@ -43,7 +43,7 @@ namespace WebAppApi48
                     this.Response.Headers.Add("Access-Control-Allow-Methods", this.Response.Headers["Allow"]);
                 if (this.Response.Headers["Allow"] != null)
                 {
-                    this.Response.Headers.Add("Access-Control-Allow-Headers", string.Concat( HeadersConstants.UserID , "," , HeadersConstants.Password, ",", HeadersConstants.ContentType, ",", "Auth-Token" ));
+                    this.Response.Headers.Add("Access-Control-Allow-Headers", string.Concat( HeadersConstants.UserID , "," , HeadersConstants.Password, ",", HeadersConstants.ContentType, ",", "Auth-Token", ",", "auth-token" ));
                 }
             }
             catch ( Exception ex)

@@ -43,9 +43,8 @@ namespace WebAppApi48.Controllers
 
         private IAuthService authService;
         private INotesDataAccess dataAccess;
-
-        [HttpGet()]
-        public IHttpActionResult Notes(DateTime? fromDate, DateTime? toDate)
+        
+        public IHttpActionResult Get(DateTime? fromDate, DateTime? toDate)
         {
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
@@ -55,20 +54,22 @@ namespace WebAppApi48.Controllers
             return base.Ok(dataAccess.GetNotes(personID, fromDate.Value, toDate.Value));
         }
 
-        [HttpGet()]
-        public IHttpActionResult Notes( string tableName, long entityID)
+       
+
+        public IHttpActionResult Get( string tableName, long entityID)
         {
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
             var personID = this.authService.VerifyCredentials(Request);
-            
+
+            if (personID <= 0)
+                personID = this.authService.VerifyReadOnlyCredentials(Request);
+
             return base.Ok(dataAccess.GetNotes(personID, tableName, entityID));
         }
-
-        [HttpPost]
-        [Route("Add")]
-        public IHttpActionResult Add([FromBody] Note body)
+        
+        public IHttpActionResult Post([FromBody] Note body)
         {
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
@@ -77,19 +78,15 @@ namespace WebAppApi48.Controllers
 
             return base.Ok(dataAccess.InsertNote(personID, body.dateTime, body.NoteText, body.BehaviorChange, body.DisplayAsHTML, body.EntityID, body.TableName));
         }
-
-        [HttpPost]
-        [HttpDelete]
-        [Route("Delete/{noteID:long}")]
+        
+        [Route("{noteID:long}")]
         public IHttpActionResult Delete([FromUri] long noteID)
         {
             var personID = this.authService.VerifyCredentials(Request);
             return base.Ok(dataAccess.DeleteNote(personID, noteID));
         }
-
-        [HttpPost]
-        [Route("Update")]
-        public IHttpActionResult Update([FromBody] Note body)
+        
+        public IHttpActionResult Put([FromBody] Note body)
         {
             var personID = this.authService.VerifyCredentials(Request);
             return base.Ok(dataAccess.UpdateNote(personID, body.dateTime, body.NoteText, body.BehaviorChange, body.NoteID, body.DisplayAsHTML));

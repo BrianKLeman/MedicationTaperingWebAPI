@@ -14,7 +14,6 @@ namespace WebAppApi48
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-            routes.MapRoute(name: "MedicationDoses", url: "{controller}/{action}/{medicationId}", defaults: new { controller = "MedicationDoses", medicationId = UrlParameter.Optional, action="Get" });
             
         }
     }

@@ -20,33 +20,35 @@ namespace WebAppApi48.Controllers
 
         private IAuthService authService;
         private ITasksDataAccess dataAccess;
-
-        [HttpGet()]
-        public IHttpActionResult Tasks()
+        
+        public IHttpActionResult Get()
         {
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
             var personID = this.authService.VerifyCredentials(Request);
+
+            if (personID <= 0)
+                personID = this.authService.VerifyReadOnlyCredentials(Request);
 
             return base.Ok(dataAccess.GetTasks(personID));
         }
-
-        [HttpGet()]
-        public IHttpActionResult Tasks(string tableName, long entityID)
+        
+        public IHttpActionResult Get(string tableName, long entityID)
         {
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
             var personID = this.authService.VerifyCredentials(Request);
-            
+
+            if (personID <= 0)
+                personID = this.authService.VerifyReadOnlyCredentials(Request);
+
             return base.Ok(dataAccess.GetTasks(personID, tableName, entityID));
         }
 
-
-        [HttpPost]
-        [Route("Update")]
-        public IHttpActionResult Update([FromBody] Tasks body)
+        
+        public IHttpActionResult Put([FromBody] Tasks body)
         {
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);

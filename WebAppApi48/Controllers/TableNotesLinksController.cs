@@ -34,8 +34,7 @@ namespace WebAppApi48.Controllers
         private IAuthService authService;
         private ITableNotesLinksDataAccess dataAccess;       
         
-        [HttpPost]
-        public IHttpActionResult AddLinks([FromBody] NoteLinks requestModel)
+        public IHttpActionResult Post([FromBody] NoteLinks requestModel)
         {
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);

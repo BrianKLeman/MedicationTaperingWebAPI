@@ -33,8 +33,7 @@ namespace WebAppApi48.Controllers
         public long PrescriptionID { get; set; }
     }
 
-    [RoutePrefix("MedicationDoses")]
-    [Route("{action=History}")]
+    [RoutePrefix("Api/MedicationDoses")]
     public class MedicationDosesController : ApiController
     {
 
@@ -48,13 +47,10 @@ namespace WebAppApi48.Controllers
         private IAuthService authService;
         private IMedicationDataAccess dataAccess;
         private IPrescriptionDataAccess prescriptions;
-
-        [HttpGet]
-        public IEnumerable<Report> History()
+        
+        public IEnumerable<Report> Get()
         {
-            var personID = this.authService.VerifyCredentials(Request);
-            if (personID < 0)
-                personID = this.authService.VerifyReadOnlyCredentials(Request);
+            var personID = this.authService.VerifyCredentials(Request);            
 
             var meds = dataAccess.GetMedication(personID);
             var pres = prescriptions.GetPrescriptions(personID);
@@ -75,9 +71,7 @@ namespace WebAppApi48.Controllers
         }
         
         
-        [Route("Delete/{medicationId:int}")]
-        [HttpPost]
-        [HttpDelete]
+        [Route("{medicationId:int}")]
         public IHttpActionResult Delete([FromUri] [Required]int medicationId)
         {
             if (ModelState.IsValid == false)
@@ -89,10 +83,9 @@ namespace WebAppApi48.Controllers
             dataAccess.Delete(personID,medicationId);
             return base.Ok();
         }
+        
 
-        [Route("Add")]
-        [HttpPost]
-        public IHttpActionResult Add([FromBody][Required] MedDose dose)
+        public IHttpActionResult Post([FromBody][Required] MedDose dose)
         {
             if (ModelState.IsValid == false)
                 return BadRequest(ModelState);
