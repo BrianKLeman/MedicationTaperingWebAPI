@@ -32,14 +32,24 @@ namespace WebAppApi48.OData.Controllers
         {
             var personID = this.authService.VerifyCredentials(Request);
             if (personID < 0)
+            {
                 personID = this.authService.VerifyReadOnlyCredentials(Request);
-            return repo.Get(personID);
+                return repo.Get(personID).Where( x => x.Personal == 0);
+            }
+            else
+                return repo.Get(personID);
         }
         
         [EnableQuery]        
         public SingleResult<ShoppingItems> Get([FromODataUri] int key)
         {
             var personID = this.authService.VerifyCredentials(Request);
+
+            if(personID <= 0)
+            {
+                personID = this.authService.VerifyReadOnlyCredentials(Request);
+                return SingleResult.Create(repo.Get(personID).Where(x => x.Personal == 0 && x.Id == key));
+            }
             IQueryable<ShoppingItems> result = repo.Get(personID).Where(p => p.Id == key);
             return SingleResult.Create(result);
         }

@@ -9,15 +9,16 @@ namespace DataAccessLayer
 {
     public class TasksDataAccess : DataAccessBase, ITasksDataAccess
     {       
-        public IEnumerable<Tasks> GetTasks(long personID)
+        public IEnumerable<Tasks> GetTasks(long personID, bool includePersonal)
         {
+            int personal = includePersonal ? 1 : 0;
             using (var c = NewDataConnection())
             {
                 if(personID > -1)
                 {
                     var notes = from n in c.GetTable<Tasks>()
-                            where n.PersonID == personID 
-                            orderby n.CreatedDate descending
+                            where n.PersonID == personID && (personal == 1 || n.Personal == personal)
+                                orderby n.CreatedDate descending
                             select n;
                     return notes.ToList();
                 }
@@ -29,14 +30,15 @@ namespace DataAccessLayer
             }                
         }
 
-        public IEnumerable<Tasks> GetTasks(long personID, string tableName, long entityID)
+        public IEnumerable<Tasks> GetTasks(long personID, string tableName, long entityID, bool includePersonal)
         {
+            int personal = includePersonal ? 1 : 0;
             using (var c = NewDataConnection())
             {
                 if (personID > -1)
                 {
                     var tasks = from n in c.GetTable<Tasks>()
-                                where n.PersonID == personID
+                                where n.PersonID == personID && (personal == 1 || n.Personal == personal)
                                 join l in c.GetTable<TableTaskLinks>() on n.Id equals l.TaskID
                                 where ( l.PersonID == personID && l.TableName == tableName && l.EntityID == entityID)
                                 orderby n.CreatedDate descending

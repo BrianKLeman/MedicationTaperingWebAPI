@@ -6,9 +6,9 @@ namespace DataAccessLayer
 {
     public interface ITasksDataAccess
     {
-        IEnumerable<Tasks> GetTasks(long personID);
+        IEnumerable<Tasks> GetTasks(long personID, bool includePersonal);
 
-        IEnumerable<Tasks> GetTasks(long personID, string tableName, long entityID);
+        IEnumerable<Tasks> GetTasks(long personID, string tableName, long entityID, bool includePersonal);
 
         long UpdateTask(long personID, Tasks t);
         

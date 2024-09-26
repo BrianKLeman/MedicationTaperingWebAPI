@@ -27,11 +27,11 @@ namespace WebAppApi48.Controllers
                 return base.BadRequest(ModelState);
 
             var personID = this.authService.VerifyCredentials(Request);
-
+            bool includePersonal = personID > 0;
             if (personID <= 0)
                 personID = this.authService.VerifyReadOnlyCredentials(Request);
 
-            return base.Ok(dataAccess.GetTasks(personID));
+            return base.Ok(dataAccess.GetTasks(personID, includePersonal));
         }
         
         public IHttpActionResult Get(string tableName, long entityID)
@@ -40,11 +40,11 @@ namespace WebAppApi48.Controllers
                 return base.BadRequest(ModelState);
 
             var personID = this.authService.VerifyCredentials(Request);
-
+            bool includePersonal = personID > 0;
             if (personID <= 0)
                 personID = this.authService.VerifyReadOnlyCredentials(Request);
 
-            return base.Ok(dataAccess.GetTasks(personID, tableName, entityID));
+            return base.Ok(dataAccess.GetTasks(personID, tableName, entityID, includePersonal));
         }
 
         

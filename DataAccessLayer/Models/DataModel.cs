@@ -194,7 +194,8 @@ namespace DataAccessLayer.Models
         public long PersonID { get; set; }
 
         [Column(Name = "ACHIEVED_DATE", CanBeNull = true)]
-        public DateTime? AchievedDate { get; set; }       
+        public DateTime? AchievedDate { get; set; }   
+        
     }
 
     [System.Serializable]
@@ -222,6 +223,10 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "CREATED_BY")]
         public string CreatedBy { get; set; }
+
+
+        [Column(Name = "PERSONAL")]
+        public int Personal { get; set; }
     }
 
     [Table(Name = "TASKS", Database = "medication_taper_database")]
@@ -256,6 +261,9 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "STATUS")]
         public string Status { get; set; }
+
+        [Column(Name = "PERSONAL")]
+        public int Personal { get; set; }
     }
 
     [Table(Name = "TABLE_TASK_LINKS", Database = "medication_taper_database")]
