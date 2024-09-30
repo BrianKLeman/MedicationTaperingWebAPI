@@ -23,7 +23,7 @@ namespace WebAppApi48.Controllers
 
     public class Report
     {
-        public long MedicationID { get; set; }
+        public long Id { get; set; }
         public DateTime DateTimeConsumed { get; set; }
         public string Name { get; set; }
         public decimal DoseTakenMG { get; set; }
@@ -60,7 +60,7 @@ namespace WebAppApi48.Controllers
                    orderby m.DateTimeConsumed descending
                    select new Report
                    {
-                       MedicationID = m.Id,
+                       Id = m.Id,
                        DateTimeConsumed = m.DateTimeConsumed,
                        Name = p.Name,
                        DoseTakenMG = m.DoseTakenMG,
