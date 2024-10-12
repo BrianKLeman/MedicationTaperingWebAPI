@@ -15,6 +15,10 @@ namespace DataAccessLayer
             {
                 if(personID > -1)
                 {
+                    // Force from date and to date to be beginning and end of day.
+                    fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0);
+                    toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, 999);
+
                     var notes = from n in c.GetTable<Notes>()
                             where n.PersonID == personID && fromDate < n.RecordedDate && toDate > n.RecordedDate
                             orderby n.RecordedDate descending

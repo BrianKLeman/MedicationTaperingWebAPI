@@ -50,8 +50,8 @@ namespace WebAppApi48.Controllers
                 return base.BadRequest(ModelState);
 
             var personID = this.authService.VerifyCredentials(Request);
-            
-            return base.Ok(dataAccess.GetNotes(personID, fromDate.Value, toDate.Value));
+            var results = dataAccess.GetNotes(personID, fromDate.Value, toDate.Value);
+            return base.Ok(results);
         }
 
        

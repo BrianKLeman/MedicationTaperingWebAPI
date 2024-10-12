@@ -41,9 +41,10 @@ namespace DataAccessLayer
                                 where n.PersonID == personID && (personal == 1 || n.Personal == personal)
                                 join l in c.GetTable<TableTaskLinks>() on n.Id equals l.TaskID
                                 where ( l.PersonID == personID && l.TableName == tableName && l.EntityID == entityID)
+                                
                                 orderby n.CreatedDate descending
                                 select n;
-                    return tasks.ToList();
+                    return tasks.ToList().GroupBy(x => x.Id).Select( x => x.First()).ToList();
                 }
                 else
                 {
@@ -62,6 +63,26 @@ namespace DataAccessLayer
                     t.PersonID = personID;
                     var result = c.Update(t);
                     
+                    return result;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        }
+
+        public long CreateTask(long personID, Tasks t)
+        {
+            using (var c = NewDataConnection())
+            {
+                if (personID > -1 && (t.PersonID == 0 || t.PersonID == personID))
+                {
+                    t.Id = 0; // I think setting the task id to zero will make
+                                // it get an id by default.
+                    t.PersonID = personID;
+                    var result = c.Insert(t);
+
                     return result;
                 }
                 else

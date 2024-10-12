@@ -58,5 +58,18 @@ namespace WebAppApi48.Controllers
             return base.Ok(dataAccess.UpdateTask(personID, body));
         }
 
+        public IHttpActionResult Post([FromBody] Tasks body)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.VerifyCredentials(Request);
+
+            if (personID < 1)
+                return Unauthorized();
+
+            return base.Ok(dataAccess.CreateTask(personID, body));
+        }
+
     }
 }

@@ -218,8 +218,8 @@ namespace DataAccessLayer.Models
         [Column(Name = "DATE_CHECKED", CanBeNull = true)]
         public DateTime? DateChecked { get; set; }
 
-        [Column(Name = "CREATED_DATE")]
-        public DateTime CreatedDate { get; set; }
+        [Column(Name = "CREATED_DATE", CanBeNull = true)]
+        public DateTime? CreatedDate { get; set; }
 
         [Column(Name = "CREATED_BY")]
         public string CreatedBy { get; set; }
@@ -239,7 +239,7 @@ namespace DataAccessLayer.Models
         public string TaskName { get; set; }
 
         [Column(Name = "CREATED_DATE")]
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         [Column(Name = "CREATED_BY")]
         public string CreatedBy { get; set; }
@@ -248,7 +248,7 @@ namespace DataAccessLayer.Models
         public long PersonID { get; set; }
 
         [Column(Name = "DUE_DATE")]
-        public DateTime DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
 
         [Column(Name = "DESCRIPTION", CanBeNull = true)]
         public string Description { get; set; }

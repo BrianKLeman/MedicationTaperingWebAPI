@@ -30,6 +30,7 @@ namespace WebAppApi48
             container.RegisterType<IJobsAtHomeViewsDataAccess, JobsAtHomeViewsDataAccess>();
             container.RegisterType<IJobsAtHomeLogDataAccess, JobsAtHomeLogDataAccess>();
             container.RegisterType<ITasksDataAccess, TasksDataAccess>();
+            container.RegisterType<ITableTasksLinksDataAccess, TaskLinksDataAccess>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             
