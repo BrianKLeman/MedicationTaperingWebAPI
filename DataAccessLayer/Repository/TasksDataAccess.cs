@@ -83,7 +83,10 @@ namespace DataAccessLayer
                     t.PersonID = personID;
                     var result = c.Insert(t);
 
-                    return result;
+                    var tasks = from n in c.GetTable<Tasks>()
+                    where n.TaskName == t.TaskName && n.PersonID == personID
+                    select n;
+                    return tasks.Max<Tasks>( (x) => x.Id);
                 }
                 else
                 {

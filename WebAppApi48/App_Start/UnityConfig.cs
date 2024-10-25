@@ -1,5 +1,4 @@
 using DataAccessLayer;
-using DataAccessLayer.GameAnalyticsRepository;
 using DataAccessLayer.Repository;
 using System.Web.Mvc;
 using Unity;

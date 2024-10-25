@@ -1,5 +1,4 @@
 ﻿using System.Web.Http;
-using DataAccessLayer.GameAnalytics;
 using DataAccessLayer.Models;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;

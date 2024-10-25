@@ -68,7 +68,7 @@ namespace WebAppApi48.Controllers
             if (personID < 1)
                 return Unauthorized();
 
-            return base.Ok(dataAccess.CreateTask(personID, body));
+            return base.Ok<long>(dataAccess.CreateTask(personID, body));
         }
 
         public IHttpActionResult Delete([FromBody] Tasks body)
