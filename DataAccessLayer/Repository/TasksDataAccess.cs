@@ -91,5 +91,29 @@ namespace DataAccessLayer
                 }
             }
         }
+
+        public long DeleteTask(long personID, Tasks t)
+        {
+            using (var c = NewDataConnection())
+            {
+                if (personID > -1 && (t.PersonID == 0 || t.PersonID == personID))
+                {
+                    // Check task with same id belongs to same person
+                    var tasks = from task in c.GetTable<Tasks>()
+                                where task.PersonID == personID && t.Id == task.Id
+                                select task;
+
+                    var result = -1;
+                    foreach (var task in tasks.ToList())
+                        result = c.Delete(task);
+
+                    return result;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        }
     }
 }

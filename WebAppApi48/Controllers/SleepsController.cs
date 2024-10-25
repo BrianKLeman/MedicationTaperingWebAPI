@@ -9,7 +9,6 @@ using Resolver = System.Web.Mvc.DependencyResolver;
 namespace WebAppApi48.Controllers
 {
     [RoutePrefix("Api/Sleeps")]
-    [Route("{action=Get}")]
     public class SleepsController : ApiController
     {
         public SleepsController()
@@ -25,6 +24,42 @@ namespace WebAppApi48.Controllers
             var personID = this.authService.VerifyCredentials(Request);
             return dataAccess.GetSleeps(personID);
         }
-        
+
+        public IHttpActionResult Put([FromBody] Sleeps body)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.VerifyCredentials(Request);
+
+            return base.Ok(dataAccess.UpdateSleeps(personID, body));
+        }
+
+        public IHttpActionResult Post([FromBody] Sleeps body)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.VerifyCredentials(Request);
+
+            if (personID < 1)
+                return Unauthorized();
+
+            return base.Ok(dataAccess.CreateSleeps(personID, body));
+        }
+
+        public IHttpActionResult Delete([FromBody] Sleeps body)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.VerifyCredentials(Request);
+
+            if (personID < 1)
+                return Unauthorized();
+
+            return base.Ok(dataAccess.DeleteSleeps(personID, body));
+        }
+
     }
 }

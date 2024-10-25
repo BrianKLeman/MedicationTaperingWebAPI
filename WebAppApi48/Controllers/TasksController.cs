@@ -71,5 +71,18 @@ namespace WebAppApi48.Controllers
             return base.Ok(dataAccess.CreateTask(personID, body));
         }
 
+        public IHttpActionResult Delete([FromBody] Tasks body)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.VerifyCredentials(Request);
+
+            if (personID < 1)
+                return Unauthorized();
+
+            return base.Ok(dataAccess.DeleteTask(personID, body));
+        }
+
     }
 }

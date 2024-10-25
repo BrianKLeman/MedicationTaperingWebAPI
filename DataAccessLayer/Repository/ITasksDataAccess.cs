@@ -13,5 +13,7 @@ namespace DataAccessLayer
         long UpdateTask(long personID, Tasks t);
 
         long CreateTask(long personID, Tasks t);
+
+        long DeleteTask(long personID, Tasks t);
     }
 }

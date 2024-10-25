@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using DataAccessLayer.GameAnalytics;
 using DataAccessLayer.Models;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
@@ -22,7 +23,7 @@ namespace WebAppApi48
             );
 
             // OData
-
+            
             config.Select().Expand().Filter().OrderBy().Count().MaxTop(null);
             ODataModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<ShoppingItems>("ShoppingItems");
@@ -30,7 +31,7 @@ namespace WebAppApi48
             config.MapODataServiceRoute(
                 routeName: "ODataRoute",
                 routePrefix: "odata",                
-                model: edmModel);
+                model: edmModel);                
         }
     }
 }

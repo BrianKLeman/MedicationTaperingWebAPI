@@ -15,6 +15,8 @@ namespace DataAccessLayer.Models
         long Id { get; set; }
     }
 
+    
+
     [Table(Name = "MEDICATION", Database = "medication_taper_database")]
     public class Medication : IPersonID, IId
     {
@@ -440,7 +442,7 @@ namespace DataAccessLayer.Models
         public string CreatedUser { get; set; }
     }
 
-    [Table(Name = "JOBS_AT_HOME_SUMMARY", Database = "medication_taper_database", IsView = true)]
+    [Table(Name = "JOBS_AT_HOME_SUMMARY", Database = "medication_taper_database")]
     public class JobsAtHomeSummaryView : IPersonID, IId
     {
         [Column(Name = "JOB_ID")]
@@ -455,4 +457,6 @@ namespace DataAccessLayer.Models
         [Column(Name = "DATE_COMPLETED")]
         public DateTime DateCompleted { get; set; }
     }
+
+   
 }

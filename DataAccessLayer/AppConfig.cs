@@ -30,6 +30,16 @@ namespace DataAccessLayer
             return ConfigurationManager.AppSettings.Get("databaseUserName");
         }
 
+        public static string GetGameAnalyticsUserName()
+        {
+            return ConfigurationManager.AppSettings.Get("gameAnalyticsDatabaseUserName");
+        }
+
+        public static string GetGameAnalyticsDatabaseName()
+        {
+            return ConfigurationManager.AppSettings.Get("gameAnalyticsDatabaseName");
+        }
+
         public static string GetPassword()
         {
             return ConfigurationManager.AppSettings.Get("databasePassword");
