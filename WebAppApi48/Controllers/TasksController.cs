@@ -16,10 +16,12 @@ namespace WebAppApi48.Controllers
         {
             this.authService = Resolver.Current.GetService(typeof(IAuthService)) as IAuthService;
             this.dataAccess = Resolver.Current.GetService(typeof(ITasksDataAccess)) as ITasksDataAccess;
+            this.groupsDataAccess = Resolver.Current.GetService(typeof(IGroupsDataAccess)) as IGroupsDataAccess;
         }
 
         private IAuthService authService;
         private ITasksDataAccess dataAccess;
+        private IGroupsDataAccess groupsDataAccess;
         
         public IHttpActionResult Get()
         {

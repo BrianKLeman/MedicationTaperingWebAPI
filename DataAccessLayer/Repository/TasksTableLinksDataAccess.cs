@@ -28,6 +28,40 @@ namespace DataAccessLayer
             return -1;            
         }
 
-       
+        public IEnumerable<TableTaskLinks> Select(long personID, long[] taskIDs, string tableName, long entityID)
+        {
+            List<TableTaskLinks> result = new List<TableTaskLinks>();
+            if (personID > 0)
+            {
+                using (var c = NewDataConnection())
+                {
+                    foreach (var id in taskIDs)
+                    {
+                        result.AddRange(c.GetTable<TableTaskLinks>().
+                            Where( x => x.EntityID == entityID && x.PersonID == personID && x.TableName == tableName && x.TaskID == id));
+
+                    }
+                }
+            }
+            return result;
+        }
+
+        public IEnumerable<TableTaskLinks> Select(long personID, long[] taskIDs, string tableName)
+        {
+            List<TableTaskLinks> result = new List<TableTaskLinks>();
+            if (personID > 0)
+            {
+                using (var c = NewDataConnection())
+                {
+                    foreach (var id in taskIDs)
+                    {
+                        result.AddRange(c.GetTable<TableTaskLinks>().
+                            Where(x => x.PersonID == personID && x.TableName == tableName && x.TaskID == id));
+
+                    }
+                }
+            }
+            return result;
+        }
     }
 }

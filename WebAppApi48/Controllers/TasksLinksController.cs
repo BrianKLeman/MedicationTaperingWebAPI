@@ -40,5 +40,20 @@ namespace WebAppApi48.Controllers
             return Ok(dataAccess.Insert(personID, requestModel.TaskIDs, requestModel.Table, requestModel.EntityID));
         }
 
+        [Route("GetGroups")]
+        [HttpPost]
+        public IHttpActionResult GetGroups([FromBody] TaskLinks requestModel)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.VerifyCredentials(Request);
+
+            if(requestModel.EntityID == 0)
+                return Ok(dataAccess.Select(personID, requestModel.TaskIDs, requestModel.Table));
+            else
+                return Ok(dataAccess.Select(personID, requestModel.TaskIDs, requestModel.Table, requestModel.EntityID));
+        }
+
     }
 }

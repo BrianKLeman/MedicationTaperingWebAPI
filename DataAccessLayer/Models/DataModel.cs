@@ -458,5 +458,16 @@ namespace DataAccessLayer.Models
         public DateTime DateCompleted { get; set; }
     }
 
-   
+    [Table(Name = "GROUPS", Database = "medication_taper_database")]
+    public class Groups : IId, IPersonID
+    {
+        [Column(Name="ID")]
+        public long Id { get; set; }
+
+        [Column(Name="PERSON_ID")]
+        public long PersonID { get; set; }  
+        
+        [Column(Name="NAME")]
+        public string Name { get; set; }
+    }
 }

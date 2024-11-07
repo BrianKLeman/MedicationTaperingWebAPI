@@ -253,6 +253,7 @@
     <Compile Include="Controllers\MedicationDosesController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\LearningAimsController.cs" />
+    <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\TasksLinksController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\NotesController.cs" />
