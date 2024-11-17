@@ -18,7 +18,12 @@ namespace DataAccessLayer
             {
                 using (var c = NewDataConnection())
                 {
-                    foreach (var id in taskIDs)
+                    // Filter out task ids with links that already exist.
+                    var idsThatAlreadyExist = (from t in c.GetTable<TableTaskLinks>()
+                                              where t.EntityID == entity_id && t.TableName.Trim() == table_name.Trim() && t.PersonID == personID
+                                              select t.TaskID).ToList();
+                    // Insert tasks.
+                    foreach (var id in taskIDs.Where( x => idsThatAlreadyExist.Contains(x) == false))
                     {
                         result = c.Insert<TableTaskLinks>(new TableTaskLinks() { PersonID = personID, TaskID = id, EntityID = entity_id, TableName = table_name });
                         
