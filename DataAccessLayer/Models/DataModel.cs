@@ -266,6 +266,12 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "PERSONAL")]
         public int Personal { get; set; }
+
+        [Column(Name = "DIFFICULTY")]
+        public int Difficulty { get; set; }
+
+        [Column(Name = "REQUIRES_LEARNING")]
+        public int RequiresLearning { get; set; }
     }
 
     [Table(Name = "TABLE_TASK_LINKS", Database = "medication_taper_database")]
