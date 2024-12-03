@@ -476,4 +476,30 @@ namespace DataAccessLayer.Models
         [Column(Name="NAME")]
         public string Name { get; set; }
     }
+
+    [Table(Name = "ALCOHOL", Database = "medication_taper_database")]
+    public class Alcohol : IId, IPersonID
+    {
+        [Column(Name = "ALCOHOL_ID")]
+        public long Id { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "DETAILS")]
+        public string Details { get; set; }
+
+        [Column(Name = "CREATED_DATE")]
+        public DateTime CreatedDate { get; set; }
+
+        [Column(Name = "CREATED_USER")]
+        public string CreatedUser { get; set; }
+
+        [Column(Name = "CONSUMED_DATE")]
+        public DateTime ConsumedDate { get; set; }
+
+        [Column(Name = "PERSONAL")]
+        public int Personal { get; set; }
+
+    }
 }
