@@ -500,6 +500,27 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "PERSONAL")]
         public int Personal { get; set; }
+    }
 
+    [Table(Name = "SPRINTS", Database = "medication_taper_database")]
+    public class Sprint : IId, IPersonID
+    {
+        [Column(Name = "ID")]
+        public long Id { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "NAME")]
+        public string Name { get; set; }
+
+        [Column(Name = "DESCRIPTION")]
+        public string Description { get; set; }
+
+        [Column(Name = "START_DATE")]
+        public DateTime? StartDate { get; set; }
+
+        [Column(Name = "END_DATE")]
+        public DateTime? EndDate { get; set; }        
     }
 }

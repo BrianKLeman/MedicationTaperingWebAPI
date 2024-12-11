@@ -27,6 +27,7 @@ namespace WebAppApi48
             ODataModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<ShoppingItems>("ShoppingItems");
             builder.EntitySet<Alcohol>("Alcohol");
+            builder.EntitySet<Sprint>("Sprints");
             var edmModel = builder.GetEdmModel();
             config.MapODataServiceRoute(
                 routeName: "ODataRoute",

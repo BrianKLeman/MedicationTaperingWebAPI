@@ -267,6 +267,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ODataControllers\AlcoholController.cs" />
+    <Compile Include="ODataControllers\SprintController.cs" />
     <Compile Include="ODataControllers\ShoppingItemController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthService.cs" />
