@@ -9,7 +9,7 @@ namespace DataAccessLayer
     public class ProjectsDataAccess : DataAccessBase, IProjectsDataAccess
     {     
 
-        public IEnumerable<Projects> GetProjects(long personID)
+        public IEnumerable<Projects> GetProjects(long personID, bool includePersonal)
         {
             using (var c = NewDataConnection())
             {
@@ -17,7 +17,7 @@ namespace DataAccessLayer
                 if (personID > -1)
                 {
                     var projects = from p in c.GetTable<Projects>()
-                                        where p.PersonID == personID
+                                        where p.PersonID == personID && (includePersonal || p.Personal != 1)
                                         select p;
 
                     return projects.ToList();

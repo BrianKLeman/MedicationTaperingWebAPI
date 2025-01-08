@@ -7,7 +7,7 @@ namespace DataAccessLayer
     public interface IProjectsDataAccess
     {      
 
-        IEnumerable<Projects> GetProjects(long personID);
+        IEnumerable<Projects> GetProjects(long personID, bool includePersonal);
         
     }
 }

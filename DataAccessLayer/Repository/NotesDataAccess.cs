@@ -9,7 +9,7 @@ namespace DataAccessLayer
 {
     public class NotesDataAccess : DataAccessBase, INotesDataAccess
     {       
-        public IEnumerable<Notes> GetNotes(long personID, DateTime fromDate, DateTime toDate)
+        public IEnumerable<Notes> GetNotes(long personID, DateTime fromDate, DateTime toDate, bool includePersonal)
         {
             using (var c = NewDataConnection())
             {
@@ -20,8 +20,8 @@ namespace DataAccessLayer
                     toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, 999);
 
                     var notes = from n in c.GetTable<Notes>()
-                            where n.PersonID == personID && fromDate < n.RecordedDate && toDate > n.RecordedDate
-                            orderby n.RecordedDate descending
+                            where n.PersonID == personID && fromDate < n.RecordedDate && toDate > n.RecordedDate && (includePersonal || n.Personal != 1)
+                                orderby n.RecordedDate descending
                             select n;
                     return notes.ToList();
                 }
@@ -33,14 +33,14 @@ namespace DataAccessLayer
             }                
         }
 
-        public IEnumerable<Notes> GetNotes(long personID, string tableName, long entityID)
+        public IEnumerable<Notes> GetNotes(long personID, string tableName, long entityID, bool includePersonal)
         {
             using (var c = NewDataConnection())
             {
                 if (personID > -1)
                 {
                     var notes = from n in c.GetTable<Notes>()
-                                where n.PersonID == personID
+                                where n.PersonID == personID && (includePersonal || n.Personal != 1)
                                 join link in c.GetTable<TableNotesLinks>() on n.Id equals link.NotesID
                                 where link.EntityID == entityID && link.Table == tableName
                                 orderby n.RecordedDate descending
@@ -68,7 +68,8 @@ namespace DataAccessLayer
                         Text = note,
                         UpdatedUser = "BKL",
                         BehaviorChange = behaviourChangeNeeded ? 1 : 0,
-                        DisplayAsHTML = displayAsHTML
+                        DisplayAsHTML = displayAsHTML,
+                        Personal = 1 // Put as personal by default now.
                     };
                     var result = c.Insert<Notes>( n);
 

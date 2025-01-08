@@ -50,7 +50,7 @@ namespace WebAppApi48.Controllers
                 return base.BadRequest(ModelState);
 
             var personID = this.authService.VerifyCredentials(Request);
-            var results = dataAccess.GetNotes(personID, fromDate.Value, toDate.Value);
+            var results = dataAccess.GetNotes(personID, fromDate.Value, toDate.Value, personID > 0);
             return base.Ok(results);
         }
 
@@ -62,11 +62,14 @@ namespace WebAppApi48.Controllers
                 return base.BadRequest(ModelState);
 
             var personID = this.authService.VerifyCredentials(Request);
-
+            bool includePersonal = personID > 0;
             if (personID <= 0)
-                personID = this.authService.VerifyReadOnlyCredentials(Request);
+            {
 
-            return base.Ok(dataAccess.GetNotes(personID, tableName, entityID));
+                personID = this.authService.VerifyReadOnlyCredentials(Request);
+            }
+
+            return base.Ok(dataAccess.GetNotes(personID, tableName, entityID, includePersonal));
         }
         
         public IHttpActionResult Post([FromBody] Note body)

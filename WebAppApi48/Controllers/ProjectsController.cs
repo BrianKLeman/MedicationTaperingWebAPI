@@ -23,11 +23,11 @@ namespace WebAppApi48.Controllers
         public IEnumerable<Projects> Get()
         {
             var personID = this.authService.VerifyCredentials(Request);
-
+            bool includePersonal = personID > 0;
             if (personID <= 0)
                 personID = this.authService.VerifyReadOnlyCredentials(Request);
 
-            return dataAccess.GetProjects(personID);
+            return dataAccess.GetProjects(personID, includePersonal);
         }
         
     }

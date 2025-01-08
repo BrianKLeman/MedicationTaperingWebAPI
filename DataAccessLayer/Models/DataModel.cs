@@ -144,6 +144,10 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "DISPLAY_AS_HTML")]
         public bool DisplayAsHTML { get; set; }
+
+
+        [Column(Name = "PERSONAL")]
+        public int Personal { get; set; }
     }
 
     [Table(Name = "PROJECTS", Database = "medication_taper_database")]
@@ -175,6 +179,9 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "END_DATE", CanBeNull = true)]
         public DateTime? EndDate { get; set; }
+
+        [Column(Name = "PERSONAL")]
+        public int Personal { get; set; }
     }
 
     [Table(Name = "LEARNING_AIMS", Database = "medication_taper_database")]
@@ -271,7 +278,7 @@ namespace DataAccessLayer.Models
         public int Difficulty { get; set; }
 
         [Column(Name = "REQUIRES_LEARNING")]
-        public int RequiresLearning { get; set; }
+        public int RequiresLearning { get; set; }        
     }
 
     [Table(Name = "TABLE_TASK_LINKS", Database = "medication_taper_database")]

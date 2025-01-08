@@ -6,9 +6,9 @@ namespace DataAccessLayer
 {
     public interface INotesDataAccess
     {
-        IEnumerable<Notes> GetNotes(long personID, DateTime fromDate, DateTime toDate);
+        IEnumerable<Notes> GetNotes(long personID, DateTime fromDate, DateTime toDate, bool includePersonal);
 
-        IEnumerable<Notes> GetNotes(long personID, string tableName, long entityID);
+        IEnumerable<Notes> GetNotes(long personID, string tableName, long entityID, bool includePersonal);
 
         long InsertNote(long personID, DateTime date, string note, bool behaviourChangeNeeded, bool displayAsHTML, long entityID, string tableName);
 
