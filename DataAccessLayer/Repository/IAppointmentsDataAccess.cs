@@ -7,13 +7,11 @@ namespace DataAccessLayer
     public interface IAppointmentsDataAccess
     {
         IEnumerable<Appointments> GetAppointments(long personID);
+        long InsertAppointment(long personID, Appointments appointment);
+        long UpdateAppointment(long personID, Appointments appointment);
 
-        //TODO Implement
-        //long InsertNote(long personID, DateTime date, string note, bool behaviorChange);
-
-        //long DeleteNote(long personID, long noteID);
-
-        //long UpdateNote(long personID, DateTime date, string note, bool behaviorChange, long noteID);
+        
+        long DeleteAppointment(long personID, long appointmentID);
         
     }
 }

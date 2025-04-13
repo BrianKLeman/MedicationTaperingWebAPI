@@ -134,7 +134,7 @@ namespace DataAccessLayer.Models
         public string UpdatedUser { get; set; }
 
         [Column(Name = "UPDATED_DATE")]
-        public DateTime UpdatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
 
         [Column(Name = "RECORDED_DATE")]
         public DateTime RecordedDate { get; set; }
@@ -278,7 +278,10 @@ namespace DataAccessLayer.Models
         public int Difficulty { get; set; }
 
         [Column(Name = "REQUIRES_LEARNING")]
-        public int RequiresLearning { get; set; }        
+        public int RequiresLearning { get; set; }
+
+        [Column(Name = "ACCEPTANCE_CRITERIA")]
+        public string AcceptanceCriteria { get; set; }
     }
 
     [Table(Name = "TABLE_TASK_LINKS", Database = "medication_taper_database")]
@@ -474,6 +477,7 @@ namespace DataAccessLayer.Models
     [Table(Name = "GROUPS", Database = "medication_taper_database")]
     public class Groups : IId, IPersonID
     {
+        [PrimaryKey]
         [Column(Name="ID")]
         public long Id { get; set; }
 
@@ -487,6 +491,7 @@ namespace DataAccessLayer.Models
     [Table(Name = "ALCOHOL", Database = "medication_taper_database")]
     public class Alcohol : IId, IPersonID
     {
+        [PrimaryKey]
         [Column(Name = "ALCOHOL_ID")]
         public long Id { get; set; }
 
@@ -512,6 +517,7 @@ namespace DataAccessLayer.Models
     [Table(Name = "SPRINTS", Database = "medication_taper_database")]
     public class Sprint : IId, IPersonID
     {
+        [PrimaryKey]
         [Column(Name = "ID")]
         public long Id { get; set; }
 
@@ -529,5 +535,73 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "END_DATE")]
         public DateTime? EndDate { get; set; }        
+    }
+
+    [Table(Name = "ADHOC_TABLE", Database = "medication_taper_database")]
+    public class AdhocTable : IId, IPersonID
+    {
+        [PrimaryKey]
+        [Column(Name = "ID")]
+        public long Id { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        public long PersonID { get; set; }
+
+        [Column(Name = "PROJECT_ID")]
+        public long ProjectID { get; set; }
+
+        [Column(Name = "NAME")]
+        public string Name { get; set; }
+    }
+
+    [Table(Name = "ADHOC_TABLE_COLUMN", Database = "medication_taper_database")]
+    public class AdhocTableColumn : IId
+    {
+        [PrimaryKey]
+        [Column(Name = "ID")]
+        public long Id { get; set; }
+        
+        [Column(Name = "ADHOC_TABLE_ID")]
+        public long AdhocTableID { get; set; }
+
+        [Column(Name = "NAME")]
+        public string Name { get; set; }
+
+        [Column(Name = "ORDER")]
+        public string Order { get; set; }
+    }
+
+    [Table(Name = "ADHOC_TABLE_ROW", Database = "medication_taper_database")]
+    public class AdhocTableRow : IId
+    {
+        [PrimaryKey]
+        [Column(Name = "ID")]
+        public long Id { get; set; }
+
+        [Column(Name = "ADHOC_TABLE_ID")]
+        public long AdhocTableID { get; set; }
+
+        [Column(Name = "NAME")]
+        public string Name { get; set; }
+    }
+
+    [Table(Name = "ADHOC_DETAIL", Database = "medication_taper_database")]
+    public class AdhocTablesDetail : IId
+    {
+        [Column(Name = "ID")]
+        [PrimaryKey]
+        public long Id { get; set; }
+
+        [Column(Name = "ADHOC_TABLE_ID")]
+        public long AdhocTableID { get; set; }
+
+        [Column(Name = "ADHOC_TABLE_ROW_ID")]
+        public long AdhocTableRowID { get; set; }
+
+        [Column(Name = "ADHOC_TABLE_COLUMN_ID")]
+        public long AdhocTableColumnID { get; set; }
+
+        [Column(Name = "Details")]
+        public string Details { get; set; }
     }
 }

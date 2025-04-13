@@ -32,6 +32,10 @@ namespace WebAppApi48
             container.RegisterType<ITasksDataAccess, TasksDataAccess>();
             container.RegisterType<ITableTasksLinksDataAccess, TaskLinksDataAccess>();
             container.RegisterType<IGroupsDataAccess, GroupsDataAccess>();
+            container.RegisterType<IAdhocTablesDataAccess, AdhocTablesDataAccess>();
+            container.RegisterType<IAdhocColumnDataAccess, AdhocTablesColumnsDataAccess>();
+            container.RegisterType<IAdhocTablesDetailsDataAccess, AdhocTablesDetailsDataAccess>();
+            container.RegisterType<IAdhocTableRowDataAccess, AdhocTablesRowsDataAccess>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             

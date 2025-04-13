@@ -1,11 +1,12 @@
 ﻿using DataAccessLayer;
+using DataAccessLayer.Models;
 using System.Web.Http;
 using WebAppApi48.Services;
 
 using Resolver = System.Web.Mvc.DependencyResolver;
 namespace WebAppApi48.Controllers
 {    
-
+    
     [RoutePrefix("Api/Appointments")]
     public class AppointmentsController : ApiController
     {        
@@ -18,8 +19,8 @@ namespace WebAppApi48.Controllers
         private IAuthService authService;
         private IAppointmentsDataAccess dataAccess;
 
-        [HttpGet()]
-        public IHttpActionResult Appointments()
+
+        public IHttpActionResult Get()
         {
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
@@ -27,7 +28,38 @@ namespace WebAppApi48.Controllers
             var personID = this.authService.VerifyCredentials(Request);
             
             return base.Ok(dataAccess.GetAppointments(personID));
-        }      
+        }    
+        
+        public IHttpActionResult Post([FromBody] Appointments appointment)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.VerifyCredentials(Request);
+            
+            return base.Ok(dataAccess.InsertAppointment(personID, appointment));
+        }  
+        
+        public IHttpActionResult Put([FromBody] Appointments appointment)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.VerifyCredentials(Request);
+            
+            return base.Ok(dataAccess.UpdateAppointment(personID, appointment));
+        }
+        
+        [Route("{appointmentID:long}")]
+        public IHttpActionResult Delete([FromUri] long appointmentID)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.VerifyCredentials(Request);
+
+            return base.Ok(dataAccess.DeleteAppointment(personID, appointmentID));
+        }
 
     }
 }
