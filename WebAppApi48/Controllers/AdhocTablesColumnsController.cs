@@ -27,7 +27,7 @@ namespace WebAppApi48.Controllers
         [Route("{columnName}")]
         public IHttpActionResult Post([FromUri]string adhoctableid, [FromUri]string columnName)
         {
-            return base.Ok(new { AdhocTableRowId = dataAccess.CreateColumn(int.Parse(adhoctableid), columnName) });
+            return base.Ok(new { AdhocTableColumnID = dataAccess.CreateColumn(int.Parse(adhoctableid), columnName) });
         }
 
         [Route("{columnId}")]
