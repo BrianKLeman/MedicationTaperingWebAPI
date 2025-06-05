@@ -11,7 +11,9 @@ using DataAccessLayer.Repository;
 namespace DataAccessLayer
 {
     public class MedicationDataAccess : DataAccessBase, IMedicationDataAccess
-    {     
+    {
+        public MedicationDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
         public IEnumerable<Medication> GetMedication(long personID)
         {
             if (personID > -1)

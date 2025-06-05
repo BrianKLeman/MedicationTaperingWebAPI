@@ -7,6 +7,8 @@ namespace DataAccessLayer.Repository
 {
     public class PersonDataAccess : DataAccessBase, IPersonDataAccess
     {
+        public PersonDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
         public long AddToken(long personID, string token)
         {
             if (personID > 0)

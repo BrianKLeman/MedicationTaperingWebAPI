@@ -9,7 +9,8 @@ namespace DataAccessLayer.Repository
 {
     public class ODataRepository<T> : DataAccessBase, IDisposable where T : class, IPersonID, IId
     {
-        public ODataRepository()
+        public ODataRepository(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider)
         {
             this.Connection = this.NewDataConnection();
         }

@@ -7,8 +7,9 @@ using DataAccessLayer.Repository;
 namespace DataAccessLayer
 {
     public class PrescriptionDataAccess : DataAccessBase, IPrescriptionDataAccess
-    {     
-
+    {
+        public PrescriptionDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
         public IEnumerable<Prescription> GetPrescriptions(long personID)
         {
             using (var c = NewDataConnection())

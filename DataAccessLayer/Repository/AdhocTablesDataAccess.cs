@@ -7,7 +7,9 @@ using System.Linq;
 namespace DataAccessLayer
 {
     public class AdhocTablesDataAccess : DataAccessBase, IAdhocTablesDataAccess
-    {       
+    {
+        public AdhocTablesDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
         public IEnumerable<AdhocTable> GetAdhocTables(long personID)
         {           
             using (var c = NewDataConnection())

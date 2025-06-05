@@ -7,8 +7,9 @@ using DataAccessLayer.Repository;
 namespace DataAccessLayer
 {
     public class ProjectsDataAccess : DataAccessBase, IProjectsDataAccess
-    {     
-
+    {
+        public ProjectsDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
         public IEnumerable<Projects> GetProjects(long personID, bool includePersonal)
         {
             using (var c = NewDataConnection())

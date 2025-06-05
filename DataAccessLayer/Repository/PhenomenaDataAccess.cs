@@ -9,6 +9,8 @@ namespace DataAccessLayer
 {
     public class PhenomenaDataAccess : DataAccessBase, IPhenomenaDataAccess
     {
+        public PhenomenaDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
         public IEnumerable<Phenomena> GetPhenomena(long personID)
         {
             using (var c = NewDataConnection())

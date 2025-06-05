@@ -9,7 +9,9 @@ namespace DataAccessLayer
 {
     public class TaskLinksDataAccess : DataAccessBase, ITableTasksLinksDataAccess
     {
-       
+
+        public TaskLinksDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
 
         public long Insert(long personID, long[] taskIDs, string table_name, long entity_id)
         {

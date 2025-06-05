@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using LinqToDB;
 using DataAccessLayer.Repository;
+using Data.Services.Interfaces;
+using Data.Services.Interfaces.IModels;
 
 namespace DataAccessLayer
 {
     public class NotesDataAccess : DataAccessBase, INotesDataAccess
-    {       
-        public IEnumerable<Notes> GetNotes(long personID, DateTime fromDate, DateTime toDate, bool includePersonal)
+    {
+        public NotesDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
+        public IEnumerable<INote> GetNotes(long personID, DateTime fromDate, DateTime toDate, bool includePersonal)
         {
             using (var c = NewDataConnection())
             {
@@ -33,7 +37,7 @@ namespace DataAccessLayer
             }                
         }
 
-        public IEnumerable<Notes> GetNotes(long personID, string tableName, long entityID, bool includePersonal)
+        public IEnumerable<INote> GetNotes(long personID, string tableName, long entityID, bool includePersonal)
         {
             using (var c = NewDataConnection())
             {

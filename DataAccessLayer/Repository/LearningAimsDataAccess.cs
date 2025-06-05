@@ -9,6 +9,8 @@ namespace DataAccessLayer
 {
     public class LearningAimsDataAccess : DataAccessBase, ILearningAimsDataAccess
     {
+        public LearningAimsDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
         public IEnumerable<LearningAims> GetAims(long personID)
         {
             using (var c = NewDataConnection())

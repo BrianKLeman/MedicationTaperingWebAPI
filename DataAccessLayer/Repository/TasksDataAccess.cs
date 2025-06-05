@@ -8,7 +8,9 @@ using DataAccessLayer.Repository;
 namespace DataAccessLayer
 {
     public class TasksDataAccess : DataAccessBase, ITasksDataAccess
-    {       
+    {
+        public TasksDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
         public IEnumerable<Tasks> GetTasks(long personID, bool includePersonal)
         {
             int personal = includePersonal ? 1 : 0;

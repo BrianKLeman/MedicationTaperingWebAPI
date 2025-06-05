@@ -7,7 +7,10 @@ using System.Linq;
 namespace DataAccessLayer
 {
     public class AdhocTablesColumnsDataAccess : DataAccessBase, IAdhocColumnDataAccess
-    {       
+    {
+        public AdhocTablesColumnsDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
+
         public IEnumerable<AdhocTableColumn> GetColumns(long beatChartID)
         {           
             using (var c = NewDataConnection())
@@ -25,7 +28,10 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                var maxOrder = c.GetTable<AdhocTableColumn>().Where(x => x.AdhocTableID == beatchartID).Max(x => x.Order);
+                int maxOrder = 0;
+                var columns = c.GetTable<AdhocTableColumn>().Where(x => x.AdhocTableID == beatchartID).ToList();
+                if (columns.Count > 0)
+                    maxOrder = columns.Max(x => x.Order);
                 return c.InsertWithInt32Identity<AdhocTableColumn>(new AdhocTableColumn() { AdhocTableID = beatchartID, Name = sectionName, Order = maxOrder + 1 });
             }
         }

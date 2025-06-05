@@ -4,18 +4,21 @@ using LinqToDB.Data;
 
 namespace DataAccessLayer.Repository
 {
+    public interface IConnectionStringProvider
+    {
+        string GetConnectionString();
+    }
     public abstract class DataAccessBase
     {
+        IConnectionStringProvider _connectionStringProvider;
+        public DataAccessBase(IConnectionStringProvider connectionStringProvider)
+        {
+            _connectionStringProvider = connectionStringProvider;
+        }
         protected DataConnection NewDataConnection()
         {
-            var cBuilder = new MySqlConnectionStringBuilder();
-            cBuilder.Server = DatalayerConfig.GetHost();
-            cBuilder.Port = DatalayerConfig.GetPort();
-            cBuilder.UserID = DatalayerConfig.GetUserName();
-            cBuilder.Password = DatalayerConfig.GetPassword();
-            cBuilder.Database = DatalayerConfig.GetDataBaseName();
-
-            return MySqlTools.CreateDataConnection(cBuilder.ConnectionString);
+            
+            return MySqlTools.CreateDataConnection(_connectionStringProvider.GetConnectionString());
         }
     }
 }

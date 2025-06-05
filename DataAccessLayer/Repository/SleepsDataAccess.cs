@@ -8,7 +8,8 @@ namespace DataAccessLayer
 {
     public class SleepsDataAccess : DataAccessBase, ISleepsDataAccess
     {
-
+        public SleepsDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
         public IEnumerable<Sleeps> GetSleeps(long personID)
         {
             using (var c = NewDataConnection())

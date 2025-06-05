@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="IRespository\IAdhocTablesColumnsDataAccess.cs" />
+    <Compile Remove="IRespository\IAdhocTablesDataAccess.cs" />
+    <Compile Remove="IRespository\IAdhocTablesDetailsDataAccess.cs" />
+    <Compile Remove="IRespository\IAdhocTablesRowsDataAccess.cs" />
+    <Compile Remove="IRespository\IAppointmentsDataAccess.cs" />
+    <Compile Remove="IRespository\IGroupsDataAccess.cs" />
+    <Compile Remove="IRespository\IJobsAtHomeDataAccess.cs" />
+    <Compile Remove="IRespository\IJobsAtHomeLogDataAccess.cs" />
+    <Compile Remove="IRespository\IJobsAtHomeViewsDataAccess.cs" />
+    <Compile Remove="IRespository\ILearningAimsDataAccess.cs" />
+    <Compile Remove="IRespository\IMedicationDataAccess.cs" />
+    <Compile Remove="IRespository\IPersonDataAccess.cs" />
+    <Compile Remove="IRespository\IPhenomenaDataAccess.cs" />
+    <Compile Remove="IRespository\IPrescriptionDataAccess.cs" />
+    <Compile Remove="IRespository\IProjectsDataAccess.cs" />
+    <Compile Remove="IRespository\ISleepsDataAccess.cs" />
+    <Compile Remove="IRespository\ITableNotesLinksDataAccess.cs" />
+    <Compile Remove="IRespository\ITableTaskLinksDataAccess.cs" />
+    <Compile Remove="IRespository\ITasksDataAccess.cs" />
+  </ItemGroup>
+
+</Project>

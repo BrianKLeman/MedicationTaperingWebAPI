@@ -7,7 +7,9 @@ using System.Linq;
 namespace DataAccessLayer
 {
     public class AdhocTablesRowsDataAccess : DataAccessBase, IAdhocTableRowDataAccess
-    {       
+    {
+        public AdhocTablesRowsDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
         public IEnumerable<AdhocTableRow> GetScenes(long beatChartID)
         {           
             using (var c = NewDataConnection())

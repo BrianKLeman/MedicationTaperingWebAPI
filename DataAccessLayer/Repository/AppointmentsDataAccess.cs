@@ -9,8 +9,9 @@ namespace DataAccessLayer
 {
     public class AppointmentsDataAccess : DataAccessBase, IAppointmentsDataAccess
     {
-       
 
+        public AppointmentsDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
         public IEnumerable<Appointments> GetAppointments(long personID)
         {
             using (var c = NewDataConnection())

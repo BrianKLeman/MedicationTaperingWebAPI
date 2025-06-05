@@ -9,7 +9,8 @@ namespace DataAccessLayer
 {
     public class NoteLinksDataAccess : DataAccessBase, ITableNotesLinksDataAccess
     {
-       
+        public NoteLinksDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
 
         public long Insert(long personID, long[] noteIDs, string table_name, long entity_id)
         {

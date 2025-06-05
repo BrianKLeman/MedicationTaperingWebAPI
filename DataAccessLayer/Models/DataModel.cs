@@ -1,7 +1,9 @@
-﻿using LinqToDB.Mapping;
+﻿using TableAttribute = LinqToDB.Mapping.TableAttribute;
 using System;
 using System.ComponentModel.DataAnnotations;
-
+using ColumnAttribute = LinqToDB.Mapping.ColumnAttribute;
+using PrimaryKeyAttribute = LinqToDB.Mapping.PrimaryKeyAttribute;
+using Data.Services.Interfaces.IModels;
 namespace DataAccessLayer.Models
 {
     
@@ -113,7 +115,7 @@ namespace DataAccessLayer.Models
     }
 
     [Table(Name = "NOTES", Database = "medication_taper_database")]
-    public class Notes : IPersonID, IId
+    public class Notes : IPersonID, IId, INote
     {
         [Column(Name = "NOTE_ID", IsPrimaryKey = true)]
         public long Id { get; set; }
@@ -137,7 +139,7 @@ namespace DataAccessLayer.Models
         public DateTime? UpdatedDate { get; set; }
 
         [Column(Name = "RECORDED_DATE")]
-        public DateTime RecordedDate { get; set; }
+        public DateTime? RecordedDate { get; set; }
 
         [Column(Name = "BEHAVIOR_CHANGE_NEEDED")]
         public int BehaviorChange { get; set; }
@@ -544,8 +546,10 @@ namespace DataAccessLayer.Models
         [Column(Name = "ID")]
         public long Id { get; set; }
 
+        [Required]
         [Column(Name = "PERSON_ID")]
         public long PersonID { get; set; }
+
 
         [Column(Name = "PROJECT_ID")]
         public long ProjectID { get; set; }
@@ -562,25 +566,27 @@ namespace DataAccessLayer.Models
         public long Id { get; set; }
         
         [Column(Name = "ADHOC_TABLE_ID")]
+        [Required]
         public long AdhocTableID { get; set; }
 
         [Column(Name = "NAME")]
         public string Name { get; set; }
 
         [Column(Name = "ORDER")]
-        public string Order { get; set; }
+        public int Order { get; set; }
     }
 
     [Table(Name = "ADHOC_TABLE_ROW", Database = "medication_taper_database")]
     public class AdhocTableRow : IId
     {
         [PrimaryKey]
-        [Column(Name = "ID")]
         public long Id { get; set; }
 
         [Column(Name = "ADHOC_TABLE_ID")]
+        [Required]
         public long AdhocTableID { get; set; }
 
+        [Required]
         [Column(Name = "NAME")]
         public string Name { get; set; }
     }
@@ -593,12 +599,15 @@ namespace DataAccessLayer.Models
         public long Id { get; set; }
 
         [Column(Name = "ADHOC_TABLE_ID")]
+        [Required]
         public long AdhocTableID { get; set; }
 
         [Column(Name = "ADHOC_TABLE_ROW_ID")]
+        [Required]
         public long AdhocTableRowID { get; set; }
 
         [Column(Name = "ADHOC_TABLE_COLUMN_ID")]
+        [Required]
         public long AdhocTableColumnID { get; set; }
 
         [Column(Name = "Details")]

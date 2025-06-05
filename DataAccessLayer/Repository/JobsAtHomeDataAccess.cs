@@ -9,6 +9,8 @@ namespace DataAccessLayer
 {
     public class JobsAtHomeDataAccess : DataAccessBase, IJobsAtHomeDataAccess
     {
+        public JobsAtHomeDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
         public IEnumerable<JobsAtHome> GetJobsAtHome(long personID)
         {
             using (var c = NewDataConnection())

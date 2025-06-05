@@ -7,7 +7,9 @@ using System.Linq;
 namespace DataAccessLayer
 {
     public class GroupsDataAccess : DataAccessBase, IGroupsDataAccess
-    {       
+    {
+        public GroupsDataAccess(IConnectionStringProvider connectionStringProvider)
+            : base(connectionStringProvider) { }
         public IEnumerable<Groups> GetGroups(long personID)
         {           
             using (var c = NewDataConnection())
