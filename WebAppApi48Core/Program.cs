@@ -7,7 +7,6 @@ using WebAppApi48Core.Services;
 
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
-using System.Reflection.Emit;
 
 var builder = WebApplication.CreateBuilder(args);
 

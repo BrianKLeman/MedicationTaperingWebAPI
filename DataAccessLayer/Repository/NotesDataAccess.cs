@@ -9,7 +9,7 @@ using Data.Services.Interfaces.IModels;
 
 namespace DataAccessLayer
 {
-    public class NotesDataAccess : DataAccessBase, INotesDataAccess
+    public class NotesDataAccess : DataAccessBase, Data.Services.Interfaces.INotesDataAccess
     {
         public NotesDataAccess(IConnectionStringProvider connectionStringProvider)
             : base(connectionStringProvider) { }
