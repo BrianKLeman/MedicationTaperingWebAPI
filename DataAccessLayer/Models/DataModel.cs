@@ -284,6 +284,9 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "ACCEPTANCE_CRITERIA")]
         public string AcceptanceCriteria { get; set; }
+
+        [Column(Name = "ORDER")]
+        public decimal Order { get; set; }
     }
 
     [Table(Name = "TABLE_TASK_LINKS", Database = "medication_taper_database")]
@@ -612,5 +615,29 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "Details")]
         public string Details { get; set; }
+    }
+
+    [Table(Name = "FEATURES", Database = "medication_taper_database")]
+    public class Feature : IId
+    {
+        [Column(Name = "ID")]
+        [PrimaryKey]
+        public long Id { get; set; }
+
+        [Column(Name = "NAME")]
+        [Required]
+        public string Name { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        [Required]
+        public long PersonID { get; set; }
+
+        [Column(Name = "PROJECT_ID")]
+        [Required]
+        public long? ProjectID { get; set; }
+
+        [Column(Name = "LEARNING_AIM_ID")]
+        [Required]
+        public long? LearningAimID { get; set; }
     }
 }

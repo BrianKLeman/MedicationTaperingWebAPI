@@ -48,6 +48,7 @@ builder.Services.AddScoped<IAdhocTablesDataAccess, AdhocTablesDataAccess>();
 builder.Services.AddScoped<IAdhocColumnDataAccess, AdhocTablesColumnsDataAccess>();
 builder.Services.AddScoped<IAdhocTablesDetailsDataAccess, AdhocTablesDetailsDataAccess>();
 builder.Services.AddScoped<IAdhocTableRowDataAccess, AdhocTablesRowsDataAccess>();
+builder.Services.AddScoped<IFeaturesDataAccess, FeaturesDataAccess>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 
