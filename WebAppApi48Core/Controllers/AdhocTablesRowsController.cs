@@ -18,6 +18,7 @@ namespace WebAppApi48Core.Controllers
         private IAdhocTableRowDataAccess dataAccess;
         
         [Route("")]
+        [HttpGet]
         public IActionResult Get([FromRoute]string adhoctableid)
         {
             return base.Ok(dataAccess.GetScenes(int.Parse(adhoctableid)));

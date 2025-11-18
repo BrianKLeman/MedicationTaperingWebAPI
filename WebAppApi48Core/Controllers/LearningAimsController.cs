@@ -20,7 +20,8 @@ namespace WebAppApi48Core.Controllers
 
         private IAuthService authService;
         private ILearningAimsDataAccess dataAccess;
-        
+
+        [HttpGet]
         public IActionResult Get()
         {
             if (ModelState.IsValid == false)

@@ -28,8 +28,9 @@ namespace WebAppApi48Core.Controllers
         }
 
         private IAuthService authService;
-        private ITableTasksLinksDataAccess dataAccess;       
-        
+        private ITableTasksLinksDataAccess dataAccess;
+
+        [HttpPost]
         public IActionResult Post([FromBody] TaskLinks requestModel)
         {
             if (ModelState.IsValid == false)

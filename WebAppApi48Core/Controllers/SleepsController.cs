@@ -16,12 +16,15 @@ namespace WebAppApi48.Controllers
 
         private IAuthService authService;
         private ISleepsDataAccess dataAccess;
+
+        [HttpGet]
         public IEnumerable<Sleeps> Get()
         {
             var personID = this.authService.VerifyCredentials(Request);
             return dataAccess.GetSleeps(personID);
         }
 
+        [HttpPut]
         public IActionResult Put([FromBody] Sleeps body)
         {
             if (ModelState.IsValid == false)
@@ -32,6 +35,7 @@ namespace WebAppApi48.Controllers
             return base.Ok(dataAccess.UpdateSleeps(personID, body));
         }
 
+        [HttpPost]
         public IActionResult Post([FromBody] Sleeps body)
         {
             if (ModelState.IsValid == false)
@@ -45,6 +49,7 @@ namespace WebAppApi48.Controllers
             return base.Ok(dataAccess.CreateSleeps(personID, body));
         }
 
+        [HttpDelete]
         public IActionResult Delete([FromBody] Sleeps body)
         {
             if (ModelState.IsValid == false)

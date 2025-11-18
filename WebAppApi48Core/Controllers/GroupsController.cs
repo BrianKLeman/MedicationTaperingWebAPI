@@ -15,7 +15,8 @@ namespace WebAppApi48Core.Controllers
 
         private IAuthService authService;
         private IGroupsDataAccess dataAccess;
-        
+
+        [HttpGet]
         public IActionResult Get()
         {
             if (ModelState.IsValid == false)
@@ -30,6 +31,7 @@ namespace WebAppApi48Core.Controllers
         }
 
         [Route("TaskGroups")]
+        [HttpGet]
         public IActionResult TaskGroups()
         {
             if (ModelState.IsValid == false)
