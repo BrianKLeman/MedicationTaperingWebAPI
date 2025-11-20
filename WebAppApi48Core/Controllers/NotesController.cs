@@ -61,11 +61,7 @@ namespace WebAppApi48Core.Controllers
 
             var personID = this.authService.GetPersonCode(HttpContext);
             bool includePersonal = personID > 0;
-            if (personID <= 0)
-            {
-
-                personID = this.authService.VerifyReadOnlyCredentials(Request);
-            }
+            
 
             return base.Ok(dataAccess.GetNotes(personID, tableName, entityID, includePersonal));
         }

@@ -7,5 +7,7 @@
         long GetPersonID(string username, string password);
         long GetPersonIDForReadOnlyAccess(string username);
         string GetPassword(string username, string password);
+
+        string GetUserID(long personID);
     }
 }

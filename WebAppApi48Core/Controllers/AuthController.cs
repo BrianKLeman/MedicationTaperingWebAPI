@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppApi48Core.Services;
 namespace WebAppApi48Core.Controllers
@@ -11,12 +12,13 @@ namespace WebAppApi48Core.Controllers
     }
 
     [Route("Api/Auth")]
+    [Authorize]
     public class AuthController : ControllerBase
     {        
         public AuthController(IAuthService authService)
         {
             this.authService = authService;
-        }
+    }
 
         private IAuthService authService;
 
@@ -26,8 +28,8 @@ namespace WebAppApi48Core.Controllers
         {
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
-
-            var result = this.authService.CreateToken(Request, out string UserID, out string Token);
+            var personCode = this.authService.GetPersonCode(HttpContext);
+            var result = this.authService.CreateToken(personCode, out string UserID, out string Token);
 
             return Ok(new AuthToken() { UserID = UserID, Token = Token });            
         }        

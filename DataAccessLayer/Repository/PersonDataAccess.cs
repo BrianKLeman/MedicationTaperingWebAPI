@@ -77,5 +77,17 @@ namespace DataAccessLayer.Repository
                 return a.FirstOrDefault()?.PersonID ?? -1;
             }
         }
+
+        public string GetUserID(long personCode)
+        {
+            using (var c = NewDataConnection())
+            {
+                    var person = from p in c.GetTable<People>()
+                                 where (p.PersonID == personCode)
+                                 select p;
+                    var people = person.ToList().FirstOrDefault();
+                    return people?.PeopleAnon ?? string.Empty;   
+            }
+        }
     }
 }

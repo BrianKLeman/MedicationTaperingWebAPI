@@ -38,7 +38,7 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
             return Ok(dataAccess.Insert(personID, requestModel.TaskIDs, requestModel.Table, requestModel.EntityID));
         }
 
@@ -49,7 +49,7 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
 
             if(requestModel.EntityID == 0)
                 return Ok(dataAccess.Select(personID, requestModel.TaskIDs, requestModel.Table));

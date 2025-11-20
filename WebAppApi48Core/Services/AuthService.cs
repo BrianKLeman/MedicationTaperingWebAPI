@@ -1,5 +1,4 @@
 ﻿using DataAccessLayer.Repository;
-using Microsoft.Extensions.Primitives;
 
 namespace WebAppApi48Core.Services
 {
@@ -11,50 +10,12 @@ namespace WebAppApi48Core.Services
         }
 
         private IPersonDataAccess dataAccess;
-        /// <summary>
-        /// Returns the personCode
-        /// </summary>
-        /// <param name="userID"></param>
-        /// <param name="password"></param>
-        /// <returns>a value greater than -1 if user is valid</returns>
-        public long VerifyCredentials(HttpRequest httpRequest)
-        {
-            long personCode = VerifyToken(httpRequest);
-            if( personCode  > -1)
-            {
-                return personCode;
-            }
+        
 
-            var userID = string.Empty;
-            if(httpRequest.Headers.TryGetValue(HeadersConstants.UserID, out StringValues userIDValues))
-            {
-                userID = userIDValues.FirstOrDefault();
-            }            
 
-            httpRequest.Headers.TryGetValue(HeadersConstants.Password, out StringValues passwordHeaders  );
-            var password = passwordHeaders.FirstOrDefault();
 
-            return this.VerifyCredentials(userID, password);
-        }
-
-        public long VerifyReadOnlyCredentials(HttpRequest request)
-        {
-
-            var userID = string.Empty;
-            if (request.Headers.TryGetValue(HeadersConstants.UserID, out StringValues userIDValues))
-            {
-                userID = userIDValues.FirstOrDefault();
-            }           
-
-            if (!string.IsNullOrEmpty(userID))
-                return dataAccess.GetPersonIDForReadOnlyAccess(userID);
-
-            return -1;
-        }
-
-        public string CreateToken(HttpRequest request, out string UserID, out string Token)
-        {
-            var personCode = this.VerifyCredentials(request);
+        public string CreateToken(long personCode, out string UserID, out string Token)
+        {           
 
             if (personCode < 0)
             {
@@ -63,11 +24,7 @@ namespace WebAppApi48Core.Services
                 return "";
             }
 
-            var userID = string.Empty;
-            if (request.Headers.TryGetValue(HeadersConstants.UserID, out StringValues userIDValues))
-            {
-                userID = userIDValues.FirstOrDefault();
-            }
+            var userID = this.dataAccess.GetUserID(personCode);
 
             var guid = Guid.NewGuid();
             Token = guid.ToString();
@@ -85,16 +42,6 @@ namespace WebAppApi48Core.Services
             return -1;
         }
 
-        public long VerifyToken(HttpRequest httpRequest)
-        {
-            if (httpRequest.Headers.TryGetValue(HeadersConstants.AuthToken, out StringValues value))
-            {
-                var token = value.FirstOrDefault();
-                var personID = CheckToken(token);
-                return personID;
-            }
-            return -1;
-        }
 
         public long CheckToken(string token)
         {
