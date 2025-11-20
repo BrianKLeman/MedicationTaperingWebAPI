@@ -7,8 +7,16 @@ using WebAppApi48Core.Services;
 
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Authentication schemes
+// Add authentication
+builder.Services.AddAuthentication("BasicAuthentication")
+    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+builder.Services.AddAuthorization();
 
 const string MyAllowSpecificOrigins = "MyAllowSpecificOrigins";
 CorsPolicy policy = new CorsPolicyBuilder().WithOrigins("http://localhost:4200").AllowAnyHeader()
@@ -61,7 +69,33 @@ builder.Services.AddControllers().AddOData(
     "odata",
         modelBuilder.GetEdmModel()));
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+const string basicScheme = "basic";
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition(basicScheme, new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = basicScheme,
+        In = ParameterLocation.Header,
+        Description = "Basic Authorization header using the Bearer scheme."
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = basicScheme
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -75,6 +109,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 app.UseCors(MyAllowSpecificOrigins);
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

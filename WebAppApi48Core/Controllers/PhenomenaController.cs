@@ -1,11 +1,13 @@
 ﻿using DataAccessLayer;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppApi48Core.Services;
 
 namespace WebAppApi48Core.Controllers
 {
     [Route("Api/Phenomena")]
+    [Authorize]
     public class PhenomenaController : ControllerBase
     {
         public PhenomenaController(IAuthService authService, IPhenomenaDataAccess dataAccess)
@@ -20,7 +22,7 @@ namespace WebAppApi48Core.Controllers
         [HttpGet]
         public IEnumerable<Phenomena> Get()
         {
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
             return dataAccess.GetPhenomena(personID);
         }
         

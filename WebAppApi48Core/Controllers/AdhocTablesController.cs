@@ -1,11 +1,13 @@
 ﻿using DataAccessLayer;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppApi48Core.Services;
 namespace WebAppApi48Core.Controllers
 {    
     
     [Route("Api/AdhocTables")]
+    [Authorize]
     public class AdhocTablesController : ControllerBase
     {        
         public AdhocTablesController(IAuthService authService, IAdhocTablesDataAccess adhocTablesDataAccess)
@@ -23,10 +25,7 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
-            bool includePersonal = personID > 0;
-            if (personID <= 0)
-                personID = this.authService.VerifyReadOnlyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
 
             return base.Ok(dataAccess.GetAdhocTables(personID));
         }
@@ -37,11 +36,7 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
-            bool includePersonal = personID > 0;
-            if (personID <= 0)
-                personID = this.authService.VerifyReadOnlyCredentials(Request);
-
+            var personID = this.authService.GetPersonCode(HttpContext);
             return base.Ok( new AdhocTable() { Id = dataAccess.CreateNewTable(personID, model.ProjectID, model.Name), Name = model.Name, ProjectID = model.ProjectID, PersonID = personID });
         }
 
@@ -52,10 +47,7 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
-            bool includePersonal = personID > 0;
-            if (personID <= 0)
-                personID = this.authService.VerifyReadOnlyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
 
             return base.Ok( dataAccess.DeleteTable(personID, int.Parse(tableID)));
         }

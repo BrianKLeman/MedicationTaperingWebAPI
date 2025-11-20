@@ -16,7 +16,8 @@ namespace WebAppApi48Core.Controllers
         [HttpGet()]
         public IActionResult Get()
         {
-            return Ok("<HTML><BODY><H1>Default Page</H1></BODY></HTML>");            
+            Response.ContentType = "text/html";
+            return Content("<HTML><BODY><H1>Default Page</H1></BODY></HTML>");            
         }        
     }
 }

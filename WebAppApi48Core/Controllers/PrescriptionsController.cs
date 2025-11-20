@@ -1,10 +1,12 @@
 ﻿using DataAccessLayer;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppApi48Core.Services;
 namespace WebAppApi48Core.Controllers
 {
     [Route("Api/Prescriptions")]
+    [Authorize]
     public class PrescriptionsController : ControllerBase
     {
         public PrescriptionsController(IAuthService authService, IPrescriptionDataAccess dataAccess)
@@ -19,7 +21,7 @@ namespace WebAppApi48Core.Controllers
         [HttpGet]
         public IEnumerable<Prescription> Get()
         {
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
             return dataAccess.GetPrescriptions(personID);
         }
         

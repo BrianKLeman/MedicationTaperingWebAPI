@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppApi48Core.Services;
 
@@ -6,15 +7,14 @@ namespace WebAppApi48Core.Controllers
 {    
     
     [Route("Api/AdhocTables/{adhoctableid}/Columns")]
+    [Authorize]
     public class AdhocTableColumnsController : ControllerBase
     {        
-        public AdhocTableColumnsController(IAuthService authService, IAdhocColumnDataAccess adhocColumnDataAccess)
+        public AdhocTableColumnsController(IAdhocColumnDataAccess adhocColumnDataAccess)
         {
-            this.authService = authService;
             this.dataAccess = adhocColumnDataAccess;
         }
 
-        private IAuthService authService;
         private IAdhocColumnDataAccess dataAccess;
         
         [HttpGet()]

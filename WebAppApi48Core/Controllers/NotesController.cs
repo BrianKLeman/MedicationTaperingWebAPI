@@ -1,4 +1,5 @@
 ﻿using Data.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using WebAppApi48Core.Services;
@@ -31,6 +32,7 @@ namespace WebAppApi48Core.Controllers
     }
 
     [Route("Api/Notes")]
+    [Authorize]
     public class NotesController : ControllerBase
     {        
         public NotesController(IAuthService authService, INotesDataAccess dataAccess)
@@ -45,7 +47,7 @@ namespace WebAppApi48Core.Controllers
         private IActionResult Get(DateTime? fromDate, DateTime? toDate)
         {
 
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
             var results = dataAccess.GetNotes(personID, fromDate.Value, toDate.Value, personID > 0);
             return base.Ok(results);
         }
@@ -57,7 +59,7 @@ namespace WebAppApi48Core.Controllers
             if(fromDate.HasValue || toDate.HasValue) 
                 return Get(fromDate, toDate);
 
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
             bool includePersonal = personID > 0;
             if (personID <= 0)
             {
@@ -74,7 +76,7 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
 
             return base.Ok(dataAccess.InsertNote(personID, body.dateTime, body.NoteText, body.BehaviorChange, body.DisplayAsHTML, body.EntityID, body.TableName));
         }
@@ -83,7 +85,7 @@ namespace WebAppApi48Core.Controllers
         [Route("{noteID:long}")]
         public IActionResult Delete([FromRoute] long noteID)
         {
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
             return base.Ok(dataAccess.DeleteNote(personID, noteID));
         }
 
@@ -92,7 +94,7 @@ namespace WebAppApi48Core.Controllers
         {
             if (ModelState.IsValid == false)
                 return BadRequest(ModelState);
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
             return base.Ok(dataAccess.UpdateNote(personID, body.dateTime, body.NoteText, body.BehaviorChange, body.NoteID, body.DisplayAsHTML));
         }
 

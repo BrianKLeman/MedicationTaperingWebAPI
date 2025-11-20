@@ -1,11 +1,13 @@
 ﻿using DataAccessLayer;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppApi48Core.Services;
 namespace WebAppApi48Core.Controllers
 {    
     
     [Route("Api/AdhocTables/{adhoctableid}/Rows")]
+    [Authorize]
     public class AdhocTablesRowsController : ControllerBase
     {        
         public AdhocTablesRowsController(IAuthService authService, IAdhocTableRowDataAccess dataAccess)

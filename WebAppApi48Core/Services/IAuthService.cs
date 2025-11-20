@@ -13,8 +13,12 @@ public static class HeadersConstants
 
     public interface IAuthService
     {
+        long VerifyCredentials(string userID, string password);
         long VerifyCredentials(HttpRequest request);
+        long CheckToken(string token);
         long VerifyReadOnlyCredentials(HttpRequest request);
         string CreateToken(HttpRequest request, out string UserID, out string Token);
+
+        long GetPersonCode(HttpContext context);
     }
 }

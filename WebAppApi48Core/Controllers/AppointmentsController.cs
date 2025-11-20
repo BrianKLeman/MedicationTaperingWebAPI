@@ -1,11 +1,14 @@
 ﻿using DataAccessLayer;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppApi48Core.Services;
 namespace WebAppApi48Core.Controllers
 {    
     
     [Route("Api/Appointments")]
+
+    [Authorize]
     public class AppointmentsController : ControllerBase
     {        
         public AppointmentsController(IAuthService authService, IAppointmentsDataAccess dataAccess)
@@ -23,7 +26,7 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
+            long personID = authService.GetPersonCode(HttpContext);
             
             return base.Ok(dataAccess.GetAppointments(personID));
         }
@@ -34,8 +37,8 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
-            
+            long personID = authService.GetPersonCode(HttpContext);
+
             return base.Ok(dataAccess.InsertAppointment(personID, appointment));
         }
 
@@ -45,8 +48,8 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
-            
+            long personID = authService.GetPersonCode(HttpContext);
+
             return base.Ok(dataAccess.UpdateAppointment(personID, appointment));
         }
         
@@ -57,7 +60,7 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
+            long personID = authService.GetPersonCode(HttpContext);
 
             return base.Ok(dataAccess.DeleteAppointment(personID, appointmentID));
         }

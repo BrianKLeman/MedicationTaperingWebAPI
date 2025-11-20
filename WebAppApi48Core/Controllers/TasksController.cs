@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer;
 using DataAccessLayer.Models;
 using DataAccessLayer.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppApi48Core.Services;
 
@@ -15,6 +16,7 @@ namespace WebAppApi48Core.Controllers
     }
 
     [Route("Api/Tasks")]
+    [Authorize]
     public class TasksController : ControllerBase
     {        
         public TasksController(IFeaturesDataAccess featuresDataAccess, IAuthService authService, ITasksDataAccess dataAccess, IGroupsDataAccess groupsDataAccess, ITableTasksLinksDataAccess tasksDataAccess, IConnectionStringProvider connectionStringProvider)
@@ -40,27 +42,21 @@ namespace WebAppApi48Core.Controllers
         public IActionResult Get(string tableName, long entityID)
         {           
 
-            var personID = this.authService.VerifyCredentials(Request);
-            bool includePersonal = personID > 0;
-            if (personID <= 0)
-                personID = this.authService.VerifyReadOnlyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
 
             if(tableName == null)
-                return base.Ok(dataAccess.GetTasks(personID, includePersonal));
+                return base.Ok(dataAccess.GetTasks(personID, true));
             else
-                return base.Ok(dataAccess.GetTasks(personID, tableName, entityID, includePersonal));
+                return base.Ok(dataAccess.GetTasks(personID, tableName, entityID, true));
         }
 
        
         private IActionResult TasksWithExtras()
         {           
 
-            var personID = this.authService.VerifyCredentials(Request);
-            bool includePersonal = personID > 0;
-            if (personID <= 0)
-                personID = this.authService.VerifyReadOnlyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
 
-            var tasks = dataAccess.GetTasks(personID, includePersonal).ToList();
+            var tasks = dataAccess.GetTasks(personID, true).ToList();
 
             var taskIDs = tasks.Select(x => x.Id).ToArray();
             var featureLinks = this.tasksLinksDataAccess.Select(personID, taskIDs, "FEATURES");
@@ -97,10 +93,9 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
-            bool includePersonal = personID > 0;
-            if (personID <= 0)
-                personID = this.authService.VerifyReadOnlyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
+            bool includePersonal = true;
+            
 
             var tasks = dataAccess.GetTasks(personID, tableName, entityID, includePersonal).ToList();
             var taskIDs = tasks.Select(x => x.Id).ToArray();
@@ -135,7 +130,7 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
 
             return base.Ok(dataAccess.UpdateTask(personID, body));
         }
@@ -146,10 +141,7 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
-
-            if (personID < 1)
-                return Unauthorized();
+            var personID = this.authService.GetPersonCode(HttpContext);
 
             return base.Ok(dataAccess.CreateTask(personID, body));
         }
@@ -160,10 +152,8 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
 
-            if (personID < 1)
-                return Unauthorized();
 
             return base.Ok(dataAccess.DeleteTask(personID, body));
         }

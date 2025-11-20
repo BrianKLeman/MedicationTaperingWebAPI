@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using WebAppApi48Core.Services;
@@ -19,6 +20,7 @@ namespace WebAppApi48.Controllers
     }
 
     [Route("Api/NoteLinks")]
+    [Authorize]
     public class NoteLinksController : ControllerBase
     {
         public NoteLinksController(IAuthService authService, ITableNotesLinksDataAccess dataAccess)
@@ -36,7 +38,7 @@ namespace WebAppApi48.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
             return Ok(dataAccess.Insert(personID, requestModel.NoteIDs, requestModel.Table, requestModel.EntityID));
         }
 

@@ -1,11 +1,13 @@
 ﻿using DataAccessLayer;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppApi48Core.Services;
 
 namespace WebAppApi48.Controllers
 {
     [Route("Api/Sleeps")]
+    [Authorize]
     public class SleepsController : ControllerBase
     {
         public SleepsController(IAuthService authService, ISleepsDataAccess dataAccess)
@@ -20,7 +22,7 @@ namespace WebAppApi48.Controllers
         [HttpGet]
         public IEnumerable<Sleeps> Get()
         {
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
             return dataAccess.GetSleeps(personID);
         }
 
@@ -30,7 +32,7 @@ namespace WebAppApi48.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
 
             return base.Ok(dataAccess.UpdateSleeps(personID, body));
         }
@@ -41,10 +43,8 @@ namespace WebAppApi48.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
 
-            if (personID < 1)
-                return Unauthorized();
 
             return base.Ok(dataAccess.CreateSleeps(personID, body));
         }
@@ -55,10 +55,7 @@ namespace WebAppApi48.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
-
-            if (personID < 1)
-                return Unauthorized();
+            var personID = this.authService.GetPersonCode(HttpContext);
 
             return base.Ok(dataAccess.DeleteSleeps(personID, body));
         }

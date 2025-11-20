@@ -19,12 +19,10 @@ namespace WebAppApi48Core.Services
         /// <returns>a value greater than -1 if user is valid</returns>
         public long VerifyCredentials(HttpRequest httpRequest)
         {
-            if(httpRequest.Headers.TryGetValue(HeadersConstants.AuthToken, out StringValues value))
+            long personCode = VerifyToken(httpRequest);
+            if( personCode  > -1)
             {
-                var token = value.FirstOrDefault();
-                var personID = dataAccess.CheckToken(token);
-                if (personID > 0)
-                    return personID;
+                return personCode;
             }
 
             var userID = string.Empty;
@@ -36,14 +34,12 @@ namespace WebAppApi48Core.Services
             httpRequest.Headers.TryGetValue(HeadersConstants.Password, out StringValues passwordHeaders  );
             var password = passwordHeaders.FirstOrDefault();
 
-            if(!string.IsNullOrEmpty(userID) && !string.IsNullOrEmpty(password))
-                return dataAccess.GetPersonID(userID, password);
-            
-            return -1;
+            return this.VerifyCredentials(userID, password);
         }
 
         public long VerifyReadOnlyCredentials(HttpRequest request)
         {
+
             var userID = string.Empty;
             if (request.Headers.TryGetValue(HeadersConstants.UserID, out StringValues userIDValues))
             {
@@ -80,6 +76,34 @@ namespace WebAppApi48Core.Services
             dataAccess.AddToken(personCode, Token);
             return "";
         }
-        
+
+        public long VerifyCredentials(string userID, string password)
+        {          
+            if (!string.IsNullOrEmpty(userID) && !string.IsNullOrEmpty(password))
+                return dataAccess.GetPersonID(userID, password);
+
+            return -1;
+        }
+
+        public long VerifyToken(HttpRequest httpRequest)
+        {
+            if (httpRequest.Headers.TryGetValue(HeadersConstants.AuthToken, out StringValues value))
+            {
+                var token = value.FirstOrDefault();
+                var personID = CheckToken(token);
+                return personID;
+            }
+            return -1;
+        }
+
+        public long CheckToken(string token)
+        {
+            return dataAccess.CheckToken(token);
+        }
+
+        public long GetPersonCode(HttpContext context)
+        {
+            return long.Parse(context.User.Claims.FirstOrDefault(x => x.Type == BasicAuthenticationHandler.PERSON_CODE_CLAIM).Value);
+        }
     }
 }

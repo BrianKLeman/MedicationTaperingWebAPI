@@ -1,11 +1,13 @@
 ﻿using DataAccessLayer;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppApi48Core.Services;
 
 namespace WebAppApi48.Controllers
 {
     [Route("Api/Projects")]
+    [Authorize]
     public class ProjectsController : ControllerBase
     {
         public ProjectsController(IAuthService authService, IProjectsDataAccess dataAccess)
@@ -20,12 +22,10 @@ namespace WebAppApi48.Controllers
         [HttpGet]
         public IEnumerable<Projects> Get()
         {
-            var personID = this.authService.VerifyCredentials(Request);
-            bool includePersonal = personID > 0;
-            if (personID <= 0)
-                personID = this.authService.VerifyReadOnlyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
+            
 
-            return dataAccess.GetProjects(personID, includePersonal);
+            return dataAccess.GetProjects(personID, true);
         }
         
     }

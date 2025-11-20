@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppApi48Core.Services;
 
@@ -10,6 +11,7 @@ namespace WebAppApi48Core.Controllers
     }   
 
     [Route("Api/LearningAims")]
+    [Authorize]
     public class LearningAimsController : ControllerBase
     {        
         public LearningAimsController(IAuthService authService, ILearningAimsDataAccess dataAccess)
@@ -27,10 +29,8 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
-
-            if (personID <= 0)
-                personID = this.authService.VerifyReadOnlyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
+           
             return base.Ok(dataAccess.GetAims(personID));
         }      
 

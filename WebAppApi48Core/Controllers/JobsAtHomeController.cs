@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -15,6 +16,7 @@ namespace WebAppApi48Core.Controllers
         public DateTime? Date { get; set; }
     }
     [Route("Api/JobsAtHome")]
+    [Authorize]
     public class JobsAtHomeController : ControllerBase
     {
         public JobsAtHomeController(IAuthService authService, IJobsAtHomeViewsDataAccess dataAccess, IJobsAtHomeLogDataAccess alDataAccess)
@@ -35,10 +37,7 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
-
-            if (personID <= 0)
-                personID = this.authService.VerifyReadOnlyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
 
             return Ok(dataAccess.GetsJobsAtHomeSummary(personID));
         }
@@ -50,7 +49,7 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
             return Ok(activityLogDataAccess.AddActivity(personID, jobAtHome.JobID, jobAtHome.Date ?? DateTime.Now ));
         }
 

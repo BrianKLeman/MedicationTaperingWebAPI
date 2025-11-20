@@ -20,10 +20,7 @@ namespace WebAppApi48.Controllers
         [HttpGet]
         public IEnumerable<Feature> Get(long projectID, long learningAimID)
         {
-            var personID = this.authService.VerifyCredentials(Request);
-            bool includePersonal = personID > 0;
-            if (personID <= 0)
-                personID = this.authService.VerifyReadOnlyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
 
             if (projectID > 0)
                 return dataAccess.GetFeaturesForProjectID(personID, projectID).ToList();
@@ -31,7 +28,7 @@ namespace WebAppApi48.Controllers
             if(learningAimID > 0)
                 return dataAccess.GetFeaturesForLearningAimID(personID, learningAimID);
 
-            return dataAccess.GetFeatures(personID, includePersonal);
+            return dataAccess.GetFeatures(personID, true);
         }
         
     }

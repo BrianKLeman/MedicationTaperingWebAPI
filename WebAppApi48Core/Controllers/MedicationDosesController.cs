@@ -48,7 +48,7 @@ namespace WebAppApi48Core.Controllers
         [HttpGet]
         public IEnumerable<Report> Get()
         {
-            var personID = this.authService.VerifyCredentials(Request);            
+            var personID = this.authService.GetPersonCode(HttpContext);            
 
             var meds = dataAccess.GetMedication(personID);
             var pres = prescriptions.GetPrescriptions(personID);
@@ -76,7 +76,7 @@ namespace WebAppApi48Core.Controllers
                 return BadRequest(ModelState);
 
             // Get person ID for user and password.
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
 
             dataAccess.Delete(personID,medicationId);
             return base.Ok();
@@ -88,7 +88,7 @@ namespace WebAppApi48Core.Controllers
             if (ModelState.IsValid == false)
                 return BadRequest(ModelState);
 
-            var personID = this.authService.VerifyCredentials(Request);
+            var personID = this.authService.GetPersonCode(HttpContext);
 
             dataAccess.InsertMedication(personID, dose.consumedDateTime, dose.PrescriptionID, dose.doseMg);
             return base.Ok();
