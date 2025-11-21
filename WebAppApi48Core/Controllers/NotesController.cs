@@ -77,6 +77,11 @@ namespace WebAppApi48Core.Controllers
             return base.Ok(dataAccess.InsertNote(personID, body.dateTime, body.NoteText, body.BehaviorChange, body.DisplayAsHTML, body.EntityID, body.TableName));
         }
 
+        /// <summary>
+        /// Delete the note by id.
+        /// </summary>
+        /// <param name="noteID"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("{noteID:long}")]
         public IActionResult Delete([FromRoute] long noteID)

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,6 +96,11 @@ builder.Services.AddSwaggerGen(options =>
             new string[] {}
         }
     });
+
+    // Add XML comments
+    // Based on prompt: how do i include xml comments in swagger in .net 9 asp.net core
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 var app = builder.Build();
 // Configure the HTTP request pipeline.
