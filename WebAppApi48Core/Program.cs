@@ -15,8 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Authentication schemes
 // Add authentication
-builder.Services.AddAuthentication("BasicAuthentication")
-    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+const string BasicAuthentication = "BasicAuthentication";
+builder.Services.AddAuthentication(BasicAuthentication)
+    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(BasicAuthentication, null);
 builder.Services.AddAuthorization();
 
 const string MyAllowSpecificOrigins = "MyAllowSpecificOrigins";
@@ -79,7 +80,7 @@ builder.Services.AddSwaggerGen(options =>
         Type = SecuritySchemeType.Http,
         Scheme = basicScheme,
         In = ParameterLocation.Header,
-        Description = "Basic Authorization header using the Bearer scheme."
+        Description = "Basic Authorization header using the Basic scheme."
     });
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
