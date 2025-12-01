@@ -24,7 +24,7 @@ namespace DataAccessLayer
                     toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, 999);
 
                     var notes = from n in c.GetTable<Notes>()
-                            where n.PersonID == personID && fromDate < n.RecordedDate && toDate > n.RecordedDate && (includePersonal || n.Personal != 1)
+                            where n.PersonId == personID && fromDate < n.RecordedDate && toDate > n.RecordedDate && (includePersonal || n.Personal != 1)
                                 orderby n.RecordedDate descending
                             select n;
                     return notes.ToList();
@@ -44,7 +44,7 @@ namespace DataAccessLayer
                 if (personID > -1)
                 {
                     var notes = from n in c.GetTable<Notes>()
-                                where n.PersonID == personID && (includePersonal || n.Personal != 1)
+                                where n.PersonId == personID && (includePersonal || n.Personal != 1)
                                 join link in c.GetTable<TableNotesLinks>() on n.Id equals link.NotesID
                                 where link.EntityID == entityID && link.Table == tableName
                                 orderby n.RecordedDate descending
@@ -67,7 +67,7 @@ namespace DataAccessLayer
                 {
                     var n = new Notes()
                     {
-                        PersonID = personID,
+                        PersonId = (uint)personID,
                         RecordedDate = date,
                         Text = note,
                         UpdatedUser = "BKL",
@@ -78,7 +78,7 @@ namespace DataAccessLayer
                     var result = c.Insert<Notes>( n);
 
                     var newNote = from nn in c.GetTable<Notes>()
-                                  where nn.Text == n.Text && nn.RecordedDate == n.RecordedDate && nn.PersonID == n.PersonID
+                                  where nn.Text == n.Text && nn.RecordedDate == n.RecordedDate && nn.PersonId == n.PersonId
                                   select nn.Id;
 
                     var noteID = newNote.FirstOrDefault();
@@ -88,7 +88,7 @@ namespace DataAccessLayer
                         result = c.Insert<TableNotesLinks>(
                         new TableNotesLinks()
                         {
-                            PersonID = personID,
+                            PersonId = (uint)personID,
                             CreatedDate = DateTime.Now,
                             NotesID = noteID,
                             CreatedBy = "BKL",
@@ -110,7 +110,7 @@ namespace DataAccessLayer
             {
                 using (var c = NewDataConnection())
                 {
-                    return c.Delete<Notes>(new Notes { Id = noteID, PersonID = personID });
+                    return c.Delete<Notes>(new Notes { Id = (uint)noteID, PersonId = (uint)personID });
                 }
             }
 
@@ -119,13 +119,13 @@ namespace DataAccessLayer
 
         public long UpdateNote(long personID, DateTime date, string note, bool behaviourChangeNeeded, long noteID, bool displayAsHTML)
         {
-            if (personID > 0)
+            if (personID != PersonDataAccess.INVALID_PERSON_CODE)
             {
                 using (var c = NewDataConnection())
                 {
                     // check note belongs to person first.
                     var n = from a in c.GetTable<Notes>()
-                            where a.Id == noteID && a.PersonID == personID
+                            where a.Id == noteID && a.PersonId == personID
                             select a;
 
                     // Update and Save Note

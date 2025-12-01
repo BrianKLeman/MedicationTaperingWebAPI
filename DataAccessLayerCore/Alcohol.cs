@@ -2,27 +2,36 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.Services.Interfaces.IModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccessLayerCore;
+namespace test;
 
 [Table("alcohol")]
-public partial class alcohol
+[Index("Id", Name = "ID_UNIQUE", IsUnique = true)]
+public partial class Alcohol  : IId, IPersonID
 {
     [Key]
-    public int ALCOHOL_ID { get; set; }
+    [Column("ID")]
+    public uint Id { get; set; }
 
+    [Column("DETAILS")]
     [StringLength(45)]
-    public string? DETAILS { get; set; }
+    public string? Details { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? CREATED_DATE { get; set; }
+    [Column("CREATED_DATE", TypeName = "datetime")]
+    public DateTime? CreatedDate { get; set; }
 
+    [Column("CREATED_USER")]
     [StringLength(3)]
-    public string? CREATED_USER { get; set; }
+    public string? CreatedUser { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? CONSUMED_DATE { get; set; }
+    [Column("CONSUMED_DATE", TypeName = "datetime")]
+    public DateTime? ConsumedDate { get; set; }
 
-    public sbyte? PERSONAL { get; set; }
+    [Column("PERSONAL")]
+    public sbyte? Personal { get; set; }
+
+    [Column("PERSON_ID")]
+    public uint PersonId { get; set; }
 }

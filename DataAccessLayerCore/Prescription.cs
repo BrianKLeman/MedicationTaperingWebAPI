@@ -2,37 +2,48 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.Services.Interfaces.IModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccessLayerCore;
+namespace test;
 
 /// <summary>
 /// PRESCRIBED MEDICATION
 /// </summary>
-public partial class prescription
+[Table("prescriptions")]
+[Index("Id", Name = "ID_UNIQUE", IsUnique = true)]
+public partial class Prescription  : IId, IPersonID
 {
     [Key]
-    public uint PRESCRIPTION_ID { get; set; }
+    [Column("ID")]
+    public uint Id { get; set; }
 
+    [Column("NAME")]
     [StringLength(100)]
-    public string NAME { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
+    [Column("DOSE_MG")]
     [Precision(11, 3)]
-    public decimal? DOSE_MG { get; set; }
+    public decimal? DoseMg { get; set; }
 
-    public int? REASON { get; set; }
+    [Column("REASON")]
+    public int? Reason { get; set; }
 
-    public int? MIN_HALFLIFE_HOURS { get; set; }
+    [Column("MIN_HALFLIFE_HOURS")]
+    public int? MinHalflifeHours { get; set; }
 
-    public int? MAX_HALFLIFE_HOURS { get; set; }
+    [Column("MAX_HALFLIFE_HOURS")]
+    public int? MaxHalflifeHours { get; set; }
 
-    public int? AVERAGE_HALFLIFE_HOURS { get; set; }
+    [Column("AVERAGE_HALFLIFE_HOURS")]
+    public int? AverageHalflifeHours { get; set; }
 
-    public int PERSON_ID { get; set; }
+    [Column("PERSON_ID")]
+    public uint PersonId { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? END_DATE { get; set; }
+    [Column("END_DATE", TypeName = "datetime")]
+    public DateTime? EndDate { get; set; }
 
-    [InverseProperty("PRESCRIPTION")]
-    public virtual ICollection<medication> medications { get; set; } = new List<medication>();
+    [InverseProperty("Prescription")]
+    public virtual ICollection<Medication> Medications { get; set; } = new List<Medication>();
 }

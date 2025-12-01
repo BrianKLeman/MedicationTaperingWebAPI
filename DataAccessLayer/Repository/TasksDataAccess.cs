@@ -19,7 +19,7 @@ namespace DataAccessLayer
                 if(personID > -1)
                 {
                     var notes = from n in c.GetTable<Tasks>()
-                            where n.PersonID == personID && (personal == 1 || n.Personal == personal)
+                            where n.PersonId == personID && (personal == 1 || n.Personal == personal)
                                 orderby n.CreatedDate descending
                             select n;
                     return notes.ToList();
@@ -40,9 +40,9 @@ namespace DataAccessLayer
                 if (personID > -1)
                 {
                     var tasks = from n in c.GetTable<Tasks>()
-                                where n.PersonID == personID && (personal == 1 || n.Personal == personal)
+                                where n.PersonId == personID && (personal == 1 || n.Personal == personal)
                                 join l in c.GetTable<TableTaskLinks>() on n.Id equals l.TaskID
-                                where ( l.PersonID == personID && l.TableName == tableName && l.EntityID == entityID)
+                                where ( l.PersonId == personID && l.TableName == tableName && l.EntityID == entityID)
                                 
                                 orderby n.CreatedDate descending
                                 select n;
@@ -60,9 +60,9 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1 && t.PersonID == personID)
+                if (personID > -1 && t.PersonId == personID)
                 {
-                    t.PersonID = personID;
+                    t.PersonId = (uint)personID;
                     var result = c.Update(t);
                     
                     return result;
@@ -78,15 +78,15 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1 && (t.PersonID == 0 || t.PersonID == personID))
+                if (personID > -1 && (t.PersonId == 0 || t.PersonId == personID))
                 {
                     t.Id = 0; // I think setting the task id to zero will make
                                 // it get an id by default.
-                    t.PersonID = personID;
+                    t.PersonId = (uint)personID;
                     var result = c.Insert(t);
 
                     var tasks = from n in c.GetTable<Tasks>()
-                    where n.TaskName == t.TaskName && n.PersonID == personID
+                    where n.TaskName == t.TaskName && n.PersonId == personID
                     select n;
                     return tasks.Max<Tasks>( (x) => x.Id);
                 }
@@ -101,11 +101,11 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1 && (t.PersonID == 0 || t.PersonID == personID))
+                if (personID > -1 && (t.PersonId == 0 || t.PersonId == personID))
                 {
                     // Check task with same id belongs to same person
                     var tasks = from task in c.GetTable<Tasks>()
-                                where task.PersonID == personID && t.Id == task.Id
+                                where task.PersonId == personID && t.Id == task.Id
                                 select task;
 
                     var result = -1;

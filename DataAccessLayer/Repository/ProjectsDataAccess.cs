@@ -18,7 +18,7 @@ namespace DataAccessLayer
                 if (personID > -1)
                 {
                     var projects = from p in c.GetTable<Projects>()
-                                        where p.PersonID == personID && (includePersonal || p.Personal != 1)
+                                        where p.PersonId == personID && (includePersonal || p.Personal != 1)
                                         select p;
 
                     return projects.ToList();

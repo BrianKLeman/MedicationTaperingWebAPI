@@ -15,10 +15,10 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1)
+                if (personID != PersonDataAccess.INVALID_PERSON_CODE)
                 {
                     var jobs = from j in c.GetTable<JobsAtHomeSummaryView>()
-                               where j.PersonID == personID
+                               where j.PersonId == personID
                                orderby j.DateCompleted descending
                                select j;
                     return jobs.ToList();

@@ -2,49 +2,67 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.Services.Interfaces.IModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccessLayerCore;
+namespace test;
 
-[Index("TASK_ID", Name = "TASK_ID_UNIQUE", IsUnique = true)]
-public partial class task
+[Table("tasks")]
+[Index("Id", Name = "TASK_ID_UNIQUE", IsUnique = true)]
+public partial class Task  : IId, IPersonID
 {
     [Key]
-    public int TASK_ID { get; set; }
+    [Column("ID")]
+    public uint Id { get; set; }
 
+    [Column("TASK_NAME")]
     [StringLength(255)]
-    public string? TASK_NAME { get; set; }
+    public string? TaskName { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? CREATED_DATE { get; set; }
+    [Column("CREATED_DATE", TypeName = "datetime")]
+    public DateTime? CreatedDate { get; set; }
 
-    public int? CREATED_BY { get; set; }
+    [Column("CREATED_BY")]
+    [StringLength(3)]
+    public string? CreatedBy { get; set; }
 
-    public int? PERSON_ID { get; set; }
+    [Column("PERSON_ID")]
+    public uint PersonId { get; set; }
 
+    [Column("STATUS")]
     [StringLength(45)]
-    public string? STATUS { get; set; }
+    public string? Status { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? DUE_DATE { get; set; }
+    [Column("DUE_DATE", TypeName = "datetime")]
+    public DateTime? DueDate { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? DATE_COMPLETED { get; set; }
+    [Column("DATE_COMPLETED", TypeName = "datetime")]
+    public DateTime? DateCompleted { get; set; }
 
+    [Column("PRIORITY")]
     [Precision(10, 0)]
-    public decimal? PRIORITY { get; set; }
+    public decimal? Priority { get; set; }
 
+    [Column("DESCRIPTION")]
     [StringLength(255)]
-    public string? DESCRIPTION { get; set; }
+    public string? Description { get; set; }
 
-    public sbyte? PERSONAL { get; set; }
+    [Column("PERSONAL")]
+    public sbyte? Personal { get; set; }
 
-    public int? ESTIMATE { get; set; }
+    [Column("ESTIMATE")]
+    public int? Estimate { get; set; }
 
-    public sbyte REQUIRES_LEARNING { get; set; }
+    [Column("REQUIRES_LEARNING")]
+    public sbyte RequiresLearning { get; set; }
 
-    [Column(TypeName = "text")]
-    public string? ACCEPTANCE_CRITERIA { get; set; }
+    [Column("ACCEPTANCE_CRITERIA", TypeName = "text")]
+    public string? AcceptanceCriteria { get; set; }
 
-    public int DIFFICULTY { get; set; }
+    [Column("DIFFICULTY")]
+    public int Difficulty { get; set; }
+
+    [Column("ORDER")]
+    [Precision(10)]
+    public decimal Order { get; set; }
 }

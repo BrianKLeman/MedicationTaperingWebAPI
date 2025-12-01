@@ -18,7 +18,7 @@ namespace DataAccessLayer
                 if (personID > -1)
                 {
                     var aims = from n in c.GetTable<LearningAims>()
-                               where n.PersonID == personID
+                               where n.PersonId == personID
                                select n;
                     return aims.ToList();
                 }

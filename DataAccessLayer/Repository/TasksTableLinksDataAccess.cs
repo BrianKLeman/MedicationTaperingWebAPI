@@ -13,7 +13,7 @@ namespace DataAccessLayer
         public TaskLinksDataAccess(IConnectionStringProvider connectionStringProvider)
             : base(connectionStringProvider) { }
 
-        public long Insert(long personID, long[] taskIDs, string table_name, long entity_id)
+        public long Insert(uint personID, uint[] taskIDs, string table_name, uint entity_id)
         {
             var result = -1;
             if(personID > 0)
@@ -22,12 +22,12 @@ namespace DataAccessLayer
                 {
                     // Filter out task ids with links that already exist.
                     var idsThatAlreadyExist = (from t in c.GetTable<TableTaskLinks>()
-                                              where t.EntityID == entity_id && t.TableName.Trim() == table_name.Trim() && t.PersonID == personID
+                                              where t.EntityID == entity_id && t.TableName.Trim() == table_name.Trim() && t.PersonId == personID
                                               select t.TaskID).ToList();
                     // Insert tasks.
                     foreach (var id in taskIDs.Where( x => idsThatAlreadyExist.Contains(x) == false))
                     {
-                        result = c.Insert<TableTaskLinks>(new TableTaskLinks() { PersonID = personID, TaskID = id, EntityID = entity_id, TableName = table_name });
+                        result = c.Insert<TableTaskLinks>(new TableTaskLinks() { PersonId = (uint)personID, TaskID = id, EntityID = entity_id, TableName = table_name });
                         
                     }
                 }
@@ -35,7 +35,7 @@ namespace DataAccessLayer
             return -1;            
         }
 
-        public IEnumerable<TableTaskLinks> Select(long personID, long[] taskIDs, string tableName, long entityID)
+        public IEnumerable<TableTaskLinks> Select(uint personID, uint[] taskIDs, string tableName, uint entityID)
         {
             List<TableTaskLinks> result = new List<TableTaskLinks>();
             if (personID > 0)
@@ -45,7 +45,7 @@ namespace DataAccessLayer
                     foreach (var id in taskIDs)
                     {
                         result.AddRange(c.GetTable<TableTaskLinks>().
-                            Where( x => x.EntityID == entityID && x.PersonID == personID && x.TableName == tableName && x.TaskID == id));
+                            Where( x => x.EntityID == entityID && x.PersonId == personID && x.TableName == tableName && x.TaskID == id));
 
                     }
                 }
@@ -53,7 +53,7 @@ namespace DataAccessLayer
             return result;
         }
 
-        public IEnumerable<TableTaskLinks> Select(long personID, long[] taskIDs, string tableName)
+        public IEnumerable<TableTaskLinks> Select(uint personID, uint[] taskIDs, string tableName)
         {
             List<TableTaskLinks> result = new List<TableTaskLinks>();
             if (personID > 0)
@@ -63,7 +63,7 @@ namespace DataAccessLayer
                     foreach (var id in taskIDs)
                     {
                         result.AddRange(c.GetTable<TableTaskLinks>().
-                            Where(x => x.PersonID == personID && x.TableName == tableName && x.TaskID == id));
+                            Where(x => x.PersonId == personID && x.TableName == tableName && x.TaskID == id));
 
                     }
                 }

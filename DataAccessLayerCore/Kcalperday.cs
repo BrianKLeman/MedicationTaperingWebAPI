@@ -8,12 +8,13 @@ using Microsoft.EntityFrameworkCore;
 namespace test;
 
 [Keyless]
-public partial class JobsAtHomeFrequency 
+public partial class Kcalperday 
 {
-    [Column("job")]
-    [StringLength(45)]
-    public string? Job { get; set; }
+    [Column("MEAL_DATE")]
+    [StringLength(72)]
+    public string? MealDate { get; set; }
 
-    [Column("amount")]
-    public long Amount { get; set; }
+    [Column("SUM(KCAL_PER_PERSON)")]
+    [Precision(53, 0)]
+    public decimal? SumKcalPerPerson { get; set; }
 }

@@ -2,27 +2,34 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.Services.Interfaces.IModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccessLayerCore;
+namespace test;
 
-[Index("ID", Name = "ID_UNIQUE", IsUnique = true)]
-public partial class sprint
+[Table("sprints")]
+[Index("Id", Name = "ID_UNIQUE", IsUnique = true)]
+[Index("PersonId", Name = "PERSON_ID_UNIQUE", IsUnique = true)]
+public partial class Sprint  : IId, IPersonID
 {
     [Key]
-    public int ID { get; set; }
+    [Column("ID")]
+    public uint Id { get; set; }
 
-    public int? PERSON_ID { get; set; }
+    [Column("PERSON_ID")]
+    public uint PersonId { get; set; }
 
+    [Column("NAME")]
     [StringLength(45)]
-    public string? NAME { get; set; }
+    public string? Name { get; set; }
 
+    [Column("DESCRIPTION")]
     [StringLength(255)]
-    public string? DESCRIPTION { get; set; }
+    public string? Description { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? START_DATE { get; set; }
+    [Column("START_DATE", TypeName = "datetime")]
+    public DateTime? StartDate { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? END_DATE { get; set; }
+    [Column("END_DATE", TypeName = "datetime")]
+    public DateTime? EndDate { get; set; }
 }

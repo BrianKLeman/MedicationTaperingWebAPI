@@ -18,7 +18,7 @@ namespace DataAccessLayer
                 if (personID > -1)
                 {
                     var apps = from n in c.GetTable<JobsAtHome>()
-                               where n.PersonID == personID
+                               where n.PersonId == personID
                                orderby n.CreatedDate descending
                                select n;
                     return apps.ToList();

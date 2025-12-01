@@ -2,27 +2,33 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.Services.Interfaces.IModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccessLayerCore;
+namespace test;
 
-[Index("APPOINTMENT_ID", Name = "APPOINTMENT_ID_UNIQUE", IsUnique = true)]
-public partial class appointment
+[Table("appointments")]
+[Index("Id", Name = "APPOINTMENT_ID_UNIQUE", IsUnique = true)]
+public partial class Appointment  : IId, IPersonID
 {
     [Key]
-    public int APPOINTMENT_ID { get; set; }
+    [Column("ID")]
+    public uint Id { get; set; }
 
+    [Column("APPOINTMENT_NAME")]
     [StringLength(45)]
-    public string? APPOINTMENT_NAME { get; set; }
+    public string? AppointmentName { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? APPOINTMENT_DATE { get; set; }
+    [Column("APPOINTMENT_DATE", TypeName = "datetime")]
+    public DateTime? AppointmentDate { get; set; }
 
-    public int? PEOPLE_ID { get; set; }
+    [Column("PERSON_ID")]
+    public uint PersonId { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? CREATED_DATE { get; set; }
+    [Column("CREATED_DATE", TypeName = "datetime")]
+    public DateTime? CreatedDate { get; set; }
 
+    [Column("CREATED_BY")]
     [StringLength(3)]
-    public string? CREATED_BY { get; set; }
+    public string? CreatedBy { get; set; }
 }

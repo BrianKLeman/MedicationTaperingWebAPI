@@ -14,6 +14,15 @@
 <#@ import namespace="Microsoft.EntityFrameworkCore.Design" #>
 <#@ import namespace="Microsoft.Extensions.DependencyInjection" #>
 <#
+    string extendIIdAndIPersonID = "";
+    extendIIdAndIPersonID = " : IId, IPersonID";
+    bool hasPersonID = EntityType.GetProperties().FirstOrDefault(p => p.Name == "PersonId") != null;
+    bool hasID = EntityType.GetProperties().FirstOrDefault(p => p.Name == "Id") != null;
+    if(!hasPersonID || !hasID)
+    {
+        extendIIdAndIPersonID = "";
+    }
+
     if (EntityType.IsSimpleManyToManyJoinEntityType())
     {
         // Don't scaffold these
@@ -27,7 +36,8 @@
     var usings = new List<string>
     {
         "System",
-        "System.Collections.Generic"
+        "System.Collections.Generic",
+        "Data.Services.Interfaces.IModels"
     };
 
     if (Options.UseDataAnnotations)
@@ -63,8 +73,9 @@ namespace <#= NamespaceHint #>;
 <#
         }
     }
+    
 #>
-public partial class <#= EntityType.Name #>
+public partial class <#= EntityType.Name #> <#= extendIIdAndIPersonID #>
 {
 <#
     var firstProperty = true;

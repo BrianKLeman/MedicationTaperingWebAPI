@@ -7,26 +7,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace test;
 
-[Table("adhoc_detail")]
+/// <summary>
+/// 	
+/// </summary>
+[Table("meal_part")]
 [Index("Id", Name = "ID_UNIQUE", IsUnique = true)]
-public partial class AdhocDetail  : IId, IPersonID
+public partial class MealPart  : IId, IPersonID
 {
     [Key]
     [Column("ID")]
     public uint Id { get; set; }
 
-    [Column("ADHOC_TABLE_ID")]
-    public int AdhocTableId { get; set; }
+    [Column("FOOD_ITEM_ID")]
+    public int? FoodItemId { get; set; }
 
-    [Column("ADHOC_TABLE_ROW_ID")]
-    public int AdhocTableRowId { get; set; }
+    [Column("AMOUNT_GRAMS")]
+    [Precision(5)]
+    public decimal? AmountGrams { get; set; }
 
-    [Column("ADHOC_TABLE_COLUMN_ID")]
-    public int AdhocTableColumnId { get; set; }
-
-    [Column("DETAILS")]
-    [StringLength(2048)]
-    public string? Details { get; set; }
+    [Column("MEAL_ID")]
+    [StringLength(45)]
+    public string? MealId { get; set; }
 
     [Column("PERSON_ID")]
     public uint PersonId { get; set; }

@@ -1,4 +1,5 @@
-﻿using DataAccessLayer;
+﻿using Data.Services.Interfaces.IRespository;
+using DataAccessLayer;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,20 +11,22 @@ namespace WebAppApi48.Controllers
     [Authorize]
     public class SleepsController : ControllerBase
     {
-        public SleepsController(IAuthService authService, ISleepsDataAccess dataAccess)
+        public SleepsController(IAuthService authService, ISleepsDataAccess dataAccess, IODataRepository<test.Sleep> sleepsRepository)
         {
             this.authService = authService;
             this.dataAccess = dataAccess;
+            this.sleepsRepository = sleepsRepository;
         }
 
         private IAuthService authService;
         private ISleepsDataAccess dataAccess;
+        private IODataRepository<test.Sleep> sleepsRepository;
 
         [HttpGet]
-        public IEnumerable<Sleeps> Get()
+        public IEnumerable<test.Sleep> Get()
         {
             var personID = this.authService.GetPersonCode(HttpContext);
-            return dataAccess.GetSleeps(personID);
+            return sleepsRepository.Get(personID);
         }
 
         [HttpPut]

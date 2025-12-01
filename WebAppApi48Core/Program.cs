@@ -1,15 +1,16 @@
 using Data.Services.Interfaces;
 using DataAccessLayer;
-using DataAccessLayer.Models;
 using DataAccessLayer.Repository;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using WebAppApi48Core.Services;
-
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Data.Services.Interfaces.IRespository;
+using DataAccessLayerCore.Services;
+using test;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,13 +58,18 @@ builder.Services.AddScoped<IAdhocTablesDetailsDataAccess, AdhocTablesDetailsData
 builder.Services.AddScoped<IAdhocTableRowDataAccess, AdhocTablesRowsDataAccess>();
 builder.Services.AddScoped<IFeaturesDataAccess, FeaturesDataAccess>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IODataRepository<test.Alcohol>, ODataEFRepository<test.Alcohol>>();
+builder.Services.AddScoped<IODataRepository<test.Sleep>, ODataEFRepository<test.Sleep>>();
+
+builder.Services.AddScoped<IODataRepository<test.ShoppingItem>, ODataEFRepository<test.ShoppingItem>>();
+builder.Services.AddDbContext<MedicationTaperDatabaseContext>();
 
 
 // OData
 ODataModelBuilder modelBuilder = new ODataConventionModelBuilder();
-modelBuilder.EntitySet<ShoppingItems>("ShoppingItems");
-modelBuilder.EntitySet<Alcohol>("Alcohol");
-modelBuilder.EntitySet<Sprint>("Sprints");
+modelBuilder.EntitySet<test.ShoppingItem>("ShoppingItems");
+modelBuilder.EntitySet<test.Alcohol>("Alcohol");
+modelBuilder.EntitySet<test.Sprint>("Sprints");
 
 
 builder.Services.AddControllers().AddOData(
@@ -82,21 +88,25 @@ builder.Services.AddSwaggerGen(options =>
         In = ParameterLocation.Header,
         Description = "Basic Authorization header using the Basic scheme."
     });
+    options.AddSecurityRequirement(
+        (document) => 
+        new OpenApiSecurityRequirement {
+                [new OpenApiSecuritySchemeReference(basicScheme, document)]=[]
+        });
 
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
+    /*options.AddSecurityRequirement(new OpenApiSecurityRequirement  
+         
         {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
+           new OpenApiSecurityScheme
                 {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = basicScheme
-                }
-            },
-            new string[] {}
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    In = ParameterLocation.Header
+                    
+                },
+                new string[] {}
         }
-    });
+    );*/
 
     // Add XML comments
     // Based on prompt: how do i include xml comments in swagger in .net 9 asp.net core

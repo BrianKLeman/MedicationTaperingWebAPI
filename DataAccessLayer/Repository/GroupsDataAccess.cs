@@ -17,7 +17,7 @@ namespace DataAccessLayer
                 if(personID > -1)
                 {
                     var groups = from g in c.GetTable<Groups>()
-                                 where g.PersonID == personID
+                                 where g.PersonId == personID
                                  orderby g.Id descending
                                  select g;
                     return groups.ToList();

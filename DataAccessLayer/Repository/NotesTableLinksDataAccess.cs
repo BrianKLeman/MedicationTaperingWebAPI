@@ -21,7 +21,7 @@ namespace DataAccessLayer
                 {
                     foreach (var id in noteIDs)
                     {
-                        result = c.Insert<TableNotesLinks>(new TableNotesLinks() { PersonID = personID, CreatedDate = DateTime.Now, NotesID = id, CreatedBy = "BKL", EntityID = entity_id, Table = table_name });
+                        result = c.Insert<TableNotesLinks>(new TableNotesLinks() { PersonId = (uint)personID, CreatedDate = DateTime.Now, NotesID = id, CreatedBy = "BKL", EntityID = entity_id, Table = table_name });
                         
                     }
                 }

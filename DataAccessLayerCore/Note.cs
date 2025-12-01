@@ -2,49 +2,54 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.Services.Interfaces.IModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccessLayerCore;
+namespace test;
 
 /// <summary>
 /// Notes by person
 /// </summary>
-[Index("PERSON_ID", Name = "PERSON_ID_PEOPLE_ID_FK")]
-public partial class note
+[Table("notes")]
+[Index("Id", Name = "ID_UNIQUE", IsUnique = true)]
+public partial class Note  : IId, IPersonID
 {
     [Key]
-    public uint NOTE_ID { get; set; }
+    [Column("ID")]
+    public uint Id { get; set; }
 
     /// <summary>
     /// RANDOM_NOTES
     /// </summary>
-    [Column(TypeName = "text")]
-    public string? TEXT { get; set; }
+    [Column("TEXT", TypeName = "text")]
+    public string? Text { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime CREATED_DATE { get; set; }
+    [Column("CREATED_DATE", TypeName = "datetime")]
+    public DateTime CreatedDate { get; set; }
 
+    [Column("CREATED_USER")]
     [StringLength(3)]
-    public string? CREATED_USER { get; set; }
+    public string? CreatedUser { get; set; }
 
-    public uint PERSON_ID { get; set; }
+    [Column("PERSON_ID")]
+    public uint PersonId { get; set; }
 
+    [Column("UPDATED_USER")]
     [StringLength(3)]
-    public string? UPDATED_USER { get; set; }
+    public string? UpdatedUser { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? RECORDED_DATE { get; set; }
+    [Column("RECORDED_DATE", TypeName = "datetime")]
+    public DateTime? RecordedDate { get; set; }
 
-    public sbyte? BEHAVIOR_CHANGE_NEEDED { get; set; }
+    [Column("BEHAVIOR_CHANGE_NEEDED")]
+    public sbyte? BehaviorChangeNeeded { get; set; }
 
-    public sbyte? DISPLAY_AS_HTML { get; set; }
+    [Column("DISPLAY_AS_HTML")]
+    public sbyte? DisplayAsHtml { get; set; }
 
-    public sbyte? PERSONAL { get; set; }
+    [Column("PERSONAL")]
+    public sbyte? Personal { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? UPDATED_DATE { get; set; }
-
-    [ForeignKey("PERSON_ID")]
-    [InverseProperty("notes")]
-    public virtual person PERSON { get; set; } = null!;
+    [Column("UPDATED_DATE", TypeName = "datetime")]
+    public DateTime? UpdatedDate { get; set; }
 }

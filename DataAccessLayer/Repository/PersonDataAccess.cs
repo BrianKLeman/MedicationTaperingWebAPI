@@ -7,33 +7,38 @@ namespace DataAccessLayer.Repository
 {
     public class PersonDataAccess : DataAccessBase, IPersonDataAccess
     {
+        public static readonly uint INVALID_PERSON_CODE = 0;
         public PersonDataAccess(IConnectionStringProvider connectionStringProvider)
             : base(connectionStringProvider) { }
-        public long AddToken(long personID, string token)
+        public uint AddToken(long personID, string token)
         {
-            if (personID > 0)
+            if (personID > INVALID_PERSON_CODE)
             {
                 using (var c = NewDataConnection())
                 {
-                     return c.Insert<AuthTokens>(new AuthTokens() { AuthToken = token, PersonID = personID, TokenDate = DateTime.Now });
+                     return (uint)c.Insert<AuthTokens>(new AuthTokens() { AuthToken = token, PersonId = (uint)personID, TokenDate = DateTime.Now });
                 }
             }
 
-            return -1;
+            return INVALID_PERSON_CODE;
         }
 
-        public long CheckToken(string token)
+        public uint CheckToken(string token)
         {
             if (string.IsNullOrWhiteSpace(token))
-                return -1;
+                return INVALID_PERSON_CODE;
 
             using (var c = NewDataConnection())
             {
                 var p = from t in c.GetTable<AuthTokens>()
                         where t.AuthToken == token
                         select t;
-
-                return p.FirstOrDefault()?.PersonID ?? -1;
+                uint id = INVALID_PERSON_CODE;
+                if(p.FirstOrDefault() != null)
+                {
+                    id = p.FirstOrDefault().PersonId;
+                }
+                return id;
             }
         }
 
@@ -43,10 +48,10 @@ namespace DataAccessLayer.Repository
             {
                 var pID = GetPersonID(username, password);
 
-                if (pID > -1)
+                if (pID != INVALID_PERSON_CODE)
                 {
                     var person = from p in c.GetTable<People>()
-                                 where (p.PersonID == pID)
+                                 where (p.PersonId == pID)
                                  select p;
                     var people = person.ToList().FirstOrDefault();
                     return people?.Password ?? string.Empty;
@@ -56,25 +61,35 @@ namespace DataAccessLayer.Repository
             }
         }
 
-        public long GetPersonID(string username, string password)
+        public uint GetPersonID(string username, string password)
         {
             using (var c = NewDataConnection())
             {
                 var a = from p in c.GetTable<People>()
                         where p.Password == password && p.PeopleAnon == username
                         select p;
-                return a.FirstOrDefault()?.PersonID ?? -1;
+                uint id = INVALID_PERSON_CODE;
+                if (a?.FirstOrDefault() is People ppl)
+                {
+                    id = ppl.PersonId;
+                }
+                return id;
             }
         }
 
-        public long GetPersonIDForReadOnlyAccess(string username)
+        public uint GetPersonIDForReadOnlyAccess(string username)
         {
             using (var c = NewDataConnection())
             {
                 var a = from p in c.GetTable<People>()
                         where p.ReadOnlyAnon != null && p.ReadOnlyAnon.Trim() != "" && p.ReadOnlyAnon == username
                         select p;
-                return a.FirstOrDefault()?.PersonID ?? -1;
+                uint id = INVALID_PERSON_CODE;
+                if (a?.FirstOrDefault() is People ppl)
+                {
+                    id = ppl.PersonId;
+                }
+                return id;
             }
         }
 
@@ -83,7 +98,7 @@ namespace DataAccessLayer.Repository
             using (var c = NewDataConnection())
             {
                     var person = from p in c.GetTable<People>()
-                                 where (p.PersonID == personCode)
+                                 where (p.PersonId == personCode)
                                  select p;
                     var people = person.ToList().FirstOrDefault();
                     return people?.PeopleAnon ?? string.Empty;   

@@ -17,7 +17,7 @@ namespace WebAppApi48Core.Services
         public string CreateToken(long personCode, out string UserID, out string Token)
         {           
 
-            if (personCode < 0)
+            if (personCode == PersonDataAccess.INVALID_PERSON_CODE)
             {
                 UserID = string.Empty;
                 Token = string.Empty;
@@ -34,23 +34,23 @@ namespace WebAppApi48Core.Services
             return "";
         }
 
-        public long VerifyCredentials(string userID, string password)
+        public uint VerifyCredentials(string userID, string password)
         {          
             if (!string.IsNullOrEmpty(userID) && !string.IsNullOrEmpty(password))
                 return dataAccess.GetPersonID(userID, password);
 
-            return -1;
+            return PersonDataAccess.INVALID_PERSON_CODE;
         }
 
 
-        public long CheckToken(string token)
+        public uint CheckToken(string token)
         {
             return dataAccess.CheckToken(token);
         }
 
-        public long GetPersonCode(HttpContext context)
+        public uint GetPersonCode(HttpContext context)
         {
-            return long.Parse(context.User.Claims.FirstOrDefault(x => x.Type == BasicAuthenticationHandler.PERSON_CODE_CLAIM).Value);
+            return uint.Parse(context.User.Claims.FirstOrDefault(x => x.Type == BasicAuthenticationHandler.PERSON_CODE_CLAIM).Value);
         }
     }
 }

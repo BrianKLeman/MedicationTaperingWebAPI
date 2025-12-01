@@ -2,27 +2,36 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.Services.Interfaces.IModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccessLayerCore;
+namespace test;
 
-[Index("MEALS_ID", Name = "MEALS_ID_UNIQUE", IsUnique = true)]
-public partial class meal
+[Table("meals")]
+[Index("Id", Name = "MEALS_ID_UNIQUE", IsUnique = true)]
+public partial class Meal  : IId, IPersonID
 {
     [Key]
-    public int MEALS_ID { get; set; }
+    [Column("ID")]
+    public uint Id { get; set; }
 
+    [Column("DETAILS")]
     [StringLength(255)]
-    public string? DETAILS { get; set; }
+    public string? Details { get; set; }
 
-    public int? PEOPLE_ID { get; set; }
+    [Column("PERSON_ID")]
+    public uint PersonId { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? CREATED_DATE { get; set; }
+    [Column("CREATED_DATE", TypeName = "datetime")]
+    public DateTime? CreatedDate { get; set; }
 
+    [Column("CREATED_BY")]
     [StringLength(3)]
-    public string? CREATED_BY { get; set; }
+    public string? CreatedBy { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? EATEN_DATE { get; set; }
+    [Column("EATEN_DATE", TypeName = "datetime")]
+    public DateTime? EatenDate { get; set; }
+
+    [Column("SERVED_N_PEOPLE")]
+    public uint ServedNPeople { get; set; }
 }

@@ -2,40 +2,51 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.Services.Interfaces.IModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccessLayerCore;
+namespace test;
 
-public partial class project
+[Table("projects")]
+[Index("Id", Name = "ID_UNIQUE", IsUnique = true)]
+public partial class Project  : IId, IPersonID
 {
     [Key]
-    public int PROJECT_ID { get; set; }
+    [Column("ID")]
+    public uint Id { get; set; }
 
-    public int? PERSON_ID { get; set; }
+    [Column("PERSON_ID")]
+    public uint PersonId { get; set; }
 
+    [Column("PROJECT_NAME")]
     [StringLength(255)]
-    public string? PROJECT_NAME { get; set; }
+    public string? ProjectName { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? CREATED_DATE { get; set; }
+    [Column("CREATED_DATE", TypeName = "datetime")]
+    public DateTime? CreatedDate { get; set; }
 
+    [Column("CREATED_BY")]
     [StringLength(45)]
-    public string? CREATED_BY { get; set; }
+    public string? CreatedBy { get; set; }
 
+    [Column("STATUS")]
     [Precision(10, 0)]
-    public decimal? STATUS { get; set; }
+    public decimal? Status { get; set; }
 
+    [Column("PRIORITY")]
     [Precision(10, 0)]
-    public decimal? PRIORITY { get; set; }
+    public decimal? Priority { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? START_DATE { get; set; }
+    [Column("START_DATE", TypeName = "datetime")]
+    public DateTime? StartDate { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? END_DATE { get; set; }
+    [Column("END_DATE", TypeName = "datetime")]
+    public DateTime? EndDate { get; set; }
 
+    [Column("PRIORITY_WEIGHT")]
     [Precision(6, 3)]
-    public decimal? PRIORITY_WEIGHT { get; set; }
+    public decimal? PriorityWeight { get; set; }
 
-    public sbyte? PERSONAL { get; set; }
+    [Column("PERSONAL")]
+    public sbyte? Personal { get; set; }
 }

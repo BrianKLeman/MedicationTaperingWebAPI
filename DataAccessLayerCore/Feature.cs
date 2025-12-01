@@ -7,27 +7,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace test;
 
-[Table("adhoc_detail")]
+/// <summary>
+/// Listed as a swim lane in the kanban board
+/// </summary>
+[Table("features")]
 [Index("Id", Name = "ID_UNIQUE", IsUnique = true)]
-public partial class AdhocDetail  : IId, IPersonID
+public partial class Feature  : IId, IPersonID
 {
     [Key]
     [Column("ID")]
     public uint Id { get; set; }
 
-    [Column("ADHOC_TABLE_ID")]
-    public int AdhocTableId { get; set; }
-
-    [Column("ADHOC_TABLE_ROW_ID")]
-    public int AdhocTableRowId { get; set; }
-
-    [Column("ADHOC_TABLE_COLUMN_ID")]
-    public int AdhocTableColumnId { get; set; }
-
-    [Column("DETAILS")]
-    [StringLength(2048)]
-    public string? Details { get; set; }
+    [Column("NAME")]
+    [StringLength(45)]
+    public string? Name { get; set; }
 
     [Column("PERSON_ID")]
     public uint PersonId { get; set; }
+
+    [Column("PROJECT_ID")]
+    public int? ProjectId { get; set; }
+
+    [Column("LEARNING_AIM_ID")]
+    public int? LearningAimId { get; set; }
 }

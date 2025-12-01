@@ -19,7 +19,7 @@ namespace DataAccessLayer
                 if (personID > -1)
                 {
                     var apps = from n in c.GetTable<Appointments>()
-                               where n.PersonID == personID
+                               where n.PersonId == personID
                                orderby n.AppointmentDate descending
                                select n;
                     return apps.ToList();
@@ -38,7 +38,7 @@ namespace DataAccessLayer
             {
                 using (var c = NewDataConnection())
                 {
-                    appointment.PersonID = personID;
+                    appointment.PersonId = (uint)personID;
                     return c.Insert<Appointments>( appointment);
                 }
             }
@@ -51,8 +51,8 @@ namespace DataAccessLayer
             {
                 using (var c = NewDataConnection())
                 {
-                    appointment.PersonID = personID;
-                    if( c.GetTable<Appointments>().Where(x => x.Id == appointment.Id && x.PersonID == appointment.Id ).Count( ) == 1)                  
+                    appointment.PersonId = (uint)personID;
+                    if( c.GetTable<Appointments>().Where(x => x.Id == appointment.Id && x.PersonId == appointment.Id ).Count( ) == 1)                  
                     {                        
                         return c.Update( appointment);
                     }
@@ -67,7 +67,7 @@ namespace DataAccessLayer
             {
                 using (var c = NewDataConnection())
                 {
-                    var a = c.GetTable<Appointments>().Where(x => x.Id == appointmentID && x.PersonID == personID).FirstOrDefault();
+                    var a = c.GetTable<Appointments>().Where(x => x.Id == appointmentID && x.PersonId == personID).FirstOrDefault();
                     {
                         return c.Delete(a);
                     }

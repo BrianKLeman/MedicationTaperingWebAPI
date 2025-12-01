@@ -2,44 +2,51 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.Services.Interfaces.IModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccessLayerCore;
+namespace test;
 
 /// <summary>
 /// PEOPLE FOR Person&apos;s
 /// </summary>
-[Index("PEOPLE_ANON", Name = "PEOPLE_ANON_UNIQUE", IsUnique = true)]
-[Index("READONLY_ANON", Name = "READONLY_ANON_UNIQUE", IsUnique = true)]
-public partial class person
+[Table("people")]
+[Index("Id", Name = "ID_UNIQUE", IsUnique = true)]
+[Index("PeopleAnon", Name = "PEOPLE_ANON_UNIQUE", IsUnique = true)]
+[Index("PersonId", Name = "PEOPLE_ID_UNIQUE", IsUnique = true)]
+[Index("ReadonlyAnon", Name = "READONLY_ANON_UNIQUE", IsUnique = true)]
+public partial class Person  : IId, IPersonID
 {
     [Key]
-    public uint PEOPLE_ID { get; set; }
+    [Column("ID")]
+    public uint Id { get; set; }
 
+    [Column("PEOPLE_ANON")]
     [StringLength(8)]
-    public string? PEOPLE_ANON { get; set; }
+    public string? PeopleAnon { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime CREATED_DATE { get; set; }
+    [Column("CREATED_DATE", TypeName = "datetime")]
+    public DateTime CreatedDate { get; set; }
 
+    [Column("CREATED_BY")]
     [StringLength(3)]
-    public string? CREATED_BY { get; set; }
+    public string? CreatedBy { get; set; }
 
+    [Column("UPDATED_BY")]
     [StringLength(3)]
-    public string? UPDATED_BY { get; set; }
+    public string? UpdatedBy { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime UPDATED_DATE { get; set; }
+    [Column("UPDATED_DATE", TypeName = "datetime")]
+    public DateTime UpdatedDate { get; set; }
 
+    [Column("PASSWORD")]
     [StringLength(45)]
-    public string? PASSWORD { get; set; }
+    public string? Password { get; set; }
 
+    [Column("READONLY_ANON")]
     [StringLength(45)]
-    public string? READONLY_ANON { get; set; }
+    public string? ReadonlyAnon { get; set; }
 
-    [InverseProperty("PERSON")]
-    public virtual ICollection<medication> medications { get; set; } = new List<medication>();
-
-    [InverseProperty("PERSON")]
-    public virtual ICollection<note> notes { get; set; } = new List<note>();
+    [Column("PERSON_ID")]
+    public uint PersonId { get; set; }
 }

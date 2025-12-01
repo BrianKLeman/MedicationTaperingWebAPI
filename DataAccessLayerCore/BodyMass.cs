@@ -7,27 +7,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace test;
 
-[Table("adhoc_detail")]
+/// <summary>
+/// Keeps track of our Body Mass in Kilograms	
+/// </summary>
+[Table("body_mass")]
 [Index("Id", Name = "ID_UNIQUE", IsUnique = true)]
-public partial class AdhocDetail  : IId, IPersonID
+public partial class BodyMass  : IId, IPersonID
 {
     [Key]
     [Column("ID")]
     public uint Id { get; set; }
 
-    [Column("ADHOC_TABLE_ID")]
-    public int AdhocTableId { get; set; }
-
-    [Column("ADHOC_TABLE_ROW_ID")]
-    public int AdhocTableRowId { get; set; }
-
-    [Column("ADHOC_TABLE_COLUMN_ID")]
-    public int AdhocTableColumnId { get; set; }
-
-    [Column("DETAILS")]
-    [StringLength(2048)]
-    public string? Details { get; set; }
+    [Column("MASS_KG")]
+    [Precision(5, 1)]
+    public decimal? MassKg { get; set; }
 
     [Column("PERSON_ID")]
     public uint PersonId { get; set; }
+
+    [Column("CREATED_DATE", TypeName = "datetime")]
+    public DateTime CreatedDate { get; set; }
 }

@@ -1,15 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Data.Services.Interfaces.IModels;
+using Microsoft.EntityFrameworkCore;
 
-namespace DataAccessLayerCore;
+namespace test;
 
-public partial class AuthToken
+[Table("auth_tokens")]
+[Index("Id", Name = "TOKEN_ID_UNIQUE", IsUnique = true)]
+public partial class AuthToken  : IId, IPersonID
 {
-    public int TokenId { get; set; }
+    [Key]
+    [Column("ID")]
+    public uint Id { get; set; }
 
-    public int? PeopleId { get; set; }
+    [Column("PERSON_ID")]
+    public uint PersonId { get; set; }
 
+    [Column("AUTH_TOKEN")]
+    [StringLength(45)]
     public string? AuthToken1 { get; set; }
 
+    [Column("TOKEN_DATE", TypeName = "datetime")]
     public DateTime? TokenDate { get; set; }
 }

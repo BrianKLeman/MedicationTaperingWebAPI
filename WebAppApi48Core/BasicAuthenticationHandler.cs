@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using DataAccessLayer.Repository;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -39,7 +40,7 @@ public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSc
             if (credentials.Contains(':'))
                 parts = credentials.Split(':', 2);
 
-            long personID = -1;
+            long personID = PersonDataAccess.INVALID_PERSON_CODE;
             // Validate credentials (replace with your actual validation logic)
             if ((parts.Length == 2 && IsValidUser(parts[0], parts[1], out personID))
                 || IsValidToken(credentials, out personID))

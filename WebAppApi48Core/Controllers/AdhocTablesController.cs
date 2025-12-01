@@ -37,7 +37,7 @@ namespace WebAppApi48Core.Controllers
                 return base.BadRequest(ModelState);
 
             var personID = this.authService.GetPersonCode(HttpContext);
-            return base.Ok( new AdhocTable() { Id = dataAccess.CreateNewTable(personID, model.ProjectID, model.Name), Name = model.Name, ProjectID = model.ProjectID, PersonID = personID });
+            return base.Ok( new AdhocTable() { Id = (uint)dataAccess.CreateNewTable(personID, model.ProjectID, model.Name), Name = model.Name, ProjectID = model.ProjectID, PersonId = (uint)personID });
         }
 
         [Route("/{tableID}")]

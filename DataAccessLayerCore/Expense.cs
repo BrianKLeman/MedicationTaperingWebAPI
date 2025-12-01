@@ -2,30 +2,40 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.Services.Interfaces.IModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccessLayerCore;
+namespace test;
 
-public partial class expense
+[Table("expenses")]
+[Index("Id", Name = "ID_UNIQUE", IsUnique = true)]
+public partial class Expense  : IId, IPersonID
 {
     [Key]
-    public int EXPENSES_ID { get; set; }
+    [Column("ID")]
+    public uint Id { get; set; }
 
+    [Column("EXPENSES_NAME")]
     [StringLength(45)]
-    public string? EXPENSES_NAME { get; set; }
+    public string? ExpensesName { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? DATE_DUE { get; set; }
+    [Column("DATE_DUE", TypeName = "datetime")]
+    public DateTime? DateDue { get; set; }
 
-    public sbyte? REOCCURING { get; set; }
+    [Column("REOCCURING")]
+    public sbyte? Reoccuring { get; set; }
 
-    public int? ON_DAY { get; set; }
+    [Column("ON_DAY")]
+    public int? OnDay { get; set; }
 
-    public int? PERSON_ID { get; set; }
+    [Column("PERSON_ID")]
+    public uint PersonId { get; set; }
 
+    [Column("BALANCE")]
     [Precision(10)]
-    public decimal? BALANCE { get; set; }
+    public decimal? Balance { get; set; }
 
+    [Column("REGULAR_PAYMENT")]
     [Precision(10)]
-    public decimal? REGULAR_PAYMENT { get; set; }
+    public decimal? RegularPayment { get; set; }
 }

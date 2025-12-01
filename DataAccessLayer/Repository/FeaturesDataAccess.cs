@@ -19,7 +19,7 @@ namespace DataAccessLayer
                 if(personID > -1)
                 {
                     var notes = from n in c.GetTable<Feature>()
-                            where n.PersonID == personID
+                            where n.PersonId == personID
                             select n;
                     return notes.ToList();
                 }
@@ -38,7 +38,7 @@ namespace DataAccessLayer
                 if (personID > -1)
                 {
                     var features = from f in c.GetTable<Feature>()
-                           where f.PersonID == personID && f.ProjectID != null && f.ProjectID == projectID
+                           where f.PersonId == personID && f.ProjectID != null && f.ProjectID == projectID
                            select f;
                     return features.ToList();
                 }
@@ -56,7 +56,7 @@ namespace DataAccessLayer
                 if (personID > -1)
                 {
                     var features =  from f in c.GetTable<Feature>()
-                           where f.PersonID == personID && f.LearningAimID != null && f.LearningAimID == learningAimID
+                           where f.PersonId == personID && f.LearningAimID != null && f.LearningAimID == learningAimID
                            select f;
                     return features.ToList();
                 }
@@ -71,9 +71,9 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1 && f.PersonID == personID)
+                if (personID > -1 && f.PersonId == personID)
                 {
-                    f.PersonID = personID;
+                    f.PersonId = (uint)personID;
                     var result = c.Update(f);
                     
                     return result;
@@ -89,11 +89,11 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1 && (f.PersonID == 0 || f.PersonID == personID))
+                if (personID > -1 && (f.PersonId == 0 || f.PersonId == personID))
                 {
                     f.Id = 0; // I think setting the feature id to zero will make
                                 // it get an id by default.
-                    f.PersonID = personID;
+                    f.PersonId = (uint)personID;
                     var id = c.InsertWithIdentity(f);
 
                     
@@ -110,11 +110,11 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1 && (f.PersonID == 0 || f.PersonID == personID))
+                if (personID > -1 && (f.PersonId == 0 || f.PersonId == personID))
                 {
                     // Check task with same id belongs to same person
                     var features = from feature in c.GetTable<Feature>()
-                                where feature.PersonID == personID && f.Id == feature.Id
+                                where feature.PersonId == personID && f.Id == feature.Id
                                 select feature;
 
                     var result = -1;

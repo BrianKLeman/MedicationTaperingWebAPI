@@ -13,10 +13,10 @@ namespace WebAppApi48Core.Controllers
         public string Table { get; set; }
 
         [Required]
-        public long EntityID { get; set; }
+        public uint EntityID { get; set; }
 
         [Required]
-        public long[] TaskIDs { get; set; }
+        public uint[] TaskIDs { get; set; }
     }
 
     [Route("Api/TaskLinks")]

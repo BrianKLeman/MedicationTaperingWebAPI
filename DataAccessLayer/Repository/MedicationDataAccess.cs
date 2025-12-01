@@ -37,7 +37,7 @@ namespace DataAccessLayer
             {
 
                 using (var db = NewDataConnection())
-                    return db.Delete<Medication>(new Medication { Id = medicationId, PersonID = personID });
+                    return db.Delete<Medication>(new Medication { Id = (uint)medicationId, PersonId = (uint)personID });
             }
             else
             {
@@ -53,7 +53,7 @@ namespace DataAccessLayer
             {
                 using (var db = NewDataConnection())
                 {
-                    return db.Insert(new Medication() { CreatedDate = DateTime.Now, CreatedUser = "BKL", DateTimeConsumed = consumedDate, PrescriptionId = prescriptionID, DoseTakenMG = amountMg, PersonID = personID });
+                    return db.Insert(new Medication() { CreatedDate = DateTime.Now, CreatedUser = "BKL", DateTimeConsumed = consumedDate, PrescriptionId = (uint)prescriptionID, DoseTakenMG = amountMg, PersonId = (uint)personID });
                 }
             }
 

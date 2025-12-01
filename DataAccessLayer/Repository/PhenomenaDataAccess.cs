@@ -18,7 +18,7 @@ namespace DataAccessLayer
                 if (personID > -1)
                 {
                     var p = from n in c.GetTable<Phenomena>()
-                               where n.PersonID == personID
+                               where n.PersonId == personID
                                select n;
                     return p.ToList();
                 }

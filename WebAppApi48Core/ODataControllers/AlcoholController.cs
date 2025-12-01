@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.Models;
+﻿
 using DataAccessLayer.Repository;
 using WebAppApi48Core.Services;
 using Microsoft.AspNetCore.OData.Query;
@@ -6,19 +6,22 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Data.Services.Interfaces.IRespository;
+using test;
 namespace WebAppApi48.OData.Controllers
 {
     [Authorize]
     public class AlcoholController : ODataController
     {
-        public AlcoholController(IConnectionStringProvider connectionStringProvider, IAuthService authService)
+        public AlcoholController(IConnectionStringProvider connectionStringProvider, 
+            IAuthService authService, IODataRepository<Alcohol> alcoholRepository)
         {
             this.authService = authService;
-            this.repo = new ODataRepository<Alcohol>(connectionStringProvider);
+            this.repo = alcoholRepository;
         }
 
         private IAuthService authService;
-        private ODataRepository<Alcohol> repo = null;
+        private IODataRepository<Alcohol> repo = null;
 
         private bool AlcoholItemExists(int key)
         {

@@ -18,7 +18,7 @@ namespace DataAccessLayer
                 if (personID > -1)
                 {
                     var prescriptions = from p in c.GetTable<Prescription>()
-                                        where p.PersonID == personID
+                                        where p.PersonId == personID
                                         select p;
 
                     return prescriptions.ToList();

@@ -45,7 +45,7 @@ namespace DataAccessLayer
             {
                 var details = c.GetTable<AdhocTablesDetail>().Where(x => x.AdhocTableID == beatChartID && x.AdhocTableRowID == sceneID).Delete();
                 
-                return c.Delete<AdhocTableRow>(new AdhocTableRow() { Id = sceneID, AdhocTableID = beatChartID });
+                return c.Delete<AdhocTableRow>(new AdhocTableRow() { Id = (uint)sceneID, AdhocTableID = beatChartID });
             }
         }
     }

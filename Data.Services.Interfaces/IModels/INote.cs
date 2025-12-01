@@ -9,9 +9,9 @@ namespace Data.Services.Interfaces.IModels
 {
     public interface INote
     {        
-        public long Id { get; set; }
+        public uint Id { get; set; }
 
-        public long PersonID { get; set; }
+        public uint PersonId { get; set; }
 
         public string Text { get; set; }
 

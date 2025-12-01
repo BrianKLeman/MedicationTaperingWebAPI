@@ -7,9 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace test;
 
-[Table("groups")]
-[Index("Id", Name = "ID_UNIQUE", IsUnique = true)]
-public partial class Group  : IId, IPersonID
+/// <summary>
+/// Kanban Board
+/// </summary>
+[Table("kanban_board")]
+[Index("Id", Name = "id_UNIQUE", IsUnique = true)]
+public partial class KanbanBoard  : IId, IPersonID
 {
     [Key]
     [Column("ID")]
@@ -19,6 +22,13 @@ public partial class Group  : IId, IPersonID
     [StringLength(45)]
     public string? Name { get; set; }
 
+    [Column("BOARD")]
+    [StringLength(45)]
+    public string? Board { get; set; }
+
+    /// <summary>
+    /// Person ID
+    /// </summary>
     [Column("PERSON_ID")]
     public uint PersonId { get; set; }
 }

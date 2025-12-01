@@ -18,7 +18,7 @@ namespace DataAccessLayer
                 if (personID > -1)
                 {
                     var apps = from n in c.GetTable<JobsAtHomeLog>()
-                               where n.PersonID == personID
+                               where n.PersonId == personID
                                orderby n.DateCompleted descending
                                select n;
                     return apps.ToList();
@@ -37,7 +37,7 @@ namespace DataAccessLayer
             {
                 if (personID > -1)
                 {
-                    var activity = new JobsAtHomeLog() { CreatedDate = DateTime.Now, DateCompleted = date, CreatedUser = "BKL", JobID = jobAtHomeID, PersonID = personID };
+                    var activity = new JobsAtHomeLog() { CreatedDate = DateTime.Now, DateCompleted = date, CreatedUser = "BKL", JobID = jobAtHomeID, PersonId = (uint)personID };
                     return c.Insert(activity);                    
                 }
 

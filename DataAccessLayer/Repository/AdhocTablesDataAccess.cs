@@ -17,7 +17,7 @@ namespace DataAccessLayer
                 if(personID > -1)
                 {
                     var beats = from g in c.GetTable<AdhocTable>()
-                                 where g.PersonID == personID
+                                 where g.PersonId == personID
                                  orderby g.Id descending
                                  select g;
                     return beats.ToList();
@@ -35,7 +35,7 @@ namespace DataAccessLayer
             {
                 if (personID > -1)
                 {
-                    return c.InsertWithInt32Identity<AdhocTable>(new AdhocTable() { Name = name, PersonID = personID, ProjectID = projectID });
+                    return c.InsertWithInt32Identity<AdhocTable>(new AdhocTable() { Name = name, PersonId = (uint)personID, ProjectID = projectID });
                 }
                 else
                 {
@@ -52,12 +52,12 @@ namespace DataAccessLayer
                 if (personID > -1)
                 {
                     // Check table belongs to same person
-                    if(c.GetTable<AdhocTable>().Where(x => x.Id == tableID && x.PersonID == personID).Count() > 0)
+                    if(c.GetTable<AdhocTable>().Where(x => x.Id == tableID && x.PersonId == personID).Count() > 0)
                     {
                         c.GetTable<AdhocTablesDetail>().Where(x => x.AdhocTableID == tableID).Delete();
                         c.GetTable<AdhocTableRow>().Where(x => x.AdhocTableID == tableID).Delete();
                         c.GetTable<AdhocTableColumn>().Where(x => x.AdhocTableID == tableID).Delete();
-                        c.GetTable<AdhocTable>().Where(x => x.Id == tableID && x.PersonID == personID).Delete();
+                        c.GetTable<AdhocTable>().Where(x => x.Id == tableID && x.PersonId == personID).Delete();
                         return 0;
                     }
                     else

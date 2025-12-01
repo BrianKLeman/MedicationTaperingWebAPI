@@ -2,24 +2,28 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.Services.Interfaces.IModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccessLayerCore;
+namespace test;
 
-[Index("SLEEP_ID", Name = "SLEEP_ID_UNIQUE", IsUnique = true)]
-public partial class sleep
+[Table("sleeps")]
+[Index("Id", Name = "SLEEP_ID_UNIQUE", IsUnique = true)]
+public partial class Sleep  : IId, IPersonID
 {
     [Key]
-    public int SLEEP_ID { get; set; }
+    [Column("ID")]
+    public uint Id { get; set; }
 
-    public int PERSON_ID { get; set; }
+    [Column("PERSON_ID")]
+    public uint PersonId { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime CREATED_DATE { get; set; }
+    [Column("CREATED_DATE", TypeName = "datetime")]
+    public DateTime CreatedDate { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime FROM_DATE { get; set; }
+    [Column("FROM_DATE", TypeName = "datetime")]
+    public DateTime FromDate { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime TO_DATE { get; set; }
+    [Column("TO_DATE", TypeName = "datetime")]
+    public DateTime ToDate { get; set; }
 }

@@ -18,7 +18,7 @@ namespace DataAccessLayer
                 if (personID > -1)
                 {
                     var sleeps = from p in c.GetTable<Sleeps>()
-                                        where p.PersonID == personID
+                                        where p.PersonId == personID
                                         select p;
 
                     return sleeps.ToList();
@@ -34,9 +34,9 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1 && s.PersonID == personID)
+                if (personID > -1 && s.PersonId == personID)
                 {
-                    s.PersonID = personID;
+                    s.PersonId = (uint)personID;
                     var result = c.Update(s);
 
                     return result;
@@ -52,11 +52,11 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1 && (sleeps.PersonID == 0 || sleeps.PersonID == personID))
+                if (personID > -1 && (sleeps.PersonId == 0 || sleeps.PersonId == personID))
                 {
                     sleeps.Id = 0; // I think setting the task id to zero will make
                                    // it get an id by default.
-                    sleeps.PersonID = personID;
+                    sleeps.PersonId = (uint)personID;
                     var result = c.Insert(sleeps);
 
                     return result;
@@ -72,11 +72,11 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1 && (sleep.PersonID == 0 || sleep.PersonID == personID))
+                if (personID > -1 && (sleep.PersonId == 0 || sleep.PersonId == personID))
                 {
                     // Check task with same id belongs to same person
                     var ss = from s in c.GetTable<Sleeps>()
-                                where s.PersonID == personID && sleep.Id == s.Id
+                                where s.PersonId == personID && sleep.Id == s.Id
                                 select s;
 
                     var result = -1;
