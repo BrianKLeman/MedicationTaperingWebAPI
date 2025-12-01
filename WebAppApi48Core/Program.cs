@@ -33,9 +33,10 @@ builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializ
 
 IConfigurationRoot configuration = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddUserSecrets<MedicationTaperDatabaseContext>()
             .AddJsonFile("appsettings.json")
             .Build();
-string connectionString = configuration.GetConnectionString("DefaultConnection");
+string connectionString = configuration.GetConnectionString("taperbase");
 builder.Services.AddSingleton<IConnectionStringProvider>(new ConnectionStringProvider(connectionString));
 builder.Services.AddScoped<ITableNotesLinksDataAccess, NoteLinksDataAccess>();
 builder.Services.AddScoped<INotesDataAccess, NotesDataAccess>();

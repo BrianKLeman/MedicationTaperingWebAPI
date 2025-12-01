@@ -46,7 +46,7 @@ namespace WebAppApi48.OData.Controllers
             return SingleResult.Create(result);
         }
 
-        public async Task<IActionResult> Put([FromRoute] int key, ShoppingItem update)
+        public async Task<IActionResult> Put([FromRoute] int key, [FromBody]ShoppingItem update)
         {
             if (!ModelState.IsValid)
             {
