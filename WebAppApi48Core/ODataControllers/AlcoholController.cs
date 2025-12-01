@@ -13,8 +13,7 @@ namespace WebAppApi48.OData.Controllers
     [Authorize]
     public class AlcoholController : ODataController
     {
-        public AlcoholController(IConnectionStringProvider connectionStringProvider, 
-            IAuthService authService, IODataRepository<Alcohol> alcoholRepository)
+        public AlcoholController( IAuthService authService, IODataRepository<Alcohol> alcoholRepository)
         {
             this.authService = authService;
             this.repo = alcoholRepository;

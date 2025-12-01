@@ -14,7 +14,7 @@ namespace WebAppApi48.OData.Controllers
     [Authorize]
     public class ShoppingItemsController : ODataController
     {
-        public ShoppingItemsController(IAuthService authService, IConnectionStringProvider connectionStringProvider, IODataRepository<ShoppingItem> repo)
+        public ShoppingItemsController(IAuthService authService, IODataRepository<ShoppingItem> repo)
         {
             this.authService = authService;
             this.repo = repo;
