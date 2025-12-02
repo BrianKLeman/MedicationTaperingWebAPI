@@ -20,7 +20,6 @@
     <Compile Remove="IRespository\IMedicationDataAccess.cs" />
     <Compile Remove="IRespository\IPersonDataAccess.cs" />
     <Compile Remove="IRespository\IPhenomenaDataAccess.cs" />
-    <Compile Remove="IRespository\IPrescriptionDataAccess.cs" />
     <Compile Remove="IRespository\IProjectsDataAccess.cs" />
     <Compile Remove="IRespository\ISleepsDataAccess.cs" />
     <Compile Remove="IRespository\ITableNotesLinksDataAccess.cs" />

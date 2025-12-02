@@ -22,7 +22,8 @@ namespace WebAppApi48Core.Controllers
         public IEnumerable<Prescription> Get()
         {
             var personID = this.authService.GetPersonCode(HttpContext);
-            return dataAccess.GetPrescriptions(personID);
+            var result = dataAccess.GetPrescriptions(personID);
+            return result;
         }
         
     }

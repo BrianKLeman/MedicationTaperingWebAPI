@@ -11,6 +11,9 @@ using Data.Services.Interfaces.IRespository;
 using DataAccessLayerCore.Services;
 using test;
 using Microsoft.OpenApi;
+using AutoMapper;
+using Microsoft.Extensions.Logging;
+using ServicesLayer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,11 +40,14 @@ IConfigurationRoot configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .Build();
 string connectionString = configuration.GetConnectionString("taperbase");
+
+
+builder.Services.AddAutoMapper(x => x.CreateMap<test.Prescription, DataAccessLayer.Models.Prescription>());
 builder.Services.AddSingleton<IConnectionStringProvider>(new ConnectionStringProvider(connectionString));
 builder.Services.AddScoped<ITableNotesLinksDataAccess, NoteLinksDataAccess>();
 builder.Services.AddScoped<INotesDataAccess, NotesDataAccess>();
 builder.Services.AddScoped<IMedicationDataAccess, MedicationDataAccess>();
-builder.Services.AddScoped<IPrescriptionDataAccess, PrescriptionDataAccess>();
+builder.Services.AddScoped<IPrescriptionDataAccess, Prescriptions>();
 builder.Services.AddScoped<IPersonDataAccess, PersonDataAccess>();
 builder.Services.AddScoped<ILearningAimsDataAccess, LearningAimsDataAccess>();
 builder.Services.AddScoped<IProjectsDataAccess, ProjectsDataAccess>();
@@ -64,7 +70,11 @@ builder.Services.AddScoped<IODataRepository<test.Sleep>, ODataEFRepository<test.
 
 builder.Services.AddScoped<IODataRepository<test.ShoppingItem>, ODataEFRepository<test.ShoppingItem>>();
 builder.Services.AddDbContext<MedicationTaperDatabaseContext>();
-
+builder.Services.AddLogging(builder =>
+{
+    builder.AddConsole();
+    builder.AddDebug();
+});
 
 // OData
 ODataModelBuilder modelBuilder = new ODataConventionModelBuilder();
