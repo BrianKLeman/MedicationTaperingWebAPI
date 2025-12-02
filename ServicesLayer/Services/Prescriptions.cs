@@ -22,7 +22,7 @@ namespace ServicesLayer.Services
         IMapper _mapper;
         public IEnumerable<DataAccessLayer.Models.Prescription> GetPrescriptions(long personID)
         {           
-            if (personID > PersonDataAccess.INVALID_PERSON_CODE)
+            if (personID != PersonDataAccess.INVALID_PERSON_CODE)
             {
                 var prescriptions = from p in _databaseContext.Prescriptions
                                     where p.PersonId == personID
