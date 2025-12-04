@@ -33,7 +33,7 @@ namespace ServicesLayer.Services
             }
             else
             {
-                return new DataAccessLayer.Models.Prescription[0];
+                return Array.Empty<DataAccessLayer.Models.Prescription>();
             }            
         }
     }
