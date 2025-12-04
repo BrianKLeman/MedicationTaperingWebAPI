@@ -10,7 +10,7 @@
         [Test]
         public void Test1()
         {
-            Assert.Fail("Testing github failed tests execution.");
+            Assert.Pass("Testing github passing test execution.");
         }
     }
 }
