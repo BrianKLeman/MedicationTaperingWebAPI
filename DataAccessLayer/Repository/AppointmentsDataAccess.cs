@@ -16,64 +16,48 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1)
-                {
-                    var apps = from n in c.GetTable<Appointments>()
-                               where n.PersonId == personID
-                               orderby n.AppointmentDate descending
-                               select n;
-                    return apps.ToList();
-                }
-                else
-                {
-                    return new Appointments[0];
-                }
-
+                var apps = from n in c.GetTable<Appointments>()
+                            where n.PersonId == personID
+                            orderby n.AppointmentDate descending
+                            select n;
+                return apps.ToList();
             }
         }
 
         public long InsertAppointment(long personID, Appointments appointment)
-        {           
-            if(personID > 0)
+        {    
+            using (var c = NewDataConnection())
             {
-                using (var c = NewDataConnection())
-                {
-                    appointment.PersonId = (uint)personID;
-                    return c.Insert<Appointments>( appointment);
-                }
+                appointment.PersonId = (uint)personID;
+                return c.Insert<Appointments>( appointment);
             }
-            return -1;
         }
 
         public long UpdateAppointment(long personID, Appointments appointment)
         {
-            if(personID > 0)
+            using (var c = NewDataConnection())
             {
-                using (var c = NewDataConnection())
+                appointment.PersonId = (uint)personID;
+                if( c.GetTable<Appointments>().Where(x => x.Id == appointment.Id && x.PersonId == appointment.Id ).Count( ) == 1)                  
+                {                        
+                    return c.Update( appointment);
+                }
+                else
                 {
-                    appointment.PersonId = (uint)personID;
-                    if( c.GetTable<Appointments>().Where(x => x.Id == appointment.Id && x.PersonId == appointment.Id ).Count( ) == 1)                  
-                    {                        
-                        return c.Update( appointment);
-                    }
+                    return -1;
                 }
             }
-            return -1;
         }
 
         public long DeleteAppointment(long personID, long appointmentID)
         {
-            if (personID > 0)
+            using (var c = NewDataConnection())
             {
-                using (var c = NewDataConnection())
+                var a = c.GetTable<Appointments>().Where(x => x.Id == appointmentID && x.PersonId == personID).FirstOrDefault();
                 {
-                    var a = c.GetTable<Appointments>().Where(x => x.Id == appointmentID && x.PersonId == personID).FirstOrDefault();
-                    {
-                        return c.Delete(a);
-                    }
+                    return c.Delete(a);
                 }
             }
-            return -1;
         }
     }
 }

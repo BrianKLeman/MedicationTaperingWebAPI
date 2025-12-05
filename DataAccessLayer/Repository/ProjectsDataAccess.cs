@@ -10,23 +10,15 @@ namespace DataAccessLayer
     {
         public ProjectsDataAccess(IConnectionStringProvider connectionStringProvider)
             : base(connectionStringProvider) { }
-        public IEnumerable<Projects> GetProjects(long personID, bool includePersonal)
+        public IEnumerable<Projects> GetProjects(uint personID, bool includePersonal)
         {
             using (var c = NewDataConnection())
             {
-                
-                if (personID > -1)
-                {
-                    var projects = from p in c.GetTable<Projects>()
-                                        where p.PersonId == personID && (includePersonal || p.Personal != 1)
-                                        select p;
+                var projects = from p in c.GetTable<Projects>()
+                                    where p.PersonId == personID && (includePersonal || p.Personal != 1)
+                                    select p;
 
-                    return projects.ToList();
-                }
-                else
-                {
-                    return new Projects[0];
-                }
+                return projects.ToList();
             }                
         }    
 

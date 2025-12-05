@@ -7,13 +7,13 @@ namespace DataAccessLayer
     public interface ISleepsDataAccess
     {      
 
-        IEnumerable<Sleeps> GetSleeps(long personID);
+        IEnumerable<Sleeps> GetSleeps(uint personID);
 
-        long UpdateSleeps(long personID, Sleeps t);
+        long UpdateSleeps(uint personID, Sleeps t);
 
-        long CreateSleeps(long personID, Sleeps t);
+        long CreateSleeps(uint personID, Sleeps t);
 
-        long DeleteSleeps(long personID, Sleeps t);
+        long DeleteSleeps(uint personID, Sleeps t);
 
     }
 }

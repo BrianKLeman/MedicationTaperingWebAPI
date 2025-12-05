@@ -10,85 +10,56 @@ namespace DataAccessLayer
     {
         public SleepsDataAccess(IConnectionStringProvider connectionStringProvider)
             : base(connectionStringProvider) { }
-        public IEnumerable<Sleeps> GetSleeps(long personID)
+        public IEnumerable<Sleeps> GetSleeps(uint personID)
         {
             using (var c = NewDataConnection())
             {
-                
-                if (personID > -1)
-                {
-                    var sleeps = from p in c.GetTable<Sleeps>()
-                                        where p.PersonId == personID
-                                        select p;
+                var sleeps = from p in c.GetTable<Sleeps>()
+                                    where p.PersonId == personID
+                                    select p;
 
-                    return sleeps.ToList();
-                }
-                else
-                {
-                    return new Sleeps[0];
-                }
+                return sleeps.ToList();
             }                
         }
 
-        public long UpdateSleeps(long personID, Sleeps s)
+        public long UpdateSleeps(uint personID, Sleeps s)
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1 && s.PersonId == personID)
-                {
-                    s.PersonId = (uint)personID;
-                    var result = c.Update(s);
+                s.PersonId = (uint)personID;
+                var result = c.Update(s);
 
-                    return result;
-                }
-                else
-                {
-                    return -1;
-                }
+                return result;               
             }
         }
 
-        public long CreateSleeps(long personID, Sleeps sleeps)
+        public long CreateSleeps(uint personID, Sleeps sleeps)
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1 && (sleeps.PersonId == 0 || sleeps.PersonId == personID))
-                {
-                    sleeps.Id = 0; // I think setting the task id to zero will make
-                                   // it get an id by default.
-                    sleeps.PersonId = (uint)personID;
-                    var result = c.Insert(sleeps);
+                sleeps.Id = 0; // I think setting the id to zero will make
+                                // it get an id by default.
+                sleeps.PersonId = (uint)personID;
+                var result = c.Insert(sleeps);
 
-                    return result;
-                }
-                else
-                {
-                    return -1;
-                }
+                return result;
             }
         }
 
-        public long DeleteSleeps(long personID, Sleeps sleep)
+        public long DeleteSleeps(uint personID, Sleeps sleep)
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1 && (sleep.PersonId == 0 || sleep.PersonId == personID))
-                {
-                    // Check task with same id belongs to same person
-                    var ss = from s in c.GetTable<Sleeps>()
-                                where s.PersonId == personID && sleep.Id == s.Id
-                                select s;
+                // Check task with same id belongs to same person
+                var ss = from s in c.GetTable<Sleeps>()
+                            where s.PersonId == personID && sleep.Id == s.Id
+                            select s;
 
-                    var result = -1;
-                    foreach (var s in ss.ToList())
-                        result = c.Delete(s);
+                var result = -1;
+                foreach (var s in ss.ToList())
+                    result = c.Delete(s);
 
-                    return result;
-                }
-                else
-                {
-                    return -1;
-                }
+                return result;
             }
         }
     }

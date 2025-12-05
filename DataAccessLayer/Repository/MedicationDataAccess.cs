@@ -15,49 +15,27 @@ namespace DataAccessLayer
         public MedicationDataAccess(IConnectionStringProvider connectionStringProvider)
             : base(connectionStringProvider) { }
         public IEnumerable<Medication> GetMedication(long personID)
-        {
-            if (personID > -1)
+        {           
+            using (var c = NewDataConnection())
             {
+                var meds = from m in c.GetTable<Medication>()
+                            select m;
 
-                using (var c = NewDataConnection())
-                {
-                    var meds = from m in c.GetTable<Medication>()
-                               select m;
-
-                    return meds.ToList();
-                }
+                return meds.ToList();
             }
-
-            return new Medication[0];
         }
 
         public int Delete(long personID, int medicationId)
         {
-            if (personID > -1)
-            {
-
-                using (var db = NewDataConnection())
-                    return db.Delete<Medication>(new Medication { Id = (uint)medicationId, PersonId = (uint)personID });
-            }
-            else
-            {
-                return -1;
-            }
+            using (var db = NewDataConnection())
+                return db.Delete<Medication>(new Medication { Id = (uint)medicationId, PersonId = (uint)personID });
         }   
-
-       
-
         public int InsertMedication(long personID, DateTime consumedDate, long prescriptionID, decimal amountMg)
         {
-            if (personID > -1)
+            using (var db = NewDataConnection())
             {
-                using (var db = NewDataConnection())
-                {
-                    return db.Insert(new Medication() { CreatedDate = DateTime.Now, CreatedUser = "BKL", DateTimeConsumed = consumedDate, PrescriptionId = (uint)prescriptionID, DoseTakenMG = amountMg, PersonId = (uint)personID });
-                }
+                return db.Insert(new Medication() { CreatedDate = DateTime.Now, CreatedUser = "BKL", DateTimeConsumed = consumedDate, PrescriptionId = (uint)prescriptionID, DoseTakenMG = amountMg, PersonId = (uint)personID });
             }
-
-            return -1;
         }
     }
 }

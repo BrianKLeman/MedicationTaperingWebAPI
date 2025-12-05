@@ -23,7 +23,7 @@ namespace ServicesLayer.Services
         MedicationTaperDatabaseContext _databaseContext;
         IMapper _mapper;
         ILogger _logger;
-        public IEnumerable<DataAccessLayer.Models.Prescription> GetPrescriptions(long personID)
+        public IEnumerable<DataAccessLayer.Models.Prescription> GetPrescriptions(uint personID)
         {           
             _logger.LogInformation($"Getting prescriptions for person ID {personID}");            
             

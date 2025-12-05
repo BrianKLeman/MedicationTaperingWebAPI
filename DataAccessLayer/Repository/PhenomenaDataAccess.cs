@@ -11,22 +11,14 @@ namespace DataAccessLayer
     {
         public PhenomenaDataAccess(IConnectionStringProvider connectionStringProvider)
             : base(connectionStringProvider) { }
-        public IEnumerable<Phenomena> GetPhenomena(long personID)
+        public IEnumerable<Phenomena> GetPhenomena(uint personID)
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1)
-                {
-                    var p = from n in c.GetTable<Phenomena>()
-                               where n.PersonId == personID
-                               select n;
-                    return p.ToList();
-                }
-                else
-                {
-                    return new Phenomena[0];
-                }
-
+                var p = from n in c.GetTable<Phenomena>()
+                            where n.PersonId == personID
+                            select n;
+                return p.ToList();               
             }
         }
     }

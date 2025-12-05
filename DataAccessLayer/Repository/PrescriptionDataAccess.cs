@@ -10,26 +10,16 @@ namespace DataAccessLayer
     {
         public PrescriptionDataAccess(IConnectionStringProvider connectionStringProvider)
             : base(connectionStringProvider) { }
-        public IEnumerable<Prescription> GetPrescriptions(long personID)
+        public IEnumerable<Prescription> GetPrescriptions(uint personID)
         {
             using (var c = NewDataConnection())
             {
-                
-                if (personID > -1)
-                {
-                    var prescriptions = from p in c.GetTable<Prescription>()
-                                        where p.PersonId == personID
-                                        select p;
+                var prescriptions = from p in c.GetTable<Prescription>()
+                                    where p.PersonId == personID
+                                    select p;
 
-                    return prescriptions.ToList();
-                }
-                else
-                {
-                    return new Prescription[0];
-                }
+                return prescriptions.ToList();
             }                
-        }    
-
-        
+        }  
     }
 }

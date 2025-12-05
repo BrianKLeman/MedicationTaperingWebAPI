@@ -15,19 +15,11 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID != PersonDataAccess.INVALID_PERSON_CODE)
-                {
-                    var jobs = from j in c.GetTable<JobsAtHomeSummaryView>()
-                               where j.PersonId == personID
-                               orderby j.DateCompleted descending
-                               select j;
-                    return jobs.ToList();
-                }
-                else
-                {
-                    return new JobsAtHomeSummaryView[0];
-                }
-
+                var jobs = from j in c.GetTable<JobsAtHomeSummaryView>()
+                            where j.PersonId == personID
+                            orderby j.DateCompleted descending
+                            select j;
+                return jobs.ToList();
             }
         }
     }

@@ -12,7 +12,7 @@ namespace DataAccessLayer.Repository
             : base(connectionStringProvider) { }
         public uint AddToken(long personID, string token)
         {
-            if (personID > INVALID_PERSON_CODE)
+            if (personID != INVALID_PERSON_CODE)
             {
                 using (var c = NewDataConnection())
                 {

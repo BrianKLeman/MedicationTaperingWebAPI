@@ -15,19 +15,11 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1)
-                {
-                    var apps = from n in c.GetTable<JobsAtHome>()
-                               where n.PersonId == personID
-                               orderby n.CreatedDate descending
-                               select n;
-                    return apps.ToList();
-                }
-                else
-                {
-                    return new JobsAtHome[0];
-                }
-
+                var apps = from n in c.GetTable<JobsAtHome>()
+                            where n.PersonId == personID
+                            orderby n.CreatedDate descending
+                            select n;
+                return apps.ToList();   
             }
         }
     }

@@ -15,19 +15,11 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1)
-                {
-                    var apps = from n in c.GetTable<JobsAtHomeLog>()
-                               where n.PersonId == personID
-                               orderby n.DateCompleted descending
-                               select n;
-                    return apps.ToList();
-                }
-                else
-                {
-                    return new JobsAtHomeLog[0];
-                }
-
+                var apps = from n in c.GetTable<JobsAtHomeLog>()
+                            where n.PersonId == personID
+                            orderby n.DateCompleted descending
+                            select n;
+                return apps.ToList();
             }
         }
 
@@ -35,14 +27,8 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1)
-                {
-                    var activity = new JobsAtHomeLog() { CreatedDate = DateTime.Now, DateCompleted = date, CreatedUser = "BKL", JobID = jobAtHomeID, PersonId = (uint)personID };
-                    return c.Insert(activity);                    
-                }
-
-                return -1;
-
+                var activity = new JobsAtHomeLog() { CreatedDate = DateTime.Now, DateCompleted = date, CreatedUser = "BKL", JobID = jobAtHomeID, PersonId = (uint)personID };
+                return c.Insert(activity); 
             }
         }
     }

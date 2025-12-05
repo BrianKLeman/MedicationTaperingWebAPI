@@ -15,18 +15,10 @@ namespace DataAccessLayer
         {
             using (var c = NewDataConnection())
             {
-                if (personID > -1)
-                {
-                    var aims = from n in c.GetTable<LearningAims>()
-                               where n.PersonId == personID
-                               select n;
-                    return aims.ToList();
-                }
-                else
-                {
-                    return new LearningAims[0];
-                }
-
+                var aims = from n in c.GetTable<LearningAims>()
+                            where n.PersonId == personID
+                            select n;
+                return aims.ToList();
             }
         }
     }

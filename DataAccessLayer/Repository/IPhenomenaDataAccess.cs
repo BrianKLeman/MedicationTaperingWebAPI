@@ -6,7 +6,7 @@ namespace DataAccessLayer
 {
     public interface IPhenomenaDataAccess
     {
-        IEnumerable<Phenomena> GetPhenomena(long personID);
+        IEnumerable<Phenomena> GetPhenomena(uint personID);
 
         //TODO Implement
         //long InsertNote(long personID, DateTime date, string note, bool behaviorChange);
