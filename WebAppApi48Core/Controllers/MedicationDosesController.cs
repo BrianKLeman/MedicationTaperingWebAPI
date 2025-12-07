@@ -31,6 +31,9 @@ namespace WebAppApi48Core.Controllers
     }
 
     [Route("Api/MedicationDoses")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ApiController]
+    [Produces("application/json")]
     public class MedicationDosesController : ControllerBase
     {
 

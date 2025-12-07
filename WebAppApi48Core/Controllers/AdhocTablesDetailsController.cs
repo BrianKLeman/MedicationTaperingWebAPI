@@ -8,6 +8,8 @@ namespace WebAppApi48Core.Controllers
     
     [Route("Api/AdhocTables/{adhoctableid}/Details")]
     [Authorize]
+    [ApiController]
+    [Produces("application/json")]
     public class AdhocTablesDetailsController : ControllerBase
     {        
         public AdhocTablesDetailsController(IAuthService authService, IAdhocTablesDetailsDataAccess dataAccess)

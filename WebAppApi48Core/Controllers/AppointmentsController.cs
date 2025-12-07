@@ -2,6 +2,7 @@
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.Http.Description;
 using WebAppApi48Core.Services;
 namespace WebAppApi48Core.Controllers
 {    
@@ -9,6 +10,9 @@ namespace WebAppApi48Core.Controllers
     [Route("Api/Appointments")]
 
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ApiController]
+    [Produces("application/json")]
     public class AppointmentsController : ControllerBase
     {        
         public AppointmentsController(IAuthService authService, IAppointmentsDataAccess dataAccess)
@@ -21,10 +25,9 @@ namespace WebAppApi48Core.Controllers
         private IAppointmentsDataAccess dataAccess;
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Get()
-        {
-            if (ModelState.IsValid == false)
-                return base.BadRequest(ModelState);
+        {           
 
             long personID = authService.GetPersonCode(HttpContext);
             
@@ -32,6 +35,8 @@ namespace WebAppApi48Core.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Post([FromBody] Appointments appointment)
         {
             if (ModelState.IsValid == false)
@@ -43,6 +48,8 @@ namespace WebAppApi48Core.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Put([FromBody] Appointments appointment)
         {
             if (ModelState.IsValid == false)
@@ -55,6 +62,8 @@ namespace WebAppApi48Core.Controllers
         
         [Route("{appointmentID:long}")]
         [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Delete([FromRoute] long appointmentID)
         {
             if (ModelState.IsValid == false)

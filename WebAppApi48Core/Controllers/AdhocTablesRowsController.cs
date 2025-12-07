@@ -8,6 +8,8 @@ namespace WebAppApi48Core.Controllers
     
     [Route("Api/AdhocTables/{adhoctableid}/Rows")]
     [Authorize]
+    [ApiController]
+    [Produces("application/json")]
     public class AdhocTablesRowsController : ControllerBase
     {        
         public AdhocTablesRowsController(IAuthService authService, IAdhocTableRowDataAccess dataAccess)

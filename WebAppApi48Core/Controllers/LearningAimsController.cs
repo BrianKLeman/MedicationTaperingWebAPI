@@ -12,6 +12,9 @@ namespace WebAppApi48Core.Controllers
 
     [Route("Api/LearningAims")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ApiController]
+    [Produces("application/json")]
     public class LearningAimsController : ControllerBase
     {        
         public LearningAimsController(IAuthService authService, ILearningAimsDataAccess dataAccess)

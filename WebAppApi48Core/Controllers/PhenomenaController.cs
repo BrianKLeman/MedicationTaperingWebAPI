@@ -8,6 +8,9 @@ namespace WebAppApi48Core.Controllers
 {
     [Route("Api/Phenomena")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ApiController]
+    [Produces("application/json")]
     public class PhenomenaController : ControllerBase
     {
         public PhenomenaController(IAuthService authService, IPhenomenaDataAccess dataAccess)

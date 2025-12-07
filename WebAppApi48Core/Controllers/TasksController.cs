@@ -17,6 +17,9 @@ namespace WebAppApi48Core.Controllers
 
     [Route("Api/Tasks")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ApiController]
+    [Produces("application/json")]
     public class TasksController : ControllerBase
     {        
         public TasksController(IFeaturesDataAccess featuresDataAccess, IAuthService authService, ITasksDataAccess dataAccess, IGroupsDataAccess groupsDataAccess, ITableTasksLinksDataAccess tasksDataAccess, IConnectionStringProvider connectionStringProvider)
@@ -35,10 +38,16 @@ namespace WebAppApi48Core.Controllers
         private ODataRepository<Sprint> odataDataAccess;
         private ITableTasksLinksDataAccess tasksLinksDataAccess;
         private IFeaturesDataAccess featuresDataAccess;
-        
 
+        /// <summary>
+        /// Gets all tasks for the person. If tableName and entityID are provided, gets only tasks linked to that entity.
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="entityID"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("")]
+        [ProducesResponseType(typeof(IEnumerable<Tasks>), StatusCodes.Status200OK)]
         public IActionResult Get(string tableName, long entityID)
         {           
 
@@ -85,6 +94,9 @@ namespace WebAppApi48Core.Controllers
 
         [HttpGet]
         [Route("TasksWithExtras")]
+        [ProducesResponseType( typeof(IEnumerable<TasksGroupsViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
         public IActionResult TasksWithExtras(string tableName, long entityID)
         {
             if (tableName == null)
@@ -125,6 +137,8 @@ namespace WebAppApi48Core.Controllers
 
 
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Put([FromBody] Tasks body)
         {
             if (ModelState.IsValid == false)
@@ -136,6 +150,8 @@ namespace WebAppApi48Core.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Post([FromBody] Tasks body)
         {
             if (ModelState.IsValid == false)
@@ -146,14 +162,20 @@ namespace WebAppApi48Core.Controllers
             return base.Ok(dataAccess.CreateTask(personID, body));
         }
 
+        /// <summary>
+        /// Deletes the task with id specified in the body.
+        /// </summary>
+        /// <param name="body">Task object to delete (must include id).</param>
+        /// <returns>Deleted task confirmation</returns>
         [HttpDelete]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Delete([FromBody] Tasks body)
         {
             if (ModelState.IsValid == false)
                 return base.BadRequest(ModelState);
 
-            var personID = this.authService.GetPersonCode(HttpContext);
-
+            var personID = this.authService.GetPersonCode(HttpContext);   
 
             return base.Ok(dataAccess.DeleteTask(personID, body));
         }

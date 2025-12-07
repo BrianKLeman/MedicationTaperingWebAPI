@@ -9,6 +9,9 @@ namespace WebAppApi48.Controllers
 {
     [Route("Api/Sleeps")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ApiController]
+    [Produces("application/json")]
     public class SleepsController : ControllerBase
     {
         public SleepsController(IAuthService authService, ISleepsDataAccess dataAccess, IODataRepository<test.Sleep> sleepsRepository)
@@ -23,6 +26,7 @@ namespace WebAppApi48.Controllers
         private IODataRepository<test.Sleep> sleepsRepository;
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<test.Sleep>))]
         public IEnumerable<test.Sleep> Get()
         {
             var personID = this.authService.GetPersonCode(HttpContext);
@@ -30,6 +34,8 @@ namespace WebAppApi48.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Put([FromBody] Sleeps body)
         {
             if (ModelState.IsValid == false)
@@ -41,6 +47,8 @@ namespace WebAppApi48.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Post([FromBody] Sleeps body)
         {
             if (ModelState.IsValid == false)
@@ -53,6 +61,8 @@ namespace WebAppApi48.Controllers
         }
 
         [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Delete([FromBody] Sleeps body)
         {
             if (ModelState.IsValid == false)

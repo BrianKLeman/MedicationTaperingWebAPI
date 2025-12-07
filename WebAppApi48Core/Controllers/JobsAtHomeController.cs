@@ -17,6 +17,9 @@ namespace WebAppApi48Core.Controllers
     }
     [Route("Api/JobsAtHome")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ApiController]
+    [Produces("application/json")]
     public class JobsAtHomeController : ControllerBase
     {
         public JobsAtHomeController(IAuthService authService, IJobsAtHomeViewsDataAccess dataAccess, IJobsAtHomeLogDataAccess alDataAccess)

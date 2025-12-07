@@ -21,6 +21,9 @@ namespace WebAppApi48.Controllers
 
     [Route("Api/NoteLinks")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ApiController]
+    [Produces("application/json")]
     public class NoteLinksController : ControllerBase
     {
         public NoteLinksController(IAuthService authService, ITableNotesLinksDataAccess dataAccess)
@@ -33,6 +36,8 @@ namespace WebAppApi48.Controllers
         private ITableNotesLinksDataAccess dataAccess;
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Post([FromBody] NoteLinks requestModel)
         {
             if (ModelState.IsValid == false)

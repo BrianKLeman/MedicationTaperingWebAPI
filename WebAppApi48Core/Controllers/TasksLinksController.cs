@@ -21,6 +21,8 @@ namespace WebAppApi48Core.Controllers
 
     [Route("Api/TaskLinks")]
     [Authorize]
+    [ApiController]
+    [Produces("application/json")]
     public class TaskLinksController : ControllerBase
     {
         public TaskLinksController(IAuthService authService, ITableTasksLinksDataAccess dataAccess)

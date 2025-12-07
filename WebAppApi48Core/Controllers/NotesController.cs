@@ -33,6 +33,9 @@ namespace WebAppApi48Core.Controllers
 
     [Route("Api/Notes")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ApiController]
+    [Produces("application/json")]
     public class NotesController : ControllerBase
     {        
         public NotesController(IAuthService authService, INotesDataAccess dataAccess)

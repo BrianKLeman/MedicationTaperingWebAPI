@@ -7,6 +7,9 @@ namespace WebAppApi48Core.Controllers
 {
     [Route("Api/Prescriptions")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ApiController]
+    [Produces("application/json")]
     public class PrescriptionsController : ControllerBase
     {
         public PrescriptionsController(IAuthService authService, IPrescriptionDataAccess dataAccess)
@@ -19,6 +22,7 @@ namespace WebAppApi48Core.Controllers
         private IPrescriptionDataAccess dataAccess;
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Prescription>))]
         public IEnumerable<Prescription> Get()
         {
             var personID = this.authService.GetPersonCode(HttpContext);

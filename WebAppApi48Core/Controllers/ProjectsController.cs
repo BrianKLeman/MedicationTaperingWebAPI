@@ -8,6 +8,9 @@ namespace WebAppApi48.Controllers
 {
     [Route("Api/Projects")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ApiController]
+    [Produces("application/json")]
     public class ProjectsController : ControllerBase
     {
         public ProjectsController(IAuthService authService, IProjectsDataAccess dataAccess)
@@ -20,6 +23,7 @@ namespace WebAppApi48.Controllers
         private IProjectsDataAccess dataAccess;
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Projects>))]
         public IEnumerable<Projects> Get()
         {
             var personID = this.authService.GetPersonCode(HttpContext);
