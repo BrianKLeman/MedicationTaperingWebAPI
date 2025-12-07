@@ -16,8 +16,7 @@ namespace WebAppApi48Core.Controllers
         [HttpGet()]
         public IActionResult Get()
         {
-            Response.ContentType = "text/html";
-            return Content("<HTML><BODY><H1>Default Page</H1></BODY></HTML>");            
+            return Redirect("/swagger");          
         }        
     }
 }

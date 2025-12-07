@@ -6,10 +6,16 @@ using WebAppApi48Core.Services;
 namespace WebAppApi48Core.Controllers
 {    
     
+    public class AdhocTableRowResponseMessage
+    {
+        public long AdhocTableRowID { get; set; }
+    }
+
     [Route("Api/AdhocTables/{adhoctableid}/Rows")]
     [Authorize]
     [ApiController]
     [Produces("application/json")]
+    [Consumes("application/json")]
     public class AdhocTablesRowsController : ControllerBase
     {        
         public AdhocTablesRowsController(IAuthService authService, IAdhocTableRowDataAccess dataAccess)
@@ -23,29 +29,33 @@ namespace WebAppApi48Core.Controllers
         
         [Route("")]
         [HttpGet]
-        public IActionResult Get([FromRoute]string adhoctableid)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IEnumerable<AdhocTableRow> Get([FromRoute]string adhoctableid)
         {
-            return base.Ok(dataAccess.GetScenes(int.Parse(adhoctableid)));
+            return dataAccess.GetScenes(int.Parse(adhoctableid));
         }
 
         [Route("")]
         [HttpPost]
+        [ProducesResponseType(typeof(AdhocTableRowResponseMessage), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Post([FromRoute]string adhoctableid, [FromBody]AdhocTableRow body)
         {
             if (ModelState.IsValid == false)
                 return BadRequest(ModelState);
 
-            return base.Ok(new { AdhocTableRowID = dataAccess.CreateRow(int.Parse(adhoctableid), body) });
+            return Ok(new AdhocTableRowResponseMessage{ AdhocTableRowID = dataAccess.CreateRow(int.Parse(adhoctableid), body) });
         }
 
         [Route("")]
         [HttpPut]
+        [ProducesResponseType(typeof(AdhocTableRowResponseMessage), StatusCodes.Status200OK)]
         public IActionResult Put([FromRoute]string adhoctableid, [FromBody]AdhocTableRow body)
         {
             if (ModelState.IsValid == false)
                 return BadRequest(ModelState);
 
-            return base.Ok(new { AdhocTableRowID = dataAccess.UpdateRow(int.Parse(adhoctableid), body) });
+            return base.Ok(new AdhocTableRowResponseMessage{ AdhocTableRowID = dataAccess.UpdateRow(int.Parse(adhoctableid), body) });
         }
 
         [Route("{rowid}")]
