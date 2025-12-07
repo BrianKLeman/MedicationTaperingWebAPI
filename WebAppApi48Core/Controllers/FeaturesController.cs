@@ -21,7 +21,7 @@ namespace WebAppApi48.Controllers
         private IFeaturesDataAccess dataAccess;
 
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<Feature>),StatusCodes.Status200OK)]
         [HttpGet]
         public IEnumerable<Feature> Get(long projectID, long learningAimID)
         {
