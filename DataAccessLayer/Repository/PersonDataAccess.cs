@@ -104,5 +104,116 @@ namespace DataAccessLayer.Repository
                     return people?.PeopleAnon ?? string.Empty;   
             }
         }
+
+        public bool IsAccountLocked(long personID)
+        {
+            using (var c = NewDataConnection())
+            {
+                var person = from p in c.GetTable<People>()
+                             where (p.PersonId == personID)
+                             select p;
+                var people = person.ToList().FirstOrDefault();
+                return people.Locked != 0;
+            }
+        }
+
+        public bool IsInvalidPassword(string username, string password)
+        {
+            using (var c = NewDataConnection())
+            {
+                var person = from p in c.GetTable<People>()
+                             where (p.PeopleAnon == username)
+                             select p;
+                var people = person.ToList().FirstOrDefault();
+                if (people != null)
+                {
+                    return people.Password != password;
+                }
+                return true;
+            }
+        }
+
+        public bool LockAccount(long personID)
+        {
+            using (var c = NewDataConnection())
+            {
+                var person = from p in c.GetTable<People>()
+                             where (p.PersonId == personID)
+                             select p;
+                var people = person.ToList().FirstOrDefault();
+                if (people != null)
+                {
+                    people.Locked = 1;
+                    c.Update(people);
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public void IncrementInvalidLoginAttempts(long personID)
+        {
+            using (var c = NewDataConnection())
+            {
+                var person = from p in c.GetTable<People>()
+                             where (p.PersonId == personID)
+                             select p;
+                var people = person.ToList().FirstOrDefault();
+                if (people != null)
+                {
+                    people.PasswordIncorrectCount += 1;
+                    c.Update(people);
+                }
+            }
+        }
+
+        public int GetInvalidLoginAttempts(long personID)
+        {            
+            using (var c = NewDataConnection())
+            {
+                var person = from p in c.GetTable<People>()
+                             where (p.PersonId == personID)
+                             select p;
+                var people = person.ToList().FirstOrDefault();
+                if (people != null)
+                {
+                    return people.PasswordIncorrectCount;
+                }
+            }
+
+            return 0;
+        }
+
+        public uint GetPersonID(string username)
+        {
+            using (var c = NewDataConnection())
+            {
+                var a = from p in c.GetTable<People>()
+                        where p.PeopleAnon == username
+                        select p;
+                uint id = INVALID_PERSON_CODE;
+                if (a?.FirstOrDefault() is People ppl)
+                {
+                    id = ppl.PersonId;
+                }
+                return id;
+            }
+        }
+
+        public void LockAccount(uint personID)
+        {
+            using (var c = NewDataConnection())
+            {
+                var person = from p in c.GetTable<People>()
+                             where (p.PersonId == personID)
+                             select p;
+                var people = person.ToList().FirstOrDefault();
+                if (people != null)
+                {
+                    people.Locked = 1;
+                    c.Update(people);
+                }
+            }
+        }
     }
 }

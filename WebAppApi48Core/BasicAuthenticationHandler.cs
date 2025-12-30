@@ -59,9 +59,10 @@ public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSc
                 return AuthenticateResult.Fail("Invalid Username or Password");
             }
         }
-        catch
+        catch(Exception e)
         {
-            return AuthenticateResult.Fail("Invalid Authorization Header");
+            this.Logger.LogError(e.Message, e);
+            return AuthenticateResult.Fail("Invalid Authorization Header: Exception was caught.");
         }
     }
 

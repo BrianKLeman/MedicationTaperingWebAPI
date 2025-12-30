@@ -18,7 +18,7 @@ namespace WebAppApi48Core.Controllers
     [Route("Api/Tasks")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ApiController]
+   
     [Produces("application/json")]
     public class TasksController : ControllerBase
     {        
