@@ -100,6 +100,12 @@ namespace DataAccessLayer.Models
         
         [Column(Name = "READONLY_ANON")]
         public string ReadOnlyAnon { get; set; }
+
+        [Column(Name = "LOCKED")]
+        public int Locked { get; set; }
+
+        [Column(Name = "PASSWORD_INCORRECT_COUNT")]
+        public int PasswordIncorrectCount { get; set; }
     }
 
     [Table(Name = "NOTES", Database = "medication_taper_database")]
@@ -275,6 +281,12 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "ORDER")]
         public decimal Order { get; set; }
+
+        [Column(Name = "ESTIMATE")]
+        public int Estimate { get; set; }
+
+        [Column(Name = "IMPEDED")]
+        public int Impeded { get; set; }
     }
 
     [Table(Name = "TABLE_TASK_LINKS", Database = "medication_taper_database")]
