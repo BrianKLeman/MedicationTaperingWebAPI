@@ -58,6 +58,20 @@ namespace WebAppApi48Core.Controllers
             else
                 return Ok(dataAccess.Select(personID, requestModel.TaskIDs, requestModel.Table, requestModel.EntityID));
         }
+        
+        [HttpDelete]
+        public IActionResult Delete([FromBody] TaskLinks requestModel)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.GetPersonCode(HttpContext);
+
+            if (requestModel.EntityID == 0)
+                return Ok(dataAccess.Delete(personID, requestModel.TaskIDs, requestModel.Table));
+            else
+                return Ok(dataAccess.Delete(personID, requestModel.TaskIDs, requestModel.Table, requestModel.EntityID));
+        }
 
     }
 }

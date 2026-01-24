@@ -63,5 +63,35 @@ namespace DataAccessLayer
             }
             return result;
         }
+
+        public long Delete(uint personID, uint[] taskIDs, string tableName)
+        {
+            long result = 0;
+            using (var c = NewDataConnection())
+            {
+                foreach (var id in taskIDs)
+                {
+                    result += c.GetTable<TableTaskLinks>().
+                        Where(x => x.PersonId == personID && x.TableName == tableName && x.TaskID == id).
+                        Delete();
+                }
+            }
+            return result;
+        }
+
+        public long Delete(uint personID, uint[] taskIDs, string tableName, uint entityID)
+        {
+            long result = 0;
+            using (var c = NewDataConnection())
+            {
+                foreach (var id in taskIDs)
+                {
+                    result += c.GetTable<TableTaskLinks>().
+                        Where(x => x.PersonId == personID && x.TableName == tableName && x.TaskID == id && x.EntityID == entityID).
+                        Delete();
+                }
+            }
+            return result;
+        }
     }
 }
