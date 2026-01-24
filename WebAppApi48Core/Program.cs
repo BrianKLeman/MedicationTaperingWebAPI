@@ -9,11 +9,14 @@ using Microsoft.AspNetCore.Authentication;
 using System.Reflection;
 using Data.Services.Interfaces.IRespository;
 using DataAccessLayerCore.Services;
-using test;
 using Microsoft.OpenApi;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using ServicesLayer.Services;
+using DataAccessLayer.Models;
+using Microsoft.AspNetCore.HttpLogging;
+using WebAppApi48Core;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,8 +39,9 @@ builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializ
 
 IConfigurationRoot configuration = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            .AddUserSecrets<MedicationTaperDatabaseContext>()
+            .AddUserSecrets<test.MedicationTaperDatabaseContext>()
             .AddJsonFile("appsettings.json")
+            
             .Build();
 string connectionString = configuration.GetConnectionString("taperbase");
 
@@ -69,21 +73,31 @@ builder.Services.AddScoped<IODataRepository<test.Alcohol>, ODataEFRepository<tes
 builder.Services.AddScoped<IODataRepository<test.Sleep>, ODataEFRepository<test.Sleep>>();
 
 builder.Services.AddScoped<IODataRepository<test.ShoppingItem>, ODataEFRepository<test.ShoppingItem>>();
-builder.Services.AddDbContext<MedicationTaperDatabaseContext>();
+
+builder.Services.AddScoped<IODataRepository<Sprint>, ODataRepository<Sprint>>();
+builder.Services.AddDbContext<test.MedicationTaperDatabaseContext>();
 builder.Services.AddLogging(builder =>
 {
     builder.AddConsole();
     builder.AddDebug();
 });
 
+
 // OData
 ODataModelBuilder modelBuilder = new ODataConventionModelBuilder();
 modelBuilder.EntitySet<test.ShoppingItem>("ShoppingItems");
+modelBuilder.EntitySet<test.Sleep>("Sleeps");
 modelBuilder.EntitySet<test.Alcohol>("Alcohol");
 modelBuilder.EntitySet<test.Sprint>("Sprints");
+modelBuilder.EntitySet<Sprint>("SprintsIntegration");
 
 
-builder.Services.AddControllers().AddOData(
+builder.Services.AddControllers( options =>
+{   
+   
+        options.Filters.Add<LoggingActionFilter>();
+    
+}).AddOData(
     options => options.Select().Filter().OrderBy().Expand().Count().SetMaxTop(null).AddRouteComponents(
     "odata",
         modelBuilder.GetEdmModel()));
@@ -125,6 +139,20 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 var app = builder.Build();
+app.Use(async (context, next) =>
+{
+    var env = app.Services.GetRequiredService<IWebHostEnvironment>();
+    Console.WriteLine($"WebRootPath: {env.WebRootPath}");
+    Console.WriteLine($"ContentRootPath: {env.ContentRootPath}");
+    await next();
+});
+app.UseDirectoryBrowser(new DirectoryBrowserOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "wwwroot")),
+    RequestPath = "/files"
+});
+app.Use( (context, next) => { context.Request.EnableBuffering(); return next(); });
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -135,10 +163,11 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.UseRouting();
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-
 app.Run();

@@ -97,6 +97,7 @@ public partial class MedicationTaperDatabaseContext : DbContext
              var configuration = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddUserSecrets<MedicationTaperDatabaseContext>()
+        .AddJsonFile("appsettings.json")
         .Build();
         var myText = configuration.GetConnectionString("taperbase");
         optionsBuilder.UseMySQL(myText);

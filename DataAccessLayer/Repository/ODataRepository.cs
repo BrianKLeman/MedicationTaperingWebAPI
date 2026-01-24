@@ -23,15 +23,32 @@ namespace DataAccessLayer.Repository
             return this.Connection.GetTable<T>().Where(x => x.PersonId == personCode);            
         }
 
-        public Task<int> Update(long personCode, T record)
+        public async Task<int> Update(long personCode, T record)
         {
             var exists = Connection.GetTable<T>().Where(x => x.PersonId == personCode && x.Id == record.Id)?.FirstOrDefault();
             if(exists != null)
-                return Connection.UpdateAsync<T>(record);
+                return await Connection.UpdateAsync<T>(record);
 
-            return new Task<int>( () => -1); // Fake task.
+            return await new Task<int>(() => -1); // Fake task.
         }
 
+        public async Task<int> Insert(long personCode, T record)
+        {
+            var exists = Connection.GetTable<T>().Where(x => x.PersonId == personCode && x.Id == record.Id)?.FirstOrDefault();
+            if (exists == null)
+                return await Connection.InsertAsync<T>(record);
+
+            return await new Task<int>(() => -1); // Fake task.
+        }
+
+        public async Task<int> Delete(long personCode, T record)
+        {
+            var exists = Connection.GetTable<T>().Where(x => x.PersonId == personCode && x.Id == record.Id)?.FirstOrDefault();
+            if (exists != null)
+                return await Connection.DeleteAsync<T>(record);
+
+            return await new Task<int>(() => -1); // Fake task.
+        }
         public void Dispose()
         {
             Connection.Dispose();

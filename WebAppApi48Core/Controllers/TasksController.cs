@@ -177,7 +177,7 @@ namespace WebAppApi48Core.Controllers
 
             var personID = this.authService.GetPersonCode(HttpContext);   
 
-            return base.Ok(dataAccess.DeleteTask(personID, body));
+            return base.Ok(dataAccess.DeleteTask(personID, body.Id));
         }
 
     }

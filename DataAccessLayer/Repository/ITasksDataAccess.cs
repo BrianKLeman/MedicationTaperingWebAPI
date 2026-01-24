@@ -14,6 +14,9 @@ namespace DataAccessLayer
 
         long CreateTask(uint personID, Tasks t);
 
-        long DeleteTask(uint personID, Tasks t);
+        long DeleteTask(uint personID, uint taskID);
+        Tasks GetTasksByExtID(object personCode, uint workItemId);
+
+        public long DeleteTaskByExternalID(uint personID, uint workitemID);
     }
 }

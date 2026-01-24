@@ -266,3 +266,4 @@ __pycache__/
 /WebAppApi48/Properties/PublishProfiles/CustomProfile.pubxml
 /WebAppApi48Core/appsettings.json
 /WebAppApi48Core/appsettings.json
+/WebAppApi48Core/appsettings.Development.json

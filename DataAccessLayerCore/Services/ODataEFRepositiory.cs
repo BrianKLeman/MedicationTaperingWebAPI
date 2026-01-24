@@ -32,6 +32,11 @@ namespace DataAccessLayerCore.Services
             return DatabaseContext.GetDBSetGeneric<T>().Where( x => x.PersonId == personCode);
         }
 
+        public Task<int> Insert(long personCode, T record)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<int> Update(long personCode, T record)
         {
             var exists = this.DatabaseContext.GetDBSetGeneric<T>().Where(x => x.PersonId == personCode && x.Id == record.Id)?.FirstOrDefault();

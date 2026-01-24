@@ -10,6 +10,8 @@ namespace Data.Services.Interfaces.IRespository
     {
         public IQueryable<T> Get(long personCode);
 
+        public Task<int> Insert(long personCode, T record);
+
         public Task<int> Update(long personCode, T record);
 
     }

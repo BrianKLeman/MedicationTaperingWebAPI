@@ -178,6 +178,9 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "PERSONAL")]
         public int Personal { get; set; }
+
+        [Column(Name = "EXT_PROJECT_ID")]
+        public uint ExtProjectID { get; set; }
     }
 
     [Table(Name = "LEARNING_AIMS", Database = "medication_taper_database")]
@@ -259,7 +262,7 @@ namespace DataAccessLayer.Models
         public string Description { get; set; }
 
         [Column(Name = "DATE_COMPLETED")]
-        public string DateCompleted { get; set; }
+        public DateTime? DateCompleted { get; set; }
 
         [Column(Name = "PRIORITY")]
         public decimal Priority { get; set; }
@@ -287,6 +290,9 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "IMPEDED")]
         public int Impeded { get; set; }
+
+        [Column(Name = "EXT_ID")]
+        public uint? ExternalID { get; set; }
     }
 
     [Table(Name = "TABLE_TASK_LINKS", Database = "medication_taper_database")]
@@ -539,7 +545,16 @@ namespace DataAccessLayer.Models
         public DateTime? StartDate { get; set; }
 
         [Column(Name = "END_DATE")]
-        public DateTime? EndDate { get; set; }        
+        public DateTime? EndDate { get; set; }
+
+        [Column(Name = "CLOSED_DATE")]
+        public DateTime? ClosedDate { get; set; }
+
+        [Column(Name = "CREATED_DATE")]
+        public DateTime? CreatedDate { get; set; }
+
+        [Column(Name = "BOARD_ID")]
+        public uint BoardId { get; set; }
     }
 
     [Table(Name = "ADHOC_TABLE", Database = "medication_taper_database")]

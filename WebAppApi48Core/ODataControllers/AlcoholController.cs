@@ -63,5 +63,19 @@ namespace WebAppApi48.OData.Controllers
             
             return Updated(update);
         }
+
+        public async Task<IActionResult> Post(Alcohol toCreate)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+           
+
+            var personID = this.authService.GetPersonCode(HttpContext);
+
+            var result = await this.repo.Insert(personID, toCreate);
+            return Created(result);
+        }
     }
 }

@@ -23,7 +23,17 @@ namespace DataAccessLayer
                 return notes.ToList();
             }                
         }
-
+        
+        public Tasks GetTasksByExtID(object personCode, uint workItemId)
+        {
+            using (var c = NewDataConnection())
+            {
+                var task = from n in c.GetTable<Tasks>()
+                           where n.PersonId == (uint)personCode && n.ExternalID == workItemId
+                           select n;
+                return task.FirstOrDefault();
+            }
+        }
         public IEnumerable<Tasks> GetTasks(uint personID, string tableName, long entityID, bool includePersonal)
         {
             int personal = includePersonal ? 1 : 0;
@@ -67,13 +77,30 @@ namespace DataAccessLayer
             }
         }
 
-        public long DeleteTask(uint personID, Tasks t)
+        public long DeleteTask(uint personID, uint taskID)
         {
             using (var c = NewDataConnection())
             {
                 // Check task with same id belongs to same person
                 var tasks = from task in c.GetTable<Tasks>()
-                            where task.PersonId == personID && t.Id == task.Id
+                            where task.PersonId == personID && taskID == task.Id
+                            select task;
+
+                var result = -1;
+                foreach (var task in tasks.ToList())
+                    result = c.Delete(task);
+
+                return result;
+            }
+        }
+
+        public long DeleteTaskByExternalID(uint personID, uint workitemID)
+        {
+            using (var c = NewDataConnection())
+            {
+                // Check task with same id belongs to same person
+                var tasks = from task in c.GetTable<Tasks>()
+                            where task.PersonId == personID && workitemID == task.ExternalID
                             select task;
 
                 var result = -1;
