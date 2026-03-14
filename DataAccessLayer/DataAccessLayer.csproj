@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
@@ -6,7 +6,7 @@
   <ItemGroup>
     <PackageReference Include="linq2db.MySql" Version="5.4.1" />
     <PackageReference Include="MySql.Data" Version="8.4.0" />
-    <PackageReference Include="linq2db.Extensions"/>
+    <PackageReference Include="linq2db.Extensions" Version="6.2.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data.Services.Interfaces\Data.Services.Interfaces.csproj" />
