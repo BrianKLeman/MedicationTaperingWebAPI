@@ -16,7 +16,7 @@ namespace WebAppApi48Core.Controllers
         public uint EntityID { get; set; }
 
         [Required]
-        public uint[] TaskIDs { get; set; }
+        public required uint[] TaskIDs { get; set; }
     }
 
     [Route("Api/TaskLinks")]

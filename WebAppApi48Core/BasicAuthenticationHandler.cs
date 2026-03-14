@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Repository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
+using MySql.Data.MySqlClient;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
@@ -59,10 +60,16 @@ public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSc
                 return AuthenticateResult.Fail("Invalid Username or Password");
             }
         }
+        catch(MySqlException e)
+        {
+
+            this.Logger.LogError(e.Message, e);
+            throw;
+        }
         catch(Exception e)
         {
             this.Logger.LogError(e.Message, e);
-            return AuthenticateResult.Fail("Invalid Authorization Header: Exception was caught.");
+            throw;
         }
     }
 

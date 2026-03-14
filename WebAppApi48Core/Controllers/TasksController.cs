@@ -68,12 +68,13 @@ namespace WebAppApi48Core.Controllers
             var tasks = dataAccess.GetTasks(personID, true).ToList();
 
             var taskIDs = tasks.Select(x => x.Id).ToArray();
-            var featureLinks = this.tasksLinksDataAccess.Select(personID, taskIDs, "FEATURES");
-            var groupLinks = this.tasksLinksDataAccess.Select(personID, taskIDs, "GROUPS");
-            var sprintLinks = this.tasksLinksDataAccess.Select(personID, taskIDs, "SPRINTS");
-            var groups = this.groupsDataAccess.GetGroups(personID);
+            var taskLinks = this.tasksLinksDataAccess.Select(personID, taskIDs, new string[] { TableNames.TABLE_FEATURES, TableNames.TABLE_GROUPS, TableNames.TABLE_SPRINTS }).ToList();
+            var featureLinks = taskLinks.Where(x => x.TableName == TableNames.TABLE_FEATURES).ToList();
+            var groupLinks = taskLinks.Where(x => x.TableName == TableNames.TABLE_GROUPS).ToList();
+            var sprintLinks = taskLinks.Where(x => x.TableName == TableNames.TABLE_SPRINTS).ToList();
+            var groups = this.groupsDataAccess.GetGroups(personID).ToList();
             var sprints = this.odataDataAccess.Get(personID).ToList();
-            var features = this.featuresDataAccess.GetFeatures(personID, false);
+            var features = this.featuresDataAccess.GetFeatures(personID, false).ToList();
             var vms = new List<TasksGroupsViewModel>();
             foreach (var t in tasks)
             {
@@ -111,10 +112,11 @@ namespace WebAppApi48Core.Controllers
 
             var tasks = dataAccess.GetTasks(personID, tableName, entityID, includePersonal).ToList();
             var taskIDs = tasks.Select(x => x.Id).ToArray();
-            var featureLinks = this.tasksLinksDataAccess.Select(personID, taskIDs , "FEATURES");
-            var groupLinks = this.tasksLinksDataAccess.Select(personID, taskIDs, "GROUPS");
-            var sprintLinks = this.tasksLinksDataAccess.Select(personID, taskIDs, "SPRINTS");
-            var groups = this.groupsDataAccess.GetGroups(personID);
+            var taskLinks = this.tasksLinksDataAccess.Select(personID, taskIDs, new string[] { TableNames.TABLE_FEATURES, TableNames.TABLE_GROUPS, TableNames.TABLE_SPRINTS }).ToList();
+            var featureLinks = taskLinks.Where(x => x.TableName == TableNames.TABLE_FEATURES).ToList();
+            var groupLinks = taskLinks.Where( x => x.TableName == TableNames.TABLE_GROUPS).ToList();
+            var sprintLinks = taskLinks.Where( x => x.TableName == TableNames.TABLE_SPRINTS).ToList();
+            var groups = this.groupsDataAccess.GetGroups(personID).ToList();
             var sprints = this.odataDataAccess.Get(personID).ToList();
             var features = this.featuresDataAccess.GetFeatures(personID, false).ToList();
             var vms = new List<TasksGroupsViewModel>();

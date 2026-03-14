@@ -17,6 +17,9 @@ using DataAccessLayer.Models;
 using Microsoft.AspNetCore.HttpLogging;
 using WebAppApi48Core;
 using Microsoft.Extensions.FileProviders;
+using LinqToDB.Extensions.DependencyInjection;
+using LinqToDB;
+using LinqToDB.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,14 +43,14 @@ builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializ
 IConfigurationRoot configuration = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddUserSecrets<test.MedicationTaperDatabaseContext>()
-            .AddJsonFile("appsettings.json")
-            
+            .AddJsonFile("appsettings.json")            
             .Build();
 string connectionString = configuration.GetConnectionString("taperbase");
 
 
 builder.Services.AddAutoMapper(x => x.CreateMap<test.Prescription, DataAccessLayer.Models.Prescription>());
 builder.Services.AddSingleton<IConnectionStringProvider>(new ConnectionStringProvider(connectionString));
+builder.Services.AddLinqToDBContext<AppDataConnection>( (provider, options) => options.UseMySql(configuration.GetConnectionString("taperbase")).UseDefaultLogging(provider));
 builder.Services.AddScoped<ITableNotesLinksDataAccess, NoteLinksDataAccess>();
 builder.Services.AddScoped<INotesDataAccess, NotesDataAccess>();
 builder.Services.AddScoped<IMedicationDataAccess, MedicationDataAccess>();
@@ -69,6 +72,7 @@ builder.Services.AddScoped<IAdhocTablesDetailsDataAccess, AdhocTablesDetailsData
 builder.Services.AddScoped<IAdhocTableRowDataAccess, AdhocTablesRowsDataAccess>();
 builder.Services.AddScoped<IFeaturesDataAccess, FeaturesDataAccess>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IRoadMapsDataAccess, RoadMapsDataAccess>();
 builder.Services.AddScoped<IODataRepository<test.Alcohol>, ODataEFRepository<test.Alcohol>>();
 builder.Services.AddScoped<IODataRepository<test.Sleep>, ODataEFRepository<test.Sleep>>();
 

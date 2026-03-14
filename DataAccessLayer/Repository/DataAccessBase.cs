@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using LinqToDB.DataProvider.MySql;
+using LinqToDB;
 using LinqToDB.Data;
 
 namespace DataAccessLayer.Repository
@@ -19,6 +20,17 @@ namespace DataAccessLayer.Repository
         {
             
             return MySqlTools.CreateDataConnection(_connectionStringProvider.GetConnectionString());
+        }
+    }
+
+    
+
+    public class AppDataConnection : DataConnection
+    {
+        public AppDataConnection(DataOptions<AppDataConnection> options)
+            : base(options.Options)
+        {
+
         }
     }
 }

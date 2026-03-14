@@ -4,9 +4,17 @@ using System.ComponentModel.DataAnnotations;
 using ColumnAttribute = LinqToDB.Mapping.ColumnAttribute;
 using PrimaryKeyAttribute = LinqToDB.Mapping.PrimaryKeyAttribute;
 using Data.Services.Interfaces.IModels;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace DataAccessLayer.Models
 {
 
+    public class TableNames
+    {
+
+        public const string TABLE_SPRINTS = "SPRINTS";
+        public const string TABLE_GROUPS = "GROUPS";
+        public const string TABLE_FEATURES = "FEATURES";
+    }
     [Table(Name = "MEDICATION", Database = "medication_taper_database")]
     public class Medication : IPersonID, IId
     {
@@ -311,7 +319,7 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "TASK_ID")]
         [Required]
-        public long TaskID { get; set; }
+        public uint TaskID { get; set; }
 
         [Column(Name = "PERSON_ID")]
         public uint PersonId { get; set; }        
@@ -646,6 +654,33 @@ namespace DataAccessLayer.Models
 
     [Table(Name = "FEATURES", Database = "medication_taper_database")]
     public class Feature : IId, IPersonID
+    {
+        [Column(Name = "ID")]
+        [PrimaryKey]
+        public uint Id { get; set; }
+
+        [Column(Name = "NAME")]
+        [Required]
+        public string Name { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        [Required]
+        public uint PersonId { get; set; }
+
+        [Column(Name = "PROJECT_ID")]
+        [Required]
+        public long? ProjectID { get; set; }
+
+        [Column(Name = "LEARNING_AIM_ID")]
+        [Required]
+        public long? LearningAimID { get; set; }
+
+        [Column(Name = "ROADMAP_ID")]
+        public long? RoadMapID { get; set; }
+    }
+
+    [Table(Name = "ROADMAPS", Database = "medication_taper_database")]
+    public class RoadMap : IId, IPersonID
     {
         [Column(Name = "ID")]
         [PrimaryKey]
