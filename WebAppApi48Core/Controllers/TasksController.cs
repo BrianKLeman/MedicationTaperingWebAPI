@@ -13,16 +13,22 @@ namespace WebAppApi48Core.Controllers
         public IEnumerable<Groups> Groups { get; set; }
         public IEnumerable<Sprint> Sprints { get; set; }
         public IEnumerable<Feature> Features { get; set; }
+        public IList<SubTasks> SubTasks { get; set; }
     }
 
     [Route("Api/Tasks")]
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-   
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]   
     [Produces("application/json")]
     public class TasksController : ControllerBase
     {        
-        public TasksController(IFeaturesDataAccess featuresDataAccess, IAuthService authService, ITasksDataAccess dataAccess, IGroupsDataAccess groupsDataAccess, ITableTasksLinksDataAccess tasksDataAccess, IConnectionStringProvider connectionStringProvider)
+        public TasksController(IFeaturesDataAccess featuresDataAccess, 
+            IAuthService authService, 
+            ITasksDataAccess dataAccess, 
+            IGroupsDataAccess groupsDataAccess, 
+            ITableTasksLinksDataAccess tasksDataAccess,
+            ISubTasksDataAccess subTasksDataAccess,
+            IConnectionStringProvider connectionStringProvider)
         {
             this.authService = authService;
             this.dataAccess = dataAccess;
@@ -30,6 +36,7 @@ namespace WebAppApi48Core.Controllers
             this.tasksLinksDataAccess = tasksDataAccess;
             this.odataDataAccess = new ODataRepository<Sprint>(connectionStringProvider);
             this.featuresDataAccess = featuresDataAccess;
+            this.subTasksDataAccess = subTasksDataAccess;
         }
 
         private IAuthService authService;
@@ -38,6 +45,7 @@ namespace WebAppApi48Core.Controllers
         private ODataRepository<Sprint> odataDataAccess;
         private ITableTasksLinksDataAccess tasksLinksDataAccess;
         private IFeaturesDataAccess featuresDataAccess;
+        private ISubTasksDataAccess subTasksDataAccess;
 
         /// <summary>
         /// Gets all tasks for the person. If tableName and entityID are provided, gets only tasks linked to that entity.
@@ -61,12 +69,17 @@ namespace WebAppApi48Core.Controllers
 
        
         private IActionResult TasksWithExtras()
-        {           
+        {
 
             var personID = this.authService.GetPersonCode(HttpContext);
 
             var tasks = dataAccess.GetTasks(personID, true).ToList();
+            List<TasksGroupsViewModel> vms = GetExtras(personID, tasks);
+            return base.Ok(vms);
+        }
 
+        private List<TasksGroupsViewModel> GetExtras(uint personID, List<Tasks> tasks)
+        {
             var taskIDs = tasks.Select(x => x.Id).ToArray();
             var taskLinks = this.tasksLinksDataAccess.Select(personID, taskIDs, new string[] { TableNames.TABLE_FEATURES, TableNames.TABLE_GROUPS, TableNames.TABLE_SPRINTS }).ToList();
             var featureLinks = taskLinks.Where(x => x.TableName == TableNames.TABLE_FEATURES).ToList();
@@ -75,22 +88,26 @@ namespace WebAppApi48Core.Controllers
             var groups = this.groupsDataAccess.GetGroups(personID).ToList();
             var sprints = this.odataDataAccess.Get(personID).ToList();
             var features = this.featuresDataAccess.GetFeatures(personID, false).ToList();
+            var subTasks = this.subTasksDataAccess.GetSubTasks(personID, taskIDs).ToList();
             var vms = new List<TasksGroupsViewModel>();
             foreach (var t in tasks)
             {
                 var linkIDs = groupLinks.Where(gl => gl.TaskID == t.Id).Select(gl => gl.EntityID);
                 var sprintIDs = sprintLinks.Where(sl => sl.TaskID == t.Id).Select(sl => sl.EntityID);
                 var featureIDs = featureLinks.Where(sl => sl.TaskID == t.Id).Select(sl => sl.EntityID);
+                var subTasksForTask = subTasks.Where(st => st.TaskID == t.Id);
                 vms.Add(new TasksGroupsViewModel
                 {
                     Task = t,
                     Groups = groups.Where(x => linkIDs.Contains(x.Id)),
                     Sprints = sprints.Where(x => sprintIDs.Contains(x.Id)),
-                    Features = features.Where( x => featureIDs.Contains(x.Id ))
+                    Features = features.Where(x => featureIDs.Contains(x.Id)),
+                    SubTasks = subTasksForTask.ToList()
                 }
                 );
             }
-            return base.Ok(vms);
+
+            return vms;
         }
 
         [HttpGet]
@@ -111,29 +128,8 @@ namespace WebAppApi48Core.Controllers
             
 
             var tasks = dataAccess.GetTasks(personID, tableName, entityID, includePersonal).ToList();
-            var taskIDs = tasks.Select(x => x.Id).ToArray();
-            var taskLinks = this.tasksLinksDataAccess.Select(personID, taskIDs, new string[] { TableNames.TABLE_FEATURES, TableNames.TABLE_GROUPS, TableNames.TABLE_SPRINTS }).ToList();
-            var featureLinks = taskLinks.Where(x => x.TableName == TableNames.TABLE_FEATURES).ToList();
-            var groupLinks = taskLinks.Where( x => x.TableName == TableNames.TABLE_GROUPS).ToList();
-            var sprintLinks = taskLinks.Where( x => x.TableName == TableNames.TABLE_SPRINTS).ToList();
-            var groups = this.groupsDataAccess.GetGroups(personID).ToList();
-            var sprints = this.odataDataAccess.Get(personID).ToList();
-            var features = this.featuresDataAccess.GetFeatures(personID, false).ToList();
-            var vms = new List<TasksGroupsViewModel>();
-            foreach(var t in tasks)
-            {
-                var linkIDs = groupLinks.Where(gl => gl.TaskID == t.Id).Select(gl => gl.EntityID);
-                var sprintIDs = sprintLinks.Where(sl => sl.TaskID == t.Id).Select(sl => sl.EntityID);
-                var featureIDs = featureLinks.Where(sl => sl.TaskID == t.Id).Select(sl => sl.EntityID);
-                vms.Add(new TasksGroupsViewModel
-                {
-                    Task = t,
-                    Groups = groups.Where(x => linkIDs.Contains(x.Id)),
-                    Sprints = sprints.Where( x => sprintIDs.Contains(x.Id)),
-                    Features = features.Where( x => featureIDs.Contains(x.Id))
-                }
-                );
-            }
+
+            List<TasksGroupsViewModel> vms = GetExtras(personID, tasks);
             return base.Ok(vms);
         }
 

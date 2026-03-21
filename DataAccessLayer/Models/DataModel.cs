@@ -7,14 +7,13 @@ using Data.Services.Interfaces.IModels;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace DataAccessLayer.Models
 {
-
     public class TableNames
     {
-
         public const string TABLE_SPRINTS = "SPRINTS";
         public const string TABLE_GROUPS = "GROUPS";
         public const string TABLE_FEATURES = "FEATURES";
     }
+
     [Table(Name = "MEDICATION", Database = "medication_taper_database")]
     public class Medication : IPersonID, IId
     {
@@ -67,7 +66,6 @@ namespace DataAccessLayer.Models
         [Column(Name = "MAX_HALFLIFE_HOURS", CanBeNull = true)]
         public long? MaxHalfLifeHours { get; set; }
 
-
         [Column(Name = "AVERAGE_HALFLIFE_HOURS", CanBeNull = true)]
         public long? AverageHalfLifeHours { get; set; }
 
@@ -101,7 +99,6 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "UPDATED_DATE")]
         public DateTime UpdatedDate { get; set; }
-
 
         [Column(Name = "PASSWORD")]
         public string Password { get; set; } 
@@ -239,7 +236,6 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "CREATED_BY")]
         public string CreatedBy { get; set; }
-
 
         [Column(Name = "PERSONAL")]
         public int Personal { get; set; }
@@ -701,5 +697,34 @@ namespace DataAccessLayer.Models
         [Column(Name = "LEARNING_AIM_ID")]
         [Required]
         public long? LearningAimID { get; set; }
+    }
+
+    [Table("SUB_TASKS")]
+    public class SubTasks : IId, IPersonID
+    {
+        [Column(Name = "ID")]
+        [PrimaryKey]
+        public uint Id { get; set; }
+
+        [Column(Name = "NAME")]
+        [Required]
+        [MaxLength(45)]
+        public string Name { get; set; }
+
+        [Column(Name = "PERSON_ID")]
+        [Required]
+        public uint PersonId { get; set; }
+
+        [Column(Name = "TASK_ID")]
+        [Required]
+        public uint TaskID { get; set; }
+
+        [Column(Name = "DETAILS")]
+        [MaxLength(255)]
+        public string Details { get; set; }
+
+        [Column(Name = "STATUS")]
+        [MaxLength(45)]
+        public string Status { get; set; }
     }
 }

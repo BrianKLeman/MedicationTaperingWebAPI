@@ -75,7 +75,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IRoadMapsDataAccess, RoadMapsDataAccess>();
 builder.Services.AddScoped<IODataRepository<test.Alcohol>, ODataEFRepository<test.Alcohol>>();
 builder.Services.AddScoped<IODataRepository<test.Sleep>, ODataEFRepository<test.Sleep>>();
-
+builder.Services.AddScoped<ISubTasksDataAccess, SubTasksDataAccess>();
 builder.Services.AddScoped<IODataRepository<test.ShoppingItem>, ODataEFRepository<test.ShoppingItem>>();
 
 builder.Services.AddScoped<IODataRepository<Sprint>, ODataRepository<Sprint>>();
