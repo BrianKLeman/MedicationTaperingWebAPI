@@ -52,7 +52,7 @@ jobs:
       run: ls -la ./WebAppApi48Core/bin/Release/net9.0
 
     - name: List directory contents
-      run: ls -la ./WebAppApi48Core/publish
+      run: ls -la ./publish
       
     - name: Deploy via rsync
       uses: easingthemes/ssh-deploy@main
