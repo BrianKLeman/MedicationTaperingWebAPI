@@ -29,13 +29,25 @@ jobs:
       
     - name: List directory contents
       run: ls -la /home/runner/work/
-        
+
+    - name: List directory contents
+      run: ls -la ./
+
+    - name: List directory contents
+      run: ls -la ./WebAppApi48Core
+
+    - name: List directory contents
+      run: ls -la ./WebAppApi48Core/bin
+      
+    - name: List directory contents
+      run: ls -la ./WebAppApi48Core/bin/Release
+      
     - name: Deploy via rsync
       uses: easingthemes/ssh-deploy@main
       with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-avz --no-times --delete"
-          SOURCE: "MedicationTaperDatabase/WebAppApi48Core/bin/Release"
+          SOURCE: "WebAppApi48Core/bin/Release"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: /home/brian/publish
+          TARGET: /home/brian/MedicationTaperingWebAPIArtifact
