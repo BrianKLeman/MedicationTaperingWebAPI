@@ -59,7 +59,7 @@ jobs:
       with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-avz --no-times --delete"
-          SOURCE: "WebAppApi48Core/bin/Release/net9.0/publish"
+          SOURCE: "publish"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: /home/brian/MedicationTaperingWebAPIArtifact
