@@ -178,5 +178,23 @@ namespace WebAppApi48Core.Controllers
             return base.Ok(dataAccess.DeleteTask(personID, body.Id));
         }
 
+        /// <summary>
+        /// Upates a sub task in the database.
+        /// </summary>
+        /// <param name="body">subTask Model</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("SubTasks")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Put([FromBody] SubTasks body)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.GetPersonCode(HttpContext);
+
+            return base.Ok(subTasksDataAccess.UpdateSubTask(personID, body));
+        }
     }
 }

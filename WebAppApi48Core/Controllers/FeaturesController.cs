@@ -35,6 +35,42 @@ namespace WebAppApi48.Controllers
 
             return dataAccess.GetFeatures(personID, true);
         }
-        
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Post([FromBody] Feature body)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.GetPersonCode(HttpContext);
+            return base.Ok(dataAccess.CreateFeature(personID, body));
+        }
+
+        [HttpPut("{featureID:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Put([FromBody] Feature body, uint featureID)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.GetPersonCode(HttpContext);
+            return base.Ok(dataAccess.UpdateFeature(personID, body));
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Delete([FromBody] Feature body)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.GetPersonCode(HttpContext);
+            return base.Ok(dataAccess.DeleteFeature(personID, body));
+        }
+
     }
 }

@@ -70,8 +70,11 @@ namespace DataAccessLayer.Models
         public long? AverageHalfLifeHours { get; set; }
 
         [Column(Name = "PERSON_ID")]
-        public uint PersonId { get; set; } 
-        
+        public uint PersonId { get; set; }
+
+        [Column(Name = "START_DATE")]
+        public DateTime? StartDate { get; set; }
+
         [Column(Name = "END_DATE")]
         public DateTime? EndDate { get; set; }
     }
@@ -657,6 +660,7 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "NAME")]
         [Required]
+        [StringLength(45)]
         public string Name { get; set; }
 
         [Column(Name = "PERSON_ID")]
@@ -664,15 +668,18 @@ namespace DataAccessLayer.Models
         public uint PersonId { get; set; }
 
         [Column(Name = "PROJECT_ID")]
-        [Required]
         public long? ProjectID { get; set; }
 
         [Column(Name = "LEARNING_AIM_ID")]
-        [Required]
         public long? LearningAimID { get; set; }
 
         [Column(Name = "ROADMAP_ID")]
         public long? RoadMapID { get; set; }
+
+
+        [Column("DETAILS")]
+        [StringLength(512)]
+        public string? Details { get; set; }
     }
 
     [Table(Name = "ROADMAPS", Database = "medication_taper_database")]
@@ -684,6 +691,7 @@ namespace DataAccessLayer.Models
 
         [Column(Name = "NAME")]
         [Required]
+        [StringLength(45)]
         public string Name { get; set; }
 
         [Column(Name = "PERSON_ID")]
@@ -691,12 +699,17 @@ namespace DataAccessLayer.Models
         public uint PersonId { get; set; }
 
         [Column(Name = "PROJECT_ID")]
-        [Required]
         public long? ProjectID { get; set; }
 
         [Column(Name = "LEARNING_AIM_ID")]
-        [Required]
         public long? LearningAimID { get; set; }
+
+        [Column(Name = "CREATED_DATE")]
+        public DateTime? CreatedDate { get; set; }
+
+        [Column(Name = "DETAILS")]
+        [StringLength(1024)]
+        public string Details { get; set; }
     }
 
     [Table("SUB_TASKS")]
@@ -726,5 +739,20 @@ namespace DataAccessLayer.Models
         [Column(Name = "STATUS")]
         [MaxLength(45)]
         public string Status { get; set; }
+
+        [Column(Name = "MIN_HOURS")]
+        public decimal? MinHours { get; set; }
+
+        [Column(Name = "MAX_HOURS")]
+        public decimal? MaxHours { get; set; }
+
+        [Column(Name = "EXPECTED_HOURS")]
+        public decimal? ExpectedHours { get; set; }
+
+        [Column(Name = "ACTUAL_HOURS")]
+        public decimal? ActualHours { get; set; }
+
+        [Column(Name = "DATE_COMPLETED")]
+        public DateTime? DateCompleted { get; set; }
     }
 }

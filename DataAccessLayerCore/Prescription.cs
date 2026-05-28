@@ -41,6 +41,10 @@ public partial class Prescription  : IId, IPersonID
     [Column("PERSON_ID")]
     public uint PersonId { get; set; }
 
+
+    [Column("START_DATE", TypeName = "datetime")]
+    public DateTime? StartDate { get; set; }
+
     [Column("END_DATE", TypeName = "datetime")]
     public DateTime? EndDate { get; set; }
 

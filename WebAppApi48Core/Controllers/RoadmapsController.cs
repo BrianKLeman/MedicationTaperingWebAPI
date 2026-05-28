@@ -35,6 +35,47 @@ namespace WebAppApi48.Controllers
 
             return dataAccess.GetRoadMaps(personID, true);
         }
-        
+
+        [HttpPut("{roadmapID:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Put([FromBody] RoadMap body, uint roadmapID)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.GetPersonCode(HttpContext);
+
+            body.Id = roadmapID;
+            return base.Ok(dataAccess.UpdateRoadMap(personID, body));
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Post([FromBody] RoadMap body)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.GetPersonCode(HttpContext);
+
+
+            return base.Ok(dataAccess.CreateRoadMap(personID, body));
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Delete([FromBody] RoadMap body)
+        {
+            if (ModelState.IsValid == false)
+                return base.BadRequest(ModelState);
+
+            var personID = this.authService.GetPersonCode(HttpContext);
+
+            return base.Ok(dataAccess.DeleteRoadMap(personID, body));
+        }
+
     }
 }

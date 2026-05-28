@@ -38,27 +38,21 @@ namespace DataAccessLayer
         {           
             t.Id = 0; 
             t.PersonId = (uint)personID;
-            return (uint)dataConnection.InsertWithIdentity(t);
+            return dataConnection.InsertWithInt64Identity(t);
         }
 
-        public long DeleteTask(uint personID, uint taskID)
+        public long DeleteSubTask(uint personID, uint taskID)
         {
             // Check task with same id belongs to same person
-            var tasks = from task in dataConnection.GetTable<SubTasks>()
+            IEnumerable<SubTasks> tasks = from task in dataConnection.GetTable<SubTasks>()
                         where task.PersonId == personID && taskID == task.Id
                         select task;
+            if(tasks.Count() == 0)
+                return -1; // No task with same id belongs to same person, return error code.
 
-            return dataConnection.Delete(tasks);
+            return dataConnection.Delete<SubTasks>(tasks.ToList()[0]);
         }
 
-        public long DeleteSubTasks(uint personID, uint[] subTaskIDs)
-        {
-            // Check task with same id belongs to same person
-            var tasks = from task in dataConnection.GetTable<SubTasks>()
-                        where task.PersonId == personID && subTaskIDs.Contains(task.Id)
-                        select task;
-
-            return dataConnection.Delete(tasks);
-        }
+        
     }
 }

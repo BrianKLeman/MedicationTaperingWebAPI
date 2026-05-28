@@ -72,7 +72,7 @@ namespace DataAccessLayer
                     f.Id = 0; // I think setting the feature id to zero will make
                                 // it get an id by default.
                     f.PersonId = (uint)personID;
-                    var id = c.InsertWithIdentity(f);
+                    var id = c.InsertWithInt64Identity(f);
 
                     
                     return (long)id;

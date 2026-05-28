@@ -13,6 +13,6 @@ namespace DataAccessLayer
 
         long CreateSubTask(uint personID, SubTasks t);
 
-        long DeleteSubTasks(uint personID, uint[] subTaskIDs);
+        long DeleteSubTask(uint personID, uint id);
     }
 }

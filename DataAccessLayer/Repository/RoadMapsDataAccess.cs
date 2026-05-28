@@ -72,7 +72,7 @@ namespace DataAccessLayer
                     r.Id = 0; // I think setting the roadmap id to zero will make
                                 // it get an id by default.
                     r.PersonId = (uint)personID;
-                    var id = c.InsertWithIdentity(r);
+                    var id = c.InsertWithInt64Identity(r);
 
                     
                     return (long)id;

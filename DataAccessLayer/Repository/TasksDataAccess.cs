@@ -68,12 +68,8 @@ namespace DataAccessLayer
                 t.Id = 0; // I think setting the task id to zero will make
                             // it get an id by default.
                 t.PersonId = (uint)personID;
-                var result = c.Insert(t);
-
-                var tasks = from n in c.GetTable<Tasks>()
-                where n.TaskName == t.TaskName && n.PersonId == personID
-                select n;
-                return tasks.Max<Tasks>( (x) => x.Id);                
+                return c.InsertWithInt64Identity(t);
+                              
             }
         }
 

@@ -30,4 +30,8 @@ public partial class Feature  : IId, IPersonID
 
     [Column("LEARNING_AIM_ID")]
     public int? LearningAimId { get; set; }
+
+    [Column("DETAILS")]
+    [StringLength(512)]
+    public string? Details { get; set; }
 }
