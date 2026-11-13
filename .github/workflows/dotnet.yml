@@ -31,28 +31,7 @@ jobs:
       run: dotnet test -c Debug --verbosity normal
 
     - name: Publish
-      run: dotnet publish -c Release -o ./publish --no-build
-      
-    - name: List directory contents
-      run: ls -la /home/runner/work/
-
-    - name: List directory contents
-      run: ls -la ./
-
-    - name: List directory contents
-      run: ls -la ./WebAppApi48Core
-
-    - name: List directory contents
-      run: ls -la ./WebAppApi48Core/bin
-      
-    - name: List directory contents
-      run: ls -la ./WebAppApi48Core/bin/Release
-
-    - name: List directory contents
-      run: ls -la ./WebAppApi48Core/bin/Release/net9.0
-
-    - name: List directory contents
-      run: ls -la ./publish
+      run: dotnet publish -c Release -o ./publish --no-build      
       
     - name: Deploy via rsync
       uses: easingthemes/ssh-deploy@main
