@@ -7,6 +7,7 @@
     <!-- // Based on prompt: how do i include xml comments in swagger in .net 9 asp.net core-->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
+    <UserSecretsId>y</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

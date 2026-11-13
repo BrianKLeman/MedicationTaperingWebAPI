@@ -46,7 +46,7 @@ namespace DataAccessLayerCore.Services
                 return this.DatabaseContext.SaveChangesAsync();
             }
 
-            return new Task<int>(() => -1); // Fake task.
+            return new Task<int>( () => -1 );
         }
     }    
 }
