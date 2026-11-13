@@ -16,6 +16,8 @@ namespace WebAppApi48Core.Controllers
         [Required]
 
         public long PrescriptionID { get; set; }
+
+        public uint? MedicationDoseID { get; set; }
     }
 
     public class Report
@@ -94,6 +96,21 @@ namespace WebAppApi48Core.Controllers
             var personID = this.authService.GetPersonCode(HttpContext);
 
             dataAccess.InsertMedication(personID, dose.consumedDateTime, dose.PrescriptionID, dose.doseMg);
+            return base.Ok();
+        }
+
+        [HttpPut]
+        public IActionResult Put([FromBody][Required] MedDose dose)
+        {
+            if (ModelState.IsValid == false)
+                return BadRequest(ModelState);
+
+            if(dose.MedicationDoseID == null)
+                return BadRequest("MedicationDoseID is required for update.");
+
+            var personID = this.authService.GetPersonCode(HttpContext);
+
+            dataAccess.UpdateMedication(personID, dose.MedicationDoseID.Value, dose.consumedDateTime, dose.PrescriptionID, dose.doseMg);
             return base.Ok();
         }
     }

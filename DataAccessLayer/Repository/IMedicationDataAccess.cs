@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace DataAccessLayer
 {
@@ -11,6 +12,9 @@ namespace DataAccessLayer
         int Delete(long personID, int medicationId);
 
         int InsertMedication(long personID, DateTime consumedDate, long prescriptionID, decimal amountMg);
-        
+
+
+        int UpdateMedication(long personID, uint medicationDoseID, DateTime consumedDate, long prescriptionID, decimal amountMg);
+
     }
 }

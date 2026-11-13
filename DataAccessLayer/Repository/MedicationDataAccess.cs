@@ -37,5 +37,13 @@ namespace DataAccessLayer
                 return db.Insert(new Medication() { CreatedDate = DateTime.Now, CreatedUser = "BKL", DateTimeConsumed = consumedDate, PrescriptionId = (uint)prescriptionID, DoseTakenMG = amountMg, PersonId = (uint)personID });
             }
         }
+
+        public int UpdateMedication(long personID, uint medicationDoseID, DateTime consumedDate, long prescriptionID, decimal amountMg)
+        {
+            using (var db = NewDataConnection())
+            {
+                return db.Update(new Medication() {Id = medicationDoseID, CreatedDate = consumedDate, CreatedUser = "BKL", DateTimeConsumed = consumedDate, PrescriptionId = (uint)prescriptionID, DoseTakenMG = amountMg, PersonId = (uint)personID });
+            }
+        }
     }
 }
